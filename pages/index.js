@@ -87,10 +87,8 @@ export default function Home() {
             return;
           }
           const [_nextTargetJ, _nextTargetI] = _path[1];
-          newDirX =
-            _targetJ < _nextTargetJ ? 1 : _targetJ > _nextTargetJ ? -1 : 0;
-          newDirY =
-            _targetI < _nextTargetI ? 1 : _targetI > _nextTargetI ? -1 : 0;
+          newDirX = Math.sign(_nextTargetJ - _targetJ);
+          newDirY = Math.sign(_nextTargetI - _targetI);
           requestRef.current = requestAnimationFrame(
             moveToAnim(_path.slice(1), newDirX, newDirY, 0, charLeft, charTop)
           );
@@ -119,9 +117,9 @@ export default function Home() {
 
   const startAnimation = (_currentJ, _currentI, _targetJ, _targetI, node) => {
     if (charRef.current && gridRef.current) {
-      const dirX = _targetJ > _currentJ ? 1 : _targetJ < _currentJ ? -1 : 0;
-      const dirY = _targetI > _currentI ? 1 : _targetI < _currentI ? -1 : 0;
-      if (_currentJ === _targetJ && _currentI === _targetI) {
+      const dirX = Math.sign(_targetJ - _currentJ);
+      const dirY = Math.sign(_targetI - _currentI);
+      if (dirX === 0 && dirY === 0) {
         console.log(`[=] you are already there!`);
         return;
       }
