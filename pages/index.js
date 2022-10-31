@@ -65,7 +65,7 @@ export default function Home() {
       if (previousTimeRef.current != undefined) {
         if (_count > 10000) {
           console.error("Too many iterations");
-          cancelAnimation();
+          resetAnimation();
           return;
         }
 
