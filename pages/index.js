@@ -7,6 +7,7 @@ import React, { useEffect, useRef, useState } from "react";
 const cellLen = 50;
 const gridWidth = 10;
 const gridHeight = 10;
+const pxPerFrame = cellLen * 0.1;
 
 const useGrid = () => {
   const grid = new PF.Grid(gridWidth, gridHeight);
@@ -100,7 +101,7 @@ export default function Home() {
               _path,
               dirX,
               dirY,
-              _count + 1,
+              _count + pxPerFrame,
               startCharLeft,
               startCharTop
             )
