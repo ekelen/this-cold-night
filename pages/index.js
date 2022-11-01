@@ -2,12 +2,26 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import PF from "pathfinding";
-import React, { useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { isEqual, uniqWith } from "lodash";
 
 const cellLen = 50;
 const gridWidth = 10;
 const gridHeight = 10;
 const pxPerFrame = cellLen * 0.1;
+
+const validX = (x) => x >= 0 && x < gridWidth;
+const validY = (y) => y >= 0 && y < gridHeight;
+const lookLeft = (x, y) => [Math.max(0, x - 1), y];
+const lookRight = (x, y) => [Math.min(gridWidth - 1, x + 1), y];
+const lookUp = (x, y) => [x, Math.max(0, y - 1)];
+const lookDown = (x, y) => [x, Math.min(gridHeight - 1, y + 1)];
 
 const useGrid = () => {
   const grid = new PF.Grid(gridWidth, gridHeight);
@@ -33,15 +47,33 @@ const useGrid = () => {
     const path = finder.findPath(currentX, currentY, _x, _y, grid.clone());
     return path;
   };
+  const chestLocations = grid.nodes
+    .filter((node) => !node.walkable)
+    .map((node) => [node.x, node.y]);
+  const shouldOpenChest = (currentX, currentY, _grid) => {
+    try {
+      const neighbors = [
+        _grid.getNodeAt(...lookLeft(currentX, currentY)),
+        _grid.getNodeAt(...lookRight(currentX, currentY)),
+        _grid.getNodeAt(...lookDown(currentX, currentY)),
+        _grid.getNodeAt(...lookUp(currentX, currentY)),
+      ];
+      return neighbors.filter((node) => !node.walkable);
+    } catch (e) {
+      console.log(`[=] e`, e);
+      return [];
+    }
+  };
 
-  return { grid, getPath };
+  return { grid, getPath, shouldOpenChest };
 };
 
 export default function Home() {
-  const { grid, getPath } = useGrid();
+  const { grid, getPath, shouldOpenChest } = useGrid();
 
   const [count, setCount] = useState(0);
   const [currentJ, setCurrentJ] = useState(0);
+  const [openedChests, setOpenedChests] = useState([]);
 
   const [currentI, setCurrentI] = useState(0);
 
@@ -50,6 +82,18 @@ export default function Home() {
   const charRef = useRef();
   const gridRef = useRef();
   const [nMoves, setNMoves] = useState(0);
+
+  useEffect(() => {
+    if (grid && shouldOpenChest(currentJ, currentI, grid).length) {
+      const chests = shouldOpenChest(currentJ, currentI, grid);
+      setOpenedChests((prev) =>
+        uniqWith(
+          [...prev, ...chests.map((chest) => [chest.x, chest.y])],
+          isEqual
+        )
+      );
+    }
+  }, [currentI, currentJ]);
 
   const animate = (time) => {
     if (previousTimeRef.current != undefined) {
@@ -170,7 +214,8 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        Journey length: {nMoves}
+        <code>Journey length: {nMoves}</code>
+        <code>Opened chests: {openedChests.length} </code>
         <button
           onClick={() => {
             resetAnimation();
@@ -225,10 +270,31 @@ export default function Home() {
                             ? "yellow"
                             : node.walkable
                             ? "green"
-                            : "red",
+                            : "rgba(0, 0, 0, 0)",
                       }}
                     >
-                      {j},{i}
+                      <div
+                        style={{
+                          backgroundImage: !node.walkable
+                            ? "url('/chest2.png')"
+                            : "none",
+                          backgroundPosition: `${
+                            openedChests.length &&
+                            openedChests.some(
+                              (chests) => chests[0] === j && chests[1] === i
+                            )
+                              ? -50
+                              : -1
+                          }px ${0}px`,
+                          backgroundRepeat: "no-repeat",
+                          height: `${cellLen}px`,
+                          width: `${cellLen}px`,
+                          backgroundSize: `${cellLen * 2}px ${cellLen}px`,
+                        }}
+                      >
+                        {" "}
+                        {j},{i}
+                      </div>
                     </div>
                   );
                 })}
