@@ -48,12 +48,10 @@ const getPath = (currentX, currentY, _x, _y) => {
 
 const shouldOpenChest = (currentX, currentY, _grid) => {
   try {
-    const neighbors = [
-      _grid.getNodeAt(...lookLeft(currentX, currentY)),
-      _grid.getNodeAt(...lookRight(currentX, currentY)),
-      _grid.getNodeAt(...lookDown(currentX, currentY)),
-      _grid.getNodeAt(...lookUp(currentX, currentY)),
-    ];
+    const neighbors = [lookDown, lookUp, lookLeft, lookRight].map((fn) => {
+      const [x, y] = fn(currentX, currentY);
+      return _grid.getNodeAt(x, y);
+    });
     return neighbors.filter((node) => !node.walkable);
   } catch (e) {
     console.log(`[=] e`, e);
@@ -85,16 +83,6 @@ export default function Home() {
       );
     }
   }, [currentI, currentJ]);
-
-  const animate = (time) => {
-    if (previousTimeRef.current != undefined) {
-      setCount((prevCount) => Math.round(prevCount + 1));
-    } else {
-      previousTimeRef.current = time;
-    }
-
-    requestRef.current = requestAnimationFrame(animate);
-  };
 
   const moveToAnim =
     (_path, dirX, dirY, _count, startCharLeft, startCharTop) => (time) => {
