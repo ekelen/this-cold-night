@@ -182,6 +182,7 @@ export default function Home() {
     setCurrentJ(0);
     setNMoves(0);
     setCount(0);
+    setOpenedChests([]);
   };
 
   return (
