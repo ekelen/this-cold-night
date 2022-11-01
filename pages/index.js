@@ -22,55 +22,44 @@ const lookLeft = (x, y) => [Math.max(0, x - 1), y];
 const lookRight = (x, y) => [Math.min(gridWidth - 1, x + 1), y];
 const lookUp = (x, y) => [x, Math.max(0, y - 1)];
 const lookDown = (x, y) => [x, Math.min(gridHeight - 1, y + 1)];
+const grid = new PF.Grid(gridWidth, gridHeight);
+const finder = new PF.AStarFinder(grid);
+grid.getNodeAt(2, 2).walkable = false;
+grid.getNodeAt(2, 6).walkable = false;
+grid.getNodeAt(3, 7).walkable = false;
 
-const useGrid = () => {
-  const grid = new PF.Grid(gridWidth, gridHeight);
-  const finder = new PF.AStarFinder(grid);
+grid.getNodeAt(5, 5).walkable = false;
+grid.getNodeAt(5, 6).walkable = false;
+grid.getNodeAt(5, 7).walkable = false;
 
-  grid.getNodeAt(2, 2).walkable = false;
-  grid.getNodeAt(2, 6).walkable = false;
-  grid.getNodeAt(3, 7).walkable = false;
+grid.getNodeAt(8, 9).walkable = false;
+grid.getNodeAt(9, 9).walkable = false;
+grid.getNodeAt(5, 9).walkable = false;
 
-  grid.getNodeAt(5, 5).walkable = false;
-  grid.getNodeAt(5, 6).walkable = false;
-  grid.getNodeAt(5, 7).walkable = false;
+grid.getNodeAt(7, 2).walkable = false;
+grid.getNodeAt(7, 3).walkable = false;
+grid.getNodeAt(0, 4).walkable = false;
+grid.getNodeAt(8, 4).walkable = false;
 
-  grid.getNodeAt(8, 9).walkable = false;
-  grid.getNodeAt(9, 9).walkable = false;
-  grid.getNodeAt(5, 9).walkable = false;
+const getPath = (currentX, currentY, _x, _y) => {
+  const path = finder.findPath(currentX, currentY, _x, _y, grid.clone());
+  return path;
+};
 
-  grid.getNodeAt(7, 2).walkable = false;
-  grid.getNodeAt(7, 3).walkable = false;
-  grid.getNodeAt(0, 4).walkable = false;
-  grid.getNodeAt(8, 4).walkable = false;
-  const getPath = (currentX, currentY, _x, _y) => {
-    const path = finder.findPath(currentX, currentY, _x, _y, grid.clone());
-    return path;
-  };
-  const chestLocations = grid.nodes
-    .filter((node) => !node.walkable)
-    .map((node) => [node.x, node.y]);
-  const shouldOpenChest = (currentX, currentY, _grid) => {
-    try {
-      const neighbors = [
-        _grid.getNodeAt(...lookLeft(currentX, currentY)),
-        _grid.getNodeAt(...lookRight(currentX, currentY)),
-        _grid.getNodeAt(...lookDown(currentX, currentY)),
-        _grid.getNodeAt(...lookUp(currentX, currentY)),
-      ];
-      return neighbors.filter((node) => !node.walkable);
-    } catch (e) {
-      console.log(`[=] e`, e);
-      return [];
-    }
-  };
-
-  return { grid, getPath, shouldOpenChest };
+const shouldOpenChest = (currentX, currentY, _grid) => {
+  try {
+    const neighbors = [lookDown, lookUp, lookLeft, lookRight].map((fn) => {
+      const [x, y] = fn(currentX, currentY);
+      return _grid.getNodeAt(x, y);
+    });
+    return neighbors.filter((node) => !node.walkable);
+  } catch (e) {
+    console.log(`[=] e`, e);
+    return [];
+  }
 };
 
 export default function Home() {
-  const { grid, getPath, shouldOpenChest } = useGrid();
-
   const [count, setCount] = useState(0);
   const [currentJ, setCurrentJ] = useState(0);
   const [openedChests, setOpenedChests] = useState([]);
@@ -94,16 +83,6 @@ export default function Home() {
       );
     }
   }, [currentI, currentJ]);
-
-  const animate = (time) => {
-    if (previousTimeRef.current != undefined) {
-      setCount((prevCount) => Math.round(prevCount + 1));
-    } else {
-      previousTimeRef.current = time;
-    }
-
-    requestRef.current = requestAnimationFrame(animate);
-  };
 
   const moveToAnim =
     (_path, dirX, dirY, _count, startCharLeft, startCharTop) => (time) => {
@@ -203,6 +182,7 @@ export default function Home() {
     setCurrentJ(0);
     setNMoves(0);
     setCount(0);
+    setOpenedChests([]);
   };
 
   return (
