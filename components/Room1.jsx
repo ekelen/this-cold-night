@@ -1,6 +1,13 @@
-import { isEqual, uniqWith } from "lodash";
+import { isEqual, uniq, uniqWith } from "lodash";
 import { useEffect, useRef, useState } from "react";
-import { cellLen, getPath, grid, pxPerFrame, shouldOpenChest } from "../game";
+import {
+  cellLen,
+  getItem,
+  getPath,
+  grid,
+  pxPerFrame,
+  shouldOpenChest,
+} from "../game";
 import styles from "../styles/Home.module.css";
 
 export default function Room1() {
@@ -8,6 +15,7 @@ export default function Room1() {
   const [currentJ, setCurrentJ] = useState(0);
   const [currentI, setCurrentI] = useState(0);
   const [nMoves, setNMoves] = useState(0);
+  const [inventory, setInventory] = useState([]);
 
   const requestRef = useRef();
   const previousTimeRef = useRef();
@@ -22,6 +30,9 @@ export default function Room1() {
           [...prev, ...chests.map((chest) => [chest.x, chest.y])],
           isEqual
         )
+      );
+      setInventory((prev) =>
+        uniq([...prev, ...chests.map((chest) => getItem(chest.x, chest.y))])
       );
     }
   }, [currentI, currentJ]);
@@ -143,12 +154,14 @@ export default function Room1() {
     setNMoves(0);
 
     setOpenedChests([]);
+    setInventory([]);
   };
 
   return (
     <>
       <code>Journey length: {nMoves}</code>
       <code>Opened chests: {openedChests.length} </code>
+      <code>Inventory: {inventory.join()} </code>
       <button
         onClick={() => {
           resetAnimation();
