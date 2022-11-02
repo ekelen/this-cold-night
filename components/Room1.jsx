@@ -1,5 +1,5 @@
 import { isEqual, uniq, uniqWith } from "lodash";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   cellLen,
   getItem,
@@ -9,6 +9,7 @@ import {
   shouldOpenChest,
 } from "../game";
 import styles from "../styles/Home.module.css";
+import Modal from "./Modal";
 
 export default function Room1() {
   const [openedChests, setOpenedChests] = useState([]);
@@ -16,6 +17,11 @@ export default function Room1() {
   const [currentI, setCurrentI] = useState(0);
   const [nMoves, setNMoves] = useState(0);
   const [inventory, setInventory] = useState([]);
+  const [showModal, setShowModal] = useState(false);
+
+  const onClose = useCallback(() => {
+    setShowModal(false);
+  }, [setShowModal]);
 
   const requestRef = useRef();
   const previousTimeRef = useRef();
@@ -34,6 +40,7 @@ export default function Room1() {
       setInventory((prev) =>
         uniq([...prev, ...chests.map((chest) => getItem(chest.x, chest.y))])
       );
+      //   setShowModal(true);
     }
   }, [currentI, currentJ]);
 
@@ -159,6 +166,11 @@ export default function Room1() {
 
   return (
     <>
+      {showModal && (
+        <Modal onClose={onClose}>
+          You found {inventory[inventory.length - 1]}
+        </Modal>
+      )}
       <code>Journey length: {nMoves}</code>
       <code>Opened chests: {openedChests.length} </code>
       <code>Inventory: {inventory.join()} </code>
