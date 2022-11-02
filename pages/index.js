@@ -1,8 +1,4 @@
-import { isEqual, uniqWith } from "lodash";
 import Head from "next/head";
-import Image from "next/image";
-import PF from "pathfinding";
-import { useEffect, useRef, useState } from "react";
 import Room1 from "../components/Room1";
 import styles from "../styles/Home.module.css";
 
