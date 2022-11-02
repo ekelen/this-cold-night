@@ -11,13 +11,11 @@ import React, {
 } from "react";
 import { isEqual, uniqWith } from "lodash";
 
-const cellLen = 50;
-const gridWidth = 10;
-const gridHeight = 10;
-const pxPerFrame = cellLen * 0.1;
+const cellLen = 40;
+const gridWidth = 15;
+const gridHeight = 15;
+const pxPerFrame = cellLen * 0.25;
 
-const validX = (x) => x >= 0 && x < gridWidth;
-const validY = (y) => y >= 0 && y < gridHeight;
 const lookLeft = (x, y) => [Math.max(0, x - 1), y];
 const lookRight = (x, y) => [Math.min(gridWidth - 1, x + 1), y];
 const lookUp = (x, y) => [x, Math.max(0, y - 1)];
@@ -60,21 +58,19 @@ const shouldOpenChest = (currentX, currentY, _grid) => {
 };
 
 export default function Home() {
-  const [count, setCount] = useState(0);
-  const [currentJ, setCurrentJ] = useState(0);
   const [openedChests, setOpenedChests] = useState([]);
-
+  const [currentJ, setCurrentJ] = useState(0);
   const [currentI, setCurrentI] = useState(0);
+  const [nMoves, setNMoves] = useState(0);
 
   const requestRef = useRef();
   const previousTimeRef = useRef();
   const charRef = useRef();
   const gridRef = useRef();
-  const [nMoves, setNMoves] = useState(0);
 
   useEffect(() => {
-    if (grid && shouldOpenChest(currentJ, currentI, grid).length) {
-      const chests = shouldOpenChest(currentJ, currentI, grid);
+    let chests;
+    if (grid && (chests = shouldOpenChest(currentJ, currentI, grid)).length) {
       setOpenedChests((prev) =>
         uniqWith(
           [...prev, ...chests.map((chest) => [chest.x, chest.y])],
@@ -84,16 +80,21 @@ export default function Home() {
     }
   }, [currentI, currentJ]);
 
+  useEffect(() => {
+    return () => requestRef.current && cancelAnimationFrame(requestRef.current);
+  }, []);
+
   const moveToAnim =
-    (_path, dirX, dirY, _count, startCharLeft, startCharTop) => (time) => {
+    ({ path, dirX, dirY, count, startCharLeft, startCharTop }) =>
+    (time) => {
       if (previousTimeRef.current != undefined) {
-        if (_count > 10000) {
+        if (count > 10000) {
           console.error("Too many iterations");
           resetAnimation();
           return;
         }
 
-        const [_targetJ, _targetI] = _path[0];
+        const [_targetJ, _targetI] = path[0];
 
         const charLeft = parseInt(charRef.current.style.left);
         const charTop = parseInt(charRef.current.style.top);
@@ -104,37 +105,44 @@ export default function Home() {
         let newDirY, newDirX;
         if (_atX && _atY) {
           console.log(`[=] at x and y`);
-          if (_path.length === 1) {
+          if (path.length === 1) {
             setCurrentJ(Math.floor(charLeft / cellLen));
             setCurrentI(Math.floor(charTop / cellLen));
             cancelAnimation();
             return;
           }
-          const [_nextTargetJ, _nextTargetI] = _path[1];
+          const [_nextTargetJ, _nextTargetI] = path[1];
           newDirX = Math.sign(_nextTargetJ - _targetJ);
           newDirY = Math.sign(_nextTargetI - _targetI);
           requestRef.current = requestAnimationFrame(
-            moveToAnim(_path.slice(1), newDirX, newDirY, 0, charLeft, charTop)
+            moveToAnim({
+              path: path.slice(1),
+              dirX: newDirX,
+              dirY: newDirY,
+              count: 0,
+              startCharLeft: charLeft,
+              startCharTop: charTop,
+            })
           );
         } else {
-          charRef.current.style.left = `${startCharLeft + _count * dirX}px`;
-          charRef.current.style.top = `${startCharTop + _count * dirY}px`;
+          charRef.current.style.left = `${startCharLeft + count * dirX}px`;
+          charRef.current.style.top = `${startCharTop + count * dirY}px`;
           requestRef.current = requestAnimationFrame(
-            moveToAnim(
-              _path,
+            moveToAnim({
+              path,
               dirX,
               dirY,
-              _count + pxPerFrame,
+              count: count + pxPerFrame,
               startCharLeft,
-              startCharTop
-            )
+              startCharTop,
+            })
           );
         }
       } else {
         previousTimeRef.current = time;
         gridRef.current.style.pointerEvents = "none";
         requestRef.current = requestAnimationFrame(
-          moveToAnim(_path, dirX, dirY, _count, startCharLeft, startCharTop)
+          moveToAnim({ path, dirX, dirY, count, startCharLeft, startCharTop })
         );
       }
     };
@@ -152,13 +160,20 @@ export default function Home() {
         return;
       }
 
-      const charLeft = parseInt(charRef.current.style.left);
-      const charTop = parseInt(charRef.current.style.top);
+      const startCharLeft = parseInt(charRef.current.style.left);
+      const startCharTop = parseInt(charRef.current.style.top);
 
-      const _path = getPath(currentJ, currentI, _targetJ, _targetI);
-      setNMoves((prevMoves) => prevMoves + _path.length - 1);
+      const path = getPath(currentJ, currentI, _targetJ, _targetI);
+      setNMoves((prevMoves) => prevMoves + path.length - 1);
       requestRef.current = requestAnimationFrame(
-        moveToAnim(_path, dirX, dirY, 0, charLeft, charTop)
+        moveToAnim({
+          path,
+          dirX,
+          dirY,
+          count: 0,
+          startCharLeft,
+          startCharTop,
+        })
       );
     }
   };
@@ -168,7 +183,6 @@ export default function Home() {
     cancelAnimationFrame(requestRef.current);
     gridRef.current.style.pointerEvents = "auto";
     previousTimeRef.current = undefined;
-    setCount(0);
   };
 
   const resetAnimation = () => {
@@ -181,7 +195,7 @@ export default function Home() {
     setCurrentI(0);
     setCurrentJ(0);
     setNMoves(0);
-    setCount(0);
+
     setOpenedChests([]);
   };
 
@@ -203,37 +217,20 @@ export default function Home() {
         >
           [debug] Reset
         </button>
-        <div
-          ref={gridRef}
-          style={{
-            border: "1px solid white",
-            position: "relative",
-          }}
-        >
+        <div ref={gridRef} className={styles.grid}>
           <div
             style={{
-              borderRadius: "50%",
               height: `${cellLen}px`,
               width: `${cellLen}px`,
-              backgroundColor: "pink",
-              border: "1px solid red",
-              position: "absolute",
-              left: 0,
-              top: 0,
-              // transformOrigin: "0 0",
+              left: "0px",
+              top: "0px",
             }}
+            className={styles.player}
             ref={charRef}
           />
           {grid.nodes.map((row, i) => {
             return (
-              <div
-                key={`${i}-${i}`}
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "center",
-                }}
-              >
+              <div key={`${i}-${i}`} className={styles.row}>
                 {row.map((node, j) => {
                   return (
                     <div
@@ -241,40 +238,32 @@ export default function Home() {
                       onClick={() => {
                         startAnimation(currentJ, currentI, j, i, node);
                       }}
+                      className={styles.cell}
                       style={{
                         height: `${cellLen}px`,
                         width: `${cellLen}px`,
-                        border: "1px solid white",
                         backgroundColor:
                           currentI == i && currentJ == j
                             ? "yellow"
-                            : node.walkable
-                            ? "green"
                             : "rgba(0, 0, 0, 0)",
+                        backgroundImage: !node.walkable
+                          ? "url('/chest2.png')"
+                          : "none",
+                        backgroundPosition: `${
+                          !node.walkable &&
+                          openedChests.length &&
+                          openedChests.some(
+                            (chests) => chests[0] === j && chests[1] === i
+                          )
+                            ? `-${cellLen}`
+                            : -1
+                        }px ${0}px`,
+                        backgroundSize: node.walkable
+                          ? "initial"
+                          : `${cellLen * 2}px ${cellLen}px`,
                       }}
                     >
-                      <div
-                        style={{
-                          backgroundImage: !node.walkable
-                            ? "url('/chest2.png')"
-                            : "none",
-                          backgroundPosition: `${
-                            openedChests.length &&
-                            openedChests.some(
-                              (chests) => chests[0] === j && chests[1] === i
-                            )
-                              ? -50
-                              : -1
-                          }px ${0}px`,
-                          backgroundRepeat: "no-repeat",
-                          height: `${cellLen}px`,
-                          width: `${cellLen}px`,
-                          backgroundSize: `${cellLen * 2}px ${cellLen}px`,
-                        }}
-                      >
-                        {" "}
-                        {j},{i}
-                      </div>
+                      {j},{i}
                     </div>
                   );
                 })}
