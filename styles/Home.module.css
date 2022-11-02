@@ -30,17 +30,17 @@
   background-repeat: no-repeat;
   font-size: xx-small;
   cursor: pointer;
-  border: 1px solid gray;
+  border: 1px solid rgb(46, 46, 46);
+  color: rgb(46, 46, 46);
 }
 
 /* player */
 
 .player {
   position: absolute;
-  border-radius: 50%;
-  background-color: red;
-  left: 0;
-  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* boilerplate */

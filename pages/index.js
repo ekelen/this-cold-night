@@ -6,8 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import styles from "../styles/Home.module.css";
 
 const cellLen = 40;
-const gridWidth = 15;
-const gridHeight = 15;
+const gridWidth = 10;
+const gridHeight = 10;
 const pxPerFrame = cellLen * 0.25;
 
 const lookLeft = (x, y) => [Math.max(0, x - 1), y];
@@ -221,7 +221,16 @@ export default function Home() {
             }}
             className={styles.player}
             ref={charRef}
-          />
+          >
+            <div
+              style={{
+                background:
+                  'url("/aristocrate-f-001-light.png") no-repeat -27px -69px',
+                height: `${27}px`,
+                width: `${18}px`,
+              }}
+            ></div>
+          </div>
           {grid.nodes.map((row, i) => {
             return (
               <div key={`${i}-${i}`} className={styles.row}>
@@ -236,10 +245,6 @@ export default function Home() {
                       style={{
                         height: `${cellLen}px`,
                         width: `${cellLen}px`,
-                        backgroundColor:
-                          currentI == i && currentJ == j
-                            ? "yellow"
-                            : "rgba(0, 0, 0, 0)",
                         backgroundImage: !node.walkable
                           ? "url('/chest2.png')"
                           : "none",
