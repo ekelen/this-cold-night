@@ -1,15 +1,9 @@
+import { isEqual, uniqWith } from "lodash";
 import Head from "next/head";
 import Image from "next/image";
-import styles from "../styles/Home.module.css";
 import PF from "pathfinding";
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
-import { isEqual, uniqWith } from "lodash";
+import { useEffect, useRef, useState } from "react";
+import styles from "../styles/Home.module.css";
 
 const cellLen = 40;
 const gridWidth = 15;
@@ -39,8 +33,8 @@ grid.getNodeAt(7, 3).walkable = false;
 grid.getNodeAt(0, 4).walkable = false;
 grid.getNodeAt(8, 4).walkable = false;
 
-const getPath = (currentX, currentY, _x, _y) => {
-  const path = finder.findPath(currentX, currentY, _x, _y, grid.clone());
+const getPath = (startX, startY, endX, endY) => {
+  const path = finder.findPath(startX, startY, endX, endY, grid.clone());
   return path;
 };
 
@@ -99,11 +93,11 @@ export default function Home() {
         const charLeft = parseInt(charRef.current.style.left);
         const charTop = parseInt(charRef.current.style.top);
 
-        const _atX = charLeft === _targetJ * cellLen;
-        const _atY = charTop === _targetI * cellLen;
+        const atX = charLeft === _targetJ * cellLen;
+        const atY = charTop === _targetI * cellLen;
 
         let newDirY, newDirX;
-        if (_atX && _atY) {
+        if (atX && atY) {
           console.log(`[=] at x and y`);
           if (path.length === 1) {
             setCurrentJ(Math.floor(charLeft / cellLen));
