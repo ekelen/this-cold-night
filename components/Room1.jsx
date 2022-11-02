@@ -1,23 +1,16 @@
-import { isEqual, uniq, uniqWith } from "lodash";
 import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  cellLen,
-  getItem,
-  getPath,
-  grid,
-  pxPerFrame,
-  shouldOpenChest,
-} from "../game";
+import { cellLen, getPath, grid, items, pxPerFrame } from "../game/setup";
+import useGame from "../game/useGame";
 import styles from "../styles/Home.module.css";
 import Modal from "./Modal";
 
 export default function Room1() {
-  const [openedChests, setOpenedChests] = useState([]);
-  const [currentJ, setCurrentJ] = useState(0);
-  const [currentI, setCurrentI] = useState(0);
+  const [gameState, { move, reset }] = useGame();
   const [nMoves, setNMoves] = useState(0);
-  const [inventory, setInventory] = useState([]);
   const [showModal, setShowModal] = useState(false);
+
+  const { currentI, currentJ, inventory, hintMessage, successMessage } =
+    gameState;
 
   const onClose = useCallback(() => {
     setShowModal(false);
@@ -27,22 +20,6 @@ export default function Room1() {
   const previousTimeRef = useRef();
   const charRef = useRef();
   const gridRef = useRef();
-
-  useEffect(() => {
-    let chests;
-    if (grid && (chests = shouldOpenChest(currentJ, currentI, grid)).length) {
-      setOpenedChests((prev) =>
-        uniqWith(
-          [...prev, ...chests.map((chest) => [chest.x, chest.y])],
-          isEqual
-        )
-      );
-      setInventory((prev) =>
-        uniq([...prev, ...chests.map((chest) => getItem(chest.x, chest.y))])
-      );
-      //   setShowModal(true);
-    }
-  }, [currentI, currentJ]);
 
   useEffect(() => {
     return () => requestRef.current && cancelAnimationFrame(requestRef.current);
@@ -68,10 +45,11 @@ export default function Room1() {
 
         let newDirY, newDirX;
         if (atX && atY) {
-          console.log(`[=] at x and y`);
           if (path.length === 1) {
-            setCurrentJ(Math.floor(charLeft / cellLen));
-            setCurrentI(Math.floor(charTop / cellLen));
+            move({
+              j: Math.floor(charLeft / cellLen),
+              i: Math.floor(charTop / cellLen),
+            });
             cancelAnimation();
             return;
           }
@@ -127,7 +105,7 @@ export default function Room1() {
       const startCharLeft = parseInt(charRef.current.style.left);
       const startCharTop = parseInt(charRef.current.style.top);
 
-      const path = getPath(currentJ, currentI, _targetJ, _targetI);
+      const path = getPath(_currentJ, _currentI, _targetJ, _targetI);
       setNMoves((prevMoves) => prevMoves + path.length - 1);
       requestRef.current = requestAnimationFrame(
         moveToAnim({
@@ -156,12 +134,8 @@ export default function Room1() {
     previousTimeRef.current = undefined;
     charRef.current.style.left = "0px";
     charRef.current.style.top = "0px";
-    setCurrentI(0);
-    setCurrentJ(0);
+    reset();
     setNMoves(0);
-
-    setOpenedChests([]);
-    setInventory([]);
   };
 
   return (
@@ -172,8 +146,29 @@ export default function Room1() {
         </Modal>
       )}
       <code>Journey length: {nMoves}</code>
-      <code>Opened chests: {openedChests.length} </code>
-      <code>Inventory: {inventory.join()} </code>
+      <div
+        style={{
+          height: "50px",
+          width: "400px",
+          maxWidth: "90vw",
+          overflowY: "auto",
+          padding: "10px 0px",
+        }}
+      >
+        <code style={{ color: "green", fontSize: "larger" }}>
+          Inventory: {inventory.map((id) => items[id].emoji).join(" ")}{" "}
+        </code>
+        {hintMessage && (
+          <code style={{ color: "red", fontSize: "smaller" }}>
+            {hintMessage}
+          </code>
+        )}
+        {successMessage && (
+          <code style={{ color: "green", fontSize: "smaller" }}>
+            {successMessage}
+          </code>
+        )}
+      </div>
       <button
         onClick={() => {
           resetAnimation();
@@ -205,6 +200,7 @@ export default function Room1() {
           return (
             <div key={`${i}-${i}`} className={styles.row}>
               {row.map((node, j) => {
+                const id = i * grid.width + j;
                 return (
                   <div
                     key={`${i}-${j}`}
@@ -219,11 +215,7 @@ export default function Room1() {
                         ? "url('/chest2.png')"
                         : "none",
                       backgroundPosition: `${
-                        !node.walkable &&
-                        openedChests.length &&
-                        openedChests.some(
-                          (chests) => chests[0] === j && chests[1] === i
-                        )
+                        !node.walkable && inventory.includes(id)
                           ? `-${cellLen}`
                           : -1
                       }px ${0}px`,
