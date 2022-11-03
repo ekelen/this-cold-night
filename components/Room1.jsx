@@ -148,7 +148,7 @@ export default function Room1() {
       <code>Journey length: {nMoves}</code>
       <div
         style={{
-          height: "50px",
+          height: "100px",
           width: "400px",
           maxWidth: "90vw",
           overflowY: "auto",

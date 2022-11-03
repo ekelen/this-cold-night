@@ -72,7 +72,7 @@ const _items = {
     deps: ["strawberry"],
     description: "A vial of poison.",
     hint: "It will need poison berries added to it to make it strong enough to knock someone out.",
-    metMessage: "You add the poison berries to the poison. It's ready to use.",
+    metMessage: "You add the berries to the poison. It's ready to use.",
   },
   [7]: {
     emoji: "🦴",
@@ -133,10 +133,10 @@ const _items = {
     emoji: "👩",
     name: "friend2",
     deps: ["ring"],
-    description: "A friendly young kitchen maid.",
+    description: "A nice young kitchen maid.",
     hint: "She keeps looking amorously at the young blond fellow in the bakery.",
     metMessage:
-      "You give the kitchen maid the ring on behalf of the friendly young cook. She blushes and follows you.",
+      "You give the kitchen maid the ring on behalf of the friendly young baker. She blushes and follows you.",
   },
   [16]: {
     emoji: "🏹",

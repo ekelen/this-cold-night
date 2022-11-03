@@ -31,11 +31,14 @@ const move = (state, i, j) => {
     isBelowItem.deps.map((name) =>
       Object.values(items).find((i) => i.name === name)
     );
+
   const shouldShowHint =
     hasDeps && hasDeps.some((dep) => !state.inventory.includes(dep.id));
+
   const shouldAddItem =
     doesntHaveItem &&
-    (!hasDeps || state.inventory.includes(...hasDeps.map((d) => d.id)));
+    (!hasDeps ||
+      hasDeps.map((d) => d.id).every((id) => state.inventory.includes(id)));
 
   const common = {
     ...state,
