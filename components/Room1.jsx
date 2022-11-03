@@ -9,8 +9,14 @@ export default function Room1() {
   const [nMoves, setNMoves] = useState(0);
   const [showModal, setShowModal] = useState(false);
 
-  const { currentI, currentJ, inventory, hintMessage, successMessage } =
-    gameState;
+  const {
+    currentI,
+    currentJ,
+    inventory,
+    hintMessage,
+    successMessage,
+    discardedInventory,
+  } = gameState;
 
   const onClose = useCallback(() => {
     setShowModal(false);
@@ -215,7 +221,9 @@ export default function Room1() {
                         ? "url('/chest2.png')"
                         : "none",
                       backgroundPosition: `${
-                        !node.walkable && inventory.includes(id)
+                        !node.walkable &&
+                        (inventory.includes(id) ||
+                          discardedInventory.includes(id))
                           ? `-${cellLen}`
                           : -1
                       }px ${0}px`,

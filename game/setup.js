@@ -8,7 +8,13 @@ export const pxPerFrame = cellLen * 0.25;
 export const grid = new PF.Grid(gridWidth, gridHeight);
 export const finder = new PF.AStarFinder(grid);
 
-const itemNodes = [
+export const getIdFromPos = ([x, y]) => y * gridHeight + x;
+export const getPosFromId = (id) => [
+  id % gridWidth,
+  Math.floor(id / gridHeight),
+];
+
+export const chestCoordinates = [
   [0, 4],
   [1, 8],
   [2, 2],
@@ -25,28 +31,29 @@ const itemNodes = [
   [8, 6],
   [9, 0],
   [7, 8],
-  [9, 7],
+  [9, 8],
 ];
 
-itemNodes.forEach(([x, y]) => grid.setWalkableAt(x, y, false));
-
-const getNodeId = (x, y) => y * gridHeight + x;
+chestCoordinates.forEach(([x, y]) => grid.setWalkableAt(x, y, false));
 
 const _items = {
   [0]: {
-    emoji: "👓",
-    name: "glasses",
-    description: "A pair of glasses.",
+    emoji: "🚪",
+    name: "door",
+    description: "The way out.",
+    deps: ["large key", "scroll", "dog", "coat"],
+    hint: "You need a key to open the door. You will also need some items to pass safely in the town outside.",
+    metMessage: "You open the door and leave the castle.",
   },
   [1]: {
-    emoji: "🗡",
-    name: "sword",
-    description: "A sharp sword.",
+    emoji: "🪚",
+    name: "bonesaw",
+    description: "A saw for cutting bone.",
   },
   [2]: {
     emoji: "🍷",
     name: "wine",
-    description: "A bottle of wine.",
+    description: "A quantity of wine.",
     deps: ["poison"],
     hint: "It would be effective in putting some guards to sleep, if it had something else in it...",
     metMessage: "You add the poison to the wine.",
@@ -58,7 +65,8 @@ const _items = {
     hint: "He looks like he needs something to chew on.",
     description: "A dog.",
     metMessage:
-      "You give the dog a bone. He drops it, wags his tail, and follows you.",
+      "You give the dog the ox bone. He drops it, wags his tail, and follows you.",
+    keepForNextLevel: true,
   },
   [4]: {
     emoji: "🕯",
@@ -77,7 +85,10 @@ const _items = {
   [7]: {
     emoji: "🦴",
     name: "bone",
-    description: "A smelly marrow bone.",
+    deps: ["bonesaw"],
+    description: "A large ox bone, full of fresh marrow.",
+    metMessage: "You make a small crosscut of the bone using the saw.",
+    hint: "This bone is too large to carry around by yourself. You'll need something to cut it with.",
   },
   [8]: {
     emoji: "✉️",
@@ -105,6 +116,7 @@ const _items = {
     description: "A coat.",
     hint: "It looks very warm and is too bulky to steal.\n\nSomeone will have to gift it to you.",
     metMessage: "The young baker is happy to give you his coat.",
+    keepForNextLevel: true,
   },
   [12]: {
     emoji: "🍓",
@@ -119,6 +131,7 @@ const _items = {
     hint: "You don't know what to write on it.",
     metMessage:
       "You draw a passable imitation of identity papers for yourself on the scroll.",
+    keepForNextLevel: true,
   },
   [14]: {
     emoji: "👨",
@@ -139,15 +152,17 @@ const _items = {
       "You give the kitchen maid the ring on behalf of the friendly young baker. She blushes and follows you.",
   },
   [16]: {
-    emoji: "🏹",
-    name: "bow",
-    description: "An archery set.",
+    emoji: "🗝",
+    name: "large key",
+    description: "A large key.",
+    deps: ["wine"],
+    hint: "The key is in possession of a formidable castle guard who will need to be disabled.",
   },
 };
 
 Object.keys(_items).forEach((i) => {
-  _items[i].id = getNodeId(...itemNodes[i]);
-  _items[i].node = grid.getNodeAt(...itemNodes[i]);
+  _items[i].id = getIdFromPos(chestCoordinates[i]);
+  _items[i].node = grid.getNodeAt(...chestCoordinates[i]);
 });
 
 const newItems = Object.values(_items).reduce((acc, item) => {
@@ -157,19 +172,22 @@ const newItems = Object.values(_items).reduce((acc, item) => {
 
 export const items = newItems;
 
-export const getItemEmoji = (x, y) => {
-  const key = y * gridHeight + x;
-  return items[key].emoji;
+export const getItemIdByName = (name) => {
+  return (Object.values(items).find((item) => item.name === name) ?? {}).id;
 };
+
+export const getItemByName = (name) => {
+  return Object.values(items).find((item) => item.name === name);
+};
+
+export const getItemEmoji = (x, y) => {
+  return items[getIdFromPos([x, y])].emoji;
+};
+
 export const getPath = (startX, startY, endX, endY) => {
   const path = finder.findPath(startX, startY, endX, endY, grid.clone());
   return path;
 };
-
-// const lookLeft = (x, y) => [Math.max(0, x - 1), y];
-// const lookRight = (x, y) => [Math.min(gridWidth - 1, x + 1), y];
-// const lookUp = (x, y) => [x, Math.max(0, y - 1)];
-// const lookDown = (x, y) => [x, Math.min(gridHeight - 1, y + 1)];
 
 const lookLeft = (x, y) => [x - 1, y];
 const lookRight = (x, y) => [x + 1, y];
@@ -188,7 +206,7 @@ const getValidNeighbors = (x, y) => {
   );
 };
 
-export const checkChestsToOpen = (currentX, currentY, _grid) => {
+const checkChestsToOpen = (currentX, currentY, _grid) => {
   try {
     const neighbors = getValidNeighbors(currentX, currentY).map(([x, y]) =>
       _grid.getNodeAt(x, y)

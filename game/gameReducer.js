@@ -1,4 +1,4 @@
-import { gridHeight, items } from "./setup";
+import { getIdFromPos, getItemByName, gridHeight, items } from "./setup";
 import { OPEN_CHEST, MOVE, RESET } from "./gameActions";
 import { cloneDeep } from "lodash";
 
@@ -11,6 +11,7 @@ export const initialState = {
   items: items,
   hintMessage: "",
   successMessage: "",
+  discardedInventory: [],
 };
 
 const openChest = (state, chest) => {
@@ -23,22 +24,18 @@ const openChest = (state, chest) => {
 };
 
 const move = (state, i, j) => {
-  const isBelowItem = items[(i - 1) * gridHeight + j];
-  const doesntHaveItem =
-    isBelowItem && !state.inventory.includes(isBelowItem.id);
-  const hasDeps =
-    isBelowItem?.deps &&
-    isBelowItem.deps.map((name) =>
-      Object.values(items).find((i) => i.name === name)
-    );
-
-  const shouldShowHint =
-    hasDeps && hasDeps.some((dep) => !state.inventory.includes(dep.id));
-
+  const belowItem = items[getIdFromPos([j, i - 1])];
+  const itemNotInInventory =
+    belowItem && !state.inventory.includes(belowItem.id);
+  const depItems = belowItem?.deps && belowItem.deps.map(getItemByName);
+  const depsNotInInventory =
+    depItems && depItems.some((dep) => !state.inventory.includes(dep.id));
   const shouldAddItem =
-    doesntHaveItem &&
-    (!hasDeps ||
-      hasDeps.map((d) => d.id).every((id) => state.inventory.includes(id)));
+    itemNotInInventory &&
+    (!depItems ||
+      depItems
+        .map((dep) => dep.id)
+        .every((id) => state.inventory.includes(id)));
 
   const common = {
     ...state,
@@ -48,18 +45,33 @@ const move = (state, i, j) => {
     successMessage: "",
   };
   if (shouldAddItem) {
+    // Add item to inventory
+    // Remove dependent items from inventory and add to discarded inventory
     return {
       ...common,
-      inventory: [...state.inventory, isBelowItem.id],
-      successMessage: isBelowItem.metMessage
-        ? `${isBelowItem.emoji} - ${isBelowItem.metMessage}`
-        : `${isBelowItem.emoji} - ${isBelowItem.description}`,
+      inventory: [...state.inventory, belowItem.id].filter((id) =>
+        depItems
+          ? !depItems
+              .filter((d) => !d.keepForNextLevel)
+              .map((d) => d.id)
+              .includes(id)
+          : true
+      ),
+      discardedInventory: depItems
+        ? [
+            ...state.discardedInventory,
+            ...depItems.filter((d) => !d.keepForNextLevel).map((d) => d.id),
+          ]
+        : state.discardedInventory,
+      successMessage: belowItem.metMessage
+        ? `${belowItem.emoji} - ${belowItem.metMessage}`
+        : `${belowItem.emoji} - ${belowItem.description}`,
     };
   }
-  if (shouldShowHint) {
+  if (depsNotInInventory) {
     return {
       ...common,
-      hintMessage: `${isBelowItem.emoji} - ${isBelowItem.description} - ${isBelowItem.hint}`,
+      hintMessage: `${belowItem.emoji} - ${belowItem.description} - ${belowItem.hint}`,
     };
   }
 
