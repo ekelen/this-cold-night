@@ -1,5 +1,14 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { cellLen, getPath, grid, items, pxPerFrame } from "../game/setup";
+import { createRef, useCallback, useEffect, useRef, useState } from "react";
+import {
+  cellLen,
+  getItemIdByName,
+  getPath,
+  grid,
+  gridHeight,
+  gridWidth,
+  items,
+  pxPerFrame,
+} from "../game/setup";
 import useGame from "../game/useGame";
 import useAnimation from "../hooks/useAnimation";
 import styles from "../styles/Home.module.css";
@@ -9,6 +18,10 @@ export default function Room1() {
   const [gameState, { updatePosition, reset }] = useGame();
 
   const [showModal, setShowModal] = useState(false);
+  const itemsRef = useRef([]);
+  useEffect(() => {
+    itemsRef.current = itemsRef.current.slice(0, gridWidth * gridHeight);
+  }, []);
 
   const {
     currentI,
@@ -17,7 +30,29 @@ export default function Room1() {
     hintMessage,
     successMessage,
     discardedInventory,
+    activeChestId,
+    activeChestIdOpenable,
   } = gameState;
+
+  useEffect(() => {
+    if (activeChestId && itemsRef?.current[activeChestId]) {
+      itemsRef.current.forEach((item) => {
+        if (item) {
+          item.style.borderColor = "rgba(255,255,255, 0.1)";
+        }
+      });
+      itemsRef.current[activeChestId].style.borderColor = activeChestIdOpenable
+        ? "rgba(0,255,100, 0.75)"
+        : "rgba(255,0,50, 0.75)";
+    } else {
+      itemsRef?.current.forEach((item) => {
+        if (item) {
+          item.style.borderColor = item.style.borderColor =
+            "rgba(255,255,255, 0.1)";
+        }
+      });
+    }
+  }, [activeChestId, activeChestIdOpenable]);
 
   const onClose = useCallback(() => {
     setShowModal(false);
@@ -44,7 +79,23 @@ export default function Room1() {
           You found {inventory[inventory.length - 1]}
         </Modal>
       )}
-      <code>Journey length: {nMoves}</code>
+      <div
+        style={{
+          display: "flex",
+          width: "400px",
+          maxWidth: "90vw",
+          justifyContent: "space-between",
+        }}
+      >
+        <code>Journey length: {nMoves}</code>{" "}
+        <button
+          onClick={() => {
+            resetAnimation();
+          }}
+        >
+          reset
+        </button>
+      </div>
       <div
         style={{
           height: "100px",
@@ -57,6 +108,7 @@ export default function Room1() {
         <code style={{ color: "green", fontSize: "larger" }}>
           Inventory: {inventory.map((id) => items[id].emoji).join(" ")}{" "}
         </code>
+
         {hintMessage && (
           <code style={{ color: "red", fontSize: "smaller" }}>
             {hintMessage}
@@ -68,13 +120,7 @@ export default function Room1() {
           </code>
         )}
       </div>
-      <button
-        onClick={() => {
-          resetAnimation();
-        }}
-      >
-        [debug] Reset
-      </button>
+
       <div ref={gridRef} className={styles.grid}>
         <div
           style={{
@@ -107,6 +153,7 @@ export default function Room1() {
                       startAnimation(currentJ, currentI, j, i, node);
                     }}
                     className={styles.cell}
+                    ref={(el) => (itemsRef.current[id] = el)}
                     style={{
                       height: `${cellLen}px`,
                       width: `${cellLen}px`,

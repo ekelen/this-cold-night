@@ -12,6 +12,8 @@ export const initialState = {
   hintMessage: "",
   successMessage: "",
   discardedInventory: [],
+  activeChestId: null,
+  activeChestIdOpenable: false,
 };
 
 const openChest = (state, chest) => {
@@ -26,10 +28,17 @@ const openChest = (state, chest) => {
 const updatePosition = (state, i, j) => {
   const belowItem = items[getIdFromPos([j, i - 1])];
   const itemNotInInventory =
-    belowItem && !state.inventory.includes(belowItem.id);
+    belowItem &&
+    !state.inventory.includes(belowItem.id) &&
+    !state.discardedInventory.includes(belowItem.id);
   const depItems = belowItem?.deps && belowItem.deps.map(getItemByName);
   const depsNotInInventory =
-    depItems && depItems.some((dep) => !state.inventory.includes(dep.id));
+    depItems &&
+    depItems.some(
+      (dep) =>
+        !state.inventory.includes(dep.id) &&
+        !state.discardedInventory.includes(dep.id)
+    );
   const shouldAddItem =
     itemNotInInventory &&
     (!depItems ||
@@ -43,6 +52,9 @@ const updatePosition = (state, i, j) => {
     currentJ: j,
     hintMessage: "",
     successMessage: "",
+    activeChestId:
+      belowItem && itemNotInInventory ? getIdFromPos([j, i - 1]) : null,
+    activeChestIdOpenable: !!shouldAddItem,
   };
   if (shouldAddItem) {
     // Add item to inventory

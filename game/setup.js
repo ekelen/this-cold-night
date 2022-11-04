@@ -15,23 +15,23 @@ export const getPosFromId = (id) => [
 ];
 
 export const chestCoordinates = [
-  [0, 4],
+  [9, 8],
   [1, 8],
   [2, 2],
   [2, 6],
-  [3, 7],
-  [5, 0],
+  [0, 3],
+  [0, 5],
   [5, 3],
   [5, 6],
-  [5, 8],
+  [0, 1],
   [7, 2],
   [7, 4],
   [8, 0],
   [8, 4],
   [8, 6],
   [9, 0],
-  [7, 8],
-  [9, 8],
+  [3, 0],
+  [8, 8],
 ];
 
 chestCoordinates.forEach(([x, y]) => grid.setWalkableAt(x, y, false));
@@ -80,7 +80,8 @@ const _items = {
     deps: ["strawberry"],
     description: "A vial of poison.",
     hint: "It will need poison berries added to it to make it strong enough to knock someone out.",
-    metMessage: "You add the berries to the poison. It's ready to use.",
+    metMessage:
+      "You add the berries to the poison. It's strong enough to add to something palatable.",
   },
   [7]: {
     emoji: "🦴",
@@ -128,9 +129,9 @@ const _items = {
     name: "scroll",
     deps: ["letter", "pen"],
     description: "A scroll.",
-    hint: "You don't know what to write on it.",
+    hint: "You don't know what to write on it. Maybe you need to read some important information first.",
     metMessage:
-      "You draw a passable imitation of identity papers for yourself on the scroll.",
+      "You draw a passable imitation of identity papers for yourself on the scroll with the quill.",
     keepForNextLevel: true,
   },
   [14]: {
@@ -140,7 +141,7 @@ const _items = {
     description: "A friendly young baker.",
     hint: "He is sad he cannot afford a ring for the kitchen maid he is courting\n\nNor has the courage to give it to her himself...",
     metMessage:
-      "The kitchen maid tells the baker she is delighted with the ring!\n\n The baker says you have whatever you want from his meager possessions.",
+      "The kitchen maid is delighted with the baker's proposal!\n\n The baker says you can have whatever you want from his meager possessions.",
   },
   [15]: {
     emoji: "👩",
@@ -149,7 +150,7 @@ const _items = {
     description: "A nice young kitchen maid.",
     hint: "She keeps looking amorously at the young blond fellow in the bakery.",
     metMessage:
-      "You give the kitchen maid the ring on behalf of the friendly young baker. She blushes and follows you.",
+      "You give the kitchen maid the ring on behalf of the friendly young baker. She blushes and asks you to help her find him.",
   },
   [16]: {
     emoji: "🗝",
@@ -157,6 +158,8 @@ const _items = {
     description: "A large key.",
     deps: ["wine"],
     hint: "The key is in possession of a formidable castle guard who will need to be disabled.",
+    metMessage:
+      "You give the wine to the guard. He falls asleep and you take the key.",
   },
 };
 
