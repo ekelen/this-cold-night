@@ -1,10 +1,10 @@
 export const OPEN_CHEST = "OPEN_CHEST";
-export const MOVE = "MOVE";
+export const UPDATE_POSITION = "UPDATE_POSITION";
 export const RESET = "RESET";
 
-export const move = ({ i, j }) => {
+export const updatePosition = ({ i, j }) => {
   return {
-    type: MOVE,
+    type: UPDATE_POSITION,
     payload: { i, j },
   };
 };

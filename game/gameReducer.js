@@ -1,5 +1,5 @@
 import { getIdFromPos, getItemByName, gridHeight, items } from "./setup";
-import { OPEN_CHEST, MOVE, RESET } from "./gameActions";
+import { OPEN_CHEST, UPDATE_POSITION, RESET } from "./gameActions";
 import { cloneDeep } from "lodash";
 
 export const initialState = {
@@ -23,7 +23,7 @@ const openChest = (state, chest) => {
   return common;
 };
 
-const move = (state, i, j) => {
+const updatePosition = (state, i, j) => {
   const belowItem = items[getIdFromPos([j, i - 1])];
   const itemNotInInventory =
     belowItem && !state.inventory.includes(belowItem.id);
@@ -86,8 +86,8 @@ const gameReducer = (state, action) => {
       return openChest(state, action.payload.chest);
     }
 
-    case MOVE: {
-      return move(state, action.payload.i, action.payload.j);
+    case UPDATE_POSITION: {
+      return updatePosition(state, action.payload.i, action.payload.j);
     }
 
     case RESET: {

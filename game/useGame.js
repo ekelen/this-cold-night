@@ -9,8 +9,8 @@ const useGame = () => {
     dispatch(gameActions.openChest(chest));
   };
 
-  const move = ({ j, i }) => {
-    dispatch(gameActions.move({ j, i }));
+  const updatePosition = ({ j, i }) => {
+    dispatch(gameActions.updatePosition({ j, i }));
   };
 
   const reset = () => {
@@ -21,7 +21,7 @@ const useGame = () => {
     state,
     {
       openChest,
-      move,
+      updatePosition,
       reset,
     },
   ];

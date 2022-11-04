@@ -6,7 +6,7 @@ import styles from "../styles/Home.module.css";
 import Modal from "./Modal";
 
 export default function Room1() {
-  const [gameState, { move, reset }] = useGame();
+  const [gameState, { updatePosition, reset }] = useGame();
 
   const [showModal, setShowModal] = useState(false);
 
@@ -34,7 +34,7 @@ export default function Room1() {
     requestRef,
     previousTimeRef,
     reset,
-    move
+    updatePosition
   );
 
   return (
