@@ -37,3 +37,4 @@ next-env.d.ts
 
 # misc
 playground.mongodb
+/public/dc*

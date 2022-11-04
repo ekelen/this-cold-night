@@ -18,9 +18,7 @@ const useAnimation = (
   };
 
   const resetAnimation = () => {
-    cancelAnimationFrame(requestRef.current);
-    gridRef.current.style.pointerEvents = "auto";
-    previousTimeRef.current = undefined;
+    cancelAnimation();
     charRef.current.style.left = "0px";
     charRef.current.style.top = "0px";
     reset();
@@ -29,62 +27,47 @@ const useAnimation = (
 
   const animatePositionUpdate =
     ({ path, dirX, dirY, count, startCharLeft, startCharTop }) =>
-    (time) => {
-      if (previousTimeRef.current != undefined) {
-        const [endX, endY] = path[0];
+    (_time) => {
+      const [endX, endY] = path[0];
 
-        const charLeft = parseInt(charRef.current.style.left);
-        const charTop = parseInt(charRef.current.style.top);
+      const charLeft = parseInt(charRef.current.style.left);
+      const charTop = parseInt(charRef.current.style.top);
 
-        const atX = charLeft === endX * cellLen;
-        const atY = charTop === endY * cellLen;
+      const atDestination =
+        charLeft === endX * cellLen && charTop === endY * cellLen;
 
-        let newDirY, newDirX;
-        if (atX && atY) {
-          if (path.length === 1) {
-            updatePosition({
-              j: Math.floor(charLeft / cellLen),
-              i: Math.floor(charTop / cellLen),
-            });
-            cancelAnimation();
-            return;
-          }
-          const [nextEndX, nextEndY] = path[1];
-          newDirX = Math.sign(nextEndX - endX);
-          newDirY = Math.sign(nextEndY - endY);
-          requestRef.current = requestAnimationFrame(
-            animatePositionUpdate({
-              path: path.slice(1),
-              dirX: newDirX,
-              dirY: newDirY,
-              count: 0,
-              startCharLeft: charLeft,
-              startCharTop: charTop,
-            })
-          );
-        } else {
-          charRef.current.style.left = `${startCharLeft + count * dirX}px`;
-          charRef.current.style.top = `${startCharTop + count * dirY}px`;
-          requestRef.current = requestAnimationFrame(
-            animatePositionUpdate({
-              path,
-              dirX,
-              dirY,
-              count: count + pxPerFrame,
-              startCharLeft,
-              startCharTop,
-            })
-          );
+      let newDirY, newDirX;
+      if (atDestination) {
+        if (path.length === 1) {
+          updatePosition({
+            j: Math.floor(charLeft / cellLen),
+            i: Math.floor(charTop / cellLen),
+          });
+          cancelAnimation();
+          return;
         }
+        const [nextEndX, nextEndY] = path[1];
+        newDirX = Math.sign(nextEndX - endX);
+        newDirY = Math.sign(nextEndY - endY);
+        requestRef.current = requestAnimationFrame(
+          animatePositionUpdate({
+            path: path.slice(1),
+            dirX: newDirX,
+            dirY: newDirY,
+            count: 0,
+            startCharLeft: charLeft,
+            startCharTop: charTop,
+          })
+        );
       } else {
-        previousTimeRef.current = time;
-        gridRef.current.style.pointerEvents = "none";
+        charRef.current.style.left = `${startCharLeft + count * dirX}px`;
+        charRef.current.style.top = `${startCharTop + count * dirY}px`;
         requestRef.current = requestAnimationFrame(
           animatePositionUpdate({
             path,
             dirX,
             dirY,
-            count,
+            count: count + pxPerFrame,
             startCharLeft,
             startCharTop,
           })
@@ -110,6 +93,7 @@ const useAnimation = (
 
       const path = getPath(startX, startY, endX, endY);
       setNMoves((prevMoves) => prevMoves + path.length - 1);
+      gridRef.current.style.pointerEvents = "none";
       requestRef.current = requestAnimationFrame(
         animatePositionUpdate({
           path,

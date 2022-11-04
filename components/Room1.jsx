@@ -1,38 +1,44 @@
-import { createRef, useCallback, useEffect, useRef, useState } from "react";
-import {
-  cellLen,
-  getItemIdByName,
-  getPath,
-  grid,
-  gridHeight,
-  gridWidth,
-  items,
-  pxPerFrame,
-} from "../game/setup";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { cellLen, grid, gridHeight, gridWidth, items } from "../game/setup";
 import useGame from "../game/useGame";
 import useAnimation from "../hooks/useAnimation";
 import styles from "../styles/Home.module.css";
 import Modal from "./Modal";
 
-export default function Room1() {
-  const [gameState, { updatePosition, reset }] = useGame();
-
-  const [showModal, setShowModal] = useState(false);
-  const itemsRef = useRef([]);
+export const useGridDecoration = (
+  gridRef,
+  inventory,
+  itemsRef,
+  activeChestId,
+  activeChestIdOpenable
+) => {
   useEffect(() => {
-    itemsRef.current = itemsRef.current.slice(0, gridWidth * gridHeight);
-  }, []);
+    if (itemsRef.current) {
+      Object.values(items)
+        .map((item) => item.id)
+        .map((key) => {
+          if (inventory.includes(key)) {
+            itemsRef.current[key].style.backgroundImage =
+              "url('/chest-open.png')";
+          }
+        });
+    }
+  }, [inventory, itemsRef]);
 
-  const {
-    currentI,
-    currentJ,
-    inventory,
-    hintMessage,
-    successMessage,
-    discardedInventory,
-    activeChestId,
-    activeChestIdOpenable,
-  } = gameState;
+  useEffect(() => {
+    if (itemsRef.current) {
+      Object.keys(items).map((key) => {
+        const item = items[key];
+        if (item) {
+          itemsRef.current[key].style.backgroundImage = "url('/chest.png')";
+          itemsRef.current[key].style.backgroundPosition = "center";
+          itemsRef.current[
+            key
+          ].style.backgroundSize = `${cellLen}px ${cellLen}px`;
+        }
+      });
+    }
+  }, [itemsRef]);
 
   useEffect(() => {
     if (activeChestId && itemsRef?.current[activeChestId]) {
@@ -52,7 +58,29 @@ export default function Room1() {
         }
       });
     }
-  }, [activeChestId, activeChestIdOpenable]);
+  }, [activeChestId, activeChestIdOpenable, itemsRef]);
+};
+
+export default function Room1() {
+  const [gameState, { updatePosition, reset }] = useGame();
+  const [debug, setDebug] = useState(false);
+
+  const [showModal, setShowModal] = useState(false);
+  const itemsRef = useRef([]);
+  useEffect(() => {
+    itemsRef.current = itemsRef.current.slice(0, gridWidth * gridHeight);
+  }, []);
+
+  const {
+    currentI,
+    currentJ,
+    inventory,
+    hintMessage,
+    successMessage,
+    discardedInventory,
+    activeChestId,
+    activeChestIdOpenable,
+  } = gameState;
 
   const onClose = useCallback(() => {
     setShowModal(false);
@@ -62,6 +90,14 @@ export default function Room1() {
   const previousTimeRef = useRef();
   const charRef = useRef();
   const gridRef = useRef();
+
+  useGridDecoration(
+    gridRef,
+    inventory,
+    itemsRef,
+    activeChestId,
+    activeChestIdOpenable
+  );
 
   const { resetAnimation, startAnimation, nMoves } = useAnimation(
     charRef,
@@ -89,11 +125,19 @@ export default function Room1() {
       >
         <code>Journey length: {nMoves}</code>{" "}
         <button
+          style={{ marginLeft: "auto" }}
           onClick={() => {
             resetAnimation();
           }}
         >
           reset
+        </button>
+        <button
+          onClick={() => {
+            setDebug((prevDebug) => !prevDebug);
+          }}
+        >
+          debug {!debug ? "on" : "off"}
         </button>
       </div>
       <div
@@ -157,22 +201,13 @@ export default function Room1() {
                     style={{
                       height: `${cellLen}px`,
                       width: `${cellLen}px`,
-                      backgroundImage: !node.walkable
-                        ? "url('/chest2.png')"
-                        : "none",
-                      backgroundPosition: `${
-                        !node.walkable &&
-                        (inventory.includes(id) ||
-                          discardedInventory.includes(id))
-                          ? `-${cellLen}`
-                          : -1
-                      }px ${0}px`,
-                      backgroundSize: node.walkable
-                        ? "initial"
-                        : `${cellLen * 2}px ${cellLen}px`,
                     }}
                   >
-                    {j},{i}
+                    {debug && (
+                      <>
+                        {j},{i}
+                      </>
+                    )}
                   </div>
                 );
               })}
