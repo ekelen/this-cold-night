@@ -3,10 +3,10 @@ body {
   color-scheme: dark;
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
+    Helvetica Neue, sans-serif;
   color: #f0f0f0;
-  background-color: #151723;
+  background-color: #0c0d13;
 }
 
 a {
@@ -28,12 +28,12 @@ code {
   display: block;
 }
 
-@media (prefers-color-scheme: dark) {
-  /* html {
-    color-scheme: dark;
-  }
-  body {
-    color: white;
-    background: black;
-  } */
+button {
+  background-color: #050506;
+  color: #a7a7a7;
+  border: 1px solid #9d9d9d;
+  border-radius: 0px;
+  padding: 0.2rem;
+  font-size: smaller;
+  font-family: monospace;
 }

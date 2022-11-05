@@ -12,37 +12,6 @@
   align-items: center;
 }
 
-/* grid */
-
-.grid {
-  position: relative;
-}
-
-/* row */
-
-.row {
-  display: flex;
-}
-
-/* cell */
-
-.cell {
-  background-repeat: no-repeat;
-  font-size: xx-small;
-  cursor: pointer;
-  border: 1px solid rgb(46, 46, 46);
-  color: rgb(134, 133, 133);
-}
-
-/* player */
-
-.player {
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 /* boilerplate */
 
 .footer {

@@ -1,8 +1,17 @@
+import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { cellLen, grid, gridHeight, gridWidth, items } from "../game/setup";
+import {
+  cellLen,
+  CONTAINERS,
+  containers,
+  grid,
+  gridHeight,
+  gridWidth,
+  items,
+} from "../game/setup";
 import useGame from "../game/useGame";
 import useAnimation from "../hooks/useAnimation";
-import styles from "../styles/Home.module.css";
+import styles from "../styles/Room1.module.css";
 import Modal from "./Modal";
 
 export const useGridDecoration = (
@@ -12,34 +21,6 @@ export const useGridDecoration = (
   activeChestId,
   activeChestIdOpenable
 ) => {
-  useEffect(() => {
-    if (itemsRef.current) {
-      Object.values(items)
-        .map((item) => item.id)
-        .map((key) => {
-          if (inventory.includes(key)) {
-            itemsRef.current[key].style.backgroundImage =
-              "url('/chest-open.png')";
-          }
-        });
-    }
-  }, [inventory, itemsRef]);
-
-  useEffect(() => {
-    if (itemsRef.current) {
-      Object.keys(items).map((key) => {
-        const item = items[key];
-        if (item) {
-          itemsRef.current[key].style.backgroundImage = "url('/chest.png')";
-          itemsRef.current[key].style.backgroundPosition = "center";
-          itemsRef.current[
-            key
-          ].style.backgroundSize = `${cellLen}px ${cellLen}px`;
-        }
-      });
-    }
-  }, [itemsRef]);
-
   useEffect(() => {
     if (activeChestId && itemsRef?.current[activeChestId]) {
       itemsRef.current.forEach((item) => {
@@ -80,6 +61,7 @@ export default function Room1() {
     discardedInventory,
     activeChestId,
     activeChestIdOpenable,
+    generalMessage,
   } = gameState;
 
   const onClose = useCallback(() => {
@@ -115,15 +97,8 @@ export default function Room1() {
           You found {inventory[inventory.length - 1]}
         </Modal>
       )}
-      <div
-        style={{
-          display: "flex",
-          width: "400px",
-          maxWidth: "90vw",
-          justifyContent: "space-between",
-        }}
-      >
-        <code>Journey length: {nMoves}</code>{" "}
+      <div className={styles.statusWrapper}>
+        <div>Journey length: {nMoves}</div>
         <button
           style={{ marginLeft: "auto" }}
           onClick={() => {
@@ -140,29 +115,77 @@ export default function Room1() {
           debug {!debug ? "on" : "off"}
         </button>
       </div>
-      <div
-        style={{
-          height: "100px",
-          width: "400px",
-          maxWidth: "90vw",
-          overflowY: "auto",
-          padding: "10px 0px",
-        }}
-      >
-        <code style={{ color: "green", fontSize: "larger" }}>
-          Inventory: {inventory.map((id) => items[id].emoji).join(" ")}{" "}
-        </code>
+      <div className={styles.status}>
+        <div className={styles.inventory}>
+          <div>Inventory:</div>
+          {inventory.length > 0 && (
+            <div className={styles.inventoryItemsContainer}>
+              {inventory.map((id) => (
+                <div
+                  key={id}
+                  style={{
+                    width: "28px",
+                    height: "28px",
+                    position: "relative",
+                  }}
+                >
+                  {items[id].image ? (
+                    <div
+                      style={{
+                        backgroundImage: `url(${items[id].image})`,
+                        backgroundSize: "cover",
+                        backgroundPosition: "center",
+                        width: "100%",
+                        height: "100%",
+                      }}
+                    />
+                  ) : (
+                    <span>{items[id].emoji}</span>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
 
-        {hintMessage && (
-          <code style={{ color: "red", fontSize: "smaller" }}>
-            {hintMessage}
-          </code>
-        )}
-        {successMessage && (
-          <code style={{ color: "green", fontSize: "smaller" }}>
-            {successMessage}
-          </code>
-        )}
+        <div className={styles.messageContainer}>
+          <div>
+            {activeChestId && (
+              <div
+                style={{
+                  width: "28px",
+                  height: "28px",
+                  position: "relative",
+                }}
+              >
+                {items[activeChestId].image ? (
+                  <div
+                    style={{
+                      backgroundImage: `url(${items[activeChestId].image})`,
+                      backgroundSize: "cover",
+                      height: "100%",
+                      width: "100%",
+                    }}
+                    alt={`${items[activeChestId].description}`}
+                  />
+                ) : (
+                  <span style={{ fontSize: "20px" }}>
+                    {items[activeChestId].emoji}
+                  </span>
+                )}
+              </div>
+            )}
+          </div>
+          {generalMessage ? (
+            <span>{generalMessage}</span>
+          ) : hintMessage ? (
+            <span className={styles.hintMessage}>{hintMessage}</span>
+          ) : successMessage ? (
+            <span className={styles.successMessage}>{successMessage}</span>
+          ) : (
+            ""
+          )}
+        </div>
       </div>
 
       <div ref={gridRef} className={styles.grid}>
@@ -172,24 +195,39 @@ export default function Room1() {
             width: `${cellLen}px`,
             left: "0px",
             top: "0px",
+            backgroundImage: "url('/player.png')",
+            backgroundSize: "contain",
           }}
           className={styles.player}
           ref={charRef}
-        >
-          <div
-            style={{
-              background:
-                'url("/aristocrate-f-001-light.png") no-repeat -27px -69px',
-              height: `${27}px`,
-              width: `${18}px`,
-            }}
-          ></div>
-        </div>
+        ></div>
         {grid.nodes.map((row, i) => {
           return (
             <div key={`${i}-${i}`} className={styles.row}>
               {row.map((node, j) => {
                 const id = i * grid.width + j;
+                const item = items[id];
+
+                const containerStyle = !item
+                  ? {}
+                  : {
+                      // backgroundSize: `${cellLen}px ${cellLen}px`,
+                      backgroundSize: "contain",
+                      backgroundImage: `url(${
+                        containers[item.container][
+                          inventory.includes(id) ||
+                          discardedInventory.includes(id)
+                            ? "open"
+                            : "closed"
+                        ]
+                      })`,
+                      filter: `brightness(${
+                        inventory.includes(id) ||
+                        discardedInventory.includes(id)
+                          ? 0.5
+                          : 1
+                      })`,
+                    };
                 return (
                   <div
                     key={`${i}-${j}`}
@@ -201,6 +239,7 @@ export default function Room1() {
                     style={{
                       height: `${cellLen}px`,
                       width: `${cellLen}px`,
+                      ...containerStyle,
                     }}
                   >
                     {debug && (

@@ -14,6 +14,7 @@ export const initialState = {
   discardedInventory: [],
   activeChestId: null,
   activeChestIdOpenable: false,
+  generalMessage: "You find yourself trapped in a castle...",
 };
 
 const openChest = (state, chest) => {
@@ -52,6 +53,7 @@ const updatePosition = (state, i, j) => {
     currentJ: j,
     hintMessage: "",
     successMessage: "",
+    generalMessage: "",
     activeChestId:
       belowItem && itemNotInInventory ? getIdFromPos([j, i - 1]) : null,
     activeChestIdOpenable: !!shouldAddItem,
@@ -76,14 +78,14 @@ const updatePosition = (state, i, j) => {
           ]
         : state.discardedInventory,
       successMessage: belowItem.metMessage
-        ? `${belowItem.emoji} - ${belowItem.metMessage}`
-        : `${belowItem.emoji} - ${belowItem.description}`,
+        ? `${belowItem.metMessage}`
+        : `${belowItem.description}`,
     };
   }
   if (depsNotInInventory) {
     return {
       ...common,
-      hintMessage: `${belowItem.emoji} - ${belowItem.description} - ${belowItem.hint}`,
+      hintMessage: `${belowItem.description} - ${belowItem.hint}`,
     };
   }
 

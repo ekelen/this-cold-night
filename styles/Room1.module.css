@@ -1,0 +1,101 @@
+/* grid */
+
+.grid {
+  position: relative;
+}
+
+/* row */
+
+.row {
+  display: flex;
+}
+
+/* cell */
+
+.cell {
+  background-repeat: no-repeat;
+  font-size: xx-small;
+  cursor: pointer;
+  border: 1px solid rgb(46, 46, 46);
+  color: rgb(134, 133, 133);
+  background-position: center;
+  position: relative;
+}
+
+/* player */
+
+.player {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* inventory */
+
+.inventory {
+  /* color: rgb(189, 189, 189); */
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 2px;
+  width: 100%;
+  border: 1px solid rgb(115, 114, 114);
+
+  border-radius: 2px;
+  padding: 2px;
+  min-height: 40px;
+  font-size: smaller;
+  font-family: monospace;
+}
+
+.inventoryItemsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  font-size: 20px;
+  margin-left: 10px;
+  min-height: 100%;
+}
+
+.messageContainer {
+  font-size: smaller;
+  font-family: monospace;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  padding: 5px;
+}
+
+.hintMessage {
+  color: rgb(219, 137, 137);
+}
+
+.successMessage {
+  color: rgb(174, 208, 174);
+}
+
+/* status */
+
+.statusWrapper {
+  display: flex;
+  width: 400px;
+  max-width: 99vw;
+  justify-content: space-between;
+  font-family: monospace;
+  font-size: smaller;
+  gap: 2px;
+}
+
+.status {
+  height: 144px;
+  width: 400px;
+  max-width: 99vw;
+  overflow-y: auto;
+  padding: 10px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: rgb(115, 114, 114);
+}
