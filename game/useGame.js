@@ -1,13 +1,9 @@
-import { useEffect, useReducer } from "react";
-import gameReducer, { initialState } from "./gameReducer";
+import { useReducer } from "react";
 import * as gameActions from "./gameActions";
+import gameReducer, { initialState } from "./gameReducer";
 
 const useGame = () => {
   const [state, dispatch] = useReducer(gameReducer, initialState);
-
-  const openChest = (chest) => {
-    dispatch(gameActions.openChest(chest));
-  };
 
   const updatePosition = ({ j, i }) => {
     dispatch(gameActions.updatePosition({ j, i }));
@@ -20,7 +16,6 @@ const useGame = () => {
   return [
     state,
     {
-      openChest,
       updatePosition,
       reset,
     },

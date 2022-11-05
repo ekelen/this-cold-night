@@ -252,37 +252,5 @@ export const getItemEmoji = (x, y) => {
 };
 
 export const getPath = (startX, startY, endX, endY) => {
-  const path = finder.findPath(startX, startY, endX, endY, grid.clone());
-  return path;
-};
-
-const lookLeft = (x, y) => [x - 1, y];
-const lookRight = (x, y) => [x + 1, y];
-const lookUp = (x, y) => [x, y - 1];
-const lookDown = (x, y) => [x, y + 1];
-
-const getValidNeighbors = (x, y) => {
-  const neighbors = [
-    lookLeft(x, y),
-    lookRight(x, y),
-    lookUp(x, y),
-    lookDown(x, y),
-  ];
-  return neighbors.filter(
-    ([x, y]) => x >= 0 && x < gridWidth && y >= 0 && y < gridHeight
-  );
-};
-
-const checkChestsToOpen = (currentX, currentY, _grid) => {
-  try {
-    const neighbors = getValidNeighbors(currentX, currentY).map(([x, y]) =>
-      _grid.getNodeAt(x, y)
-    );
-    return neighbors
-      .filter((node) => !node.walkable)
-      .map((node) => [node.x, node.y]);
-  } catch (e) {
-    console.log(`[=] e`, e);
-    return [];
-  }
+  return finder.findPath(startX, startY, endX, endY, grid.clone());
 };

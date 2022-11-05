@@ -1,14 +1,14 @@
 import { getIdFromPos, getItemByName, gridHeight, items } from "./setup";
-import { OPEN_CHEST, UPDATE_POSITION, RESET } from "./gameActions";
+import { UPDATE_POSITION, RESET } from "./gameActions";
 import { cloneDeep } from "lodash";
 
+export const MAX_ITEMS = 5;
+
 export const initialState = {
-  chests: [],
-  openedChests: [],
   inventory: [],
   currentJ: 0,
   currentI: 0,
-  items: items,
+  items,
   hintMessage: "",
   successMessage: "",
   discardedInventory: [],
@@ -17,35 +17,28 @@ export const initialState = {
   generalMessage: "You find yourself trapped in a castle...",
 };
 
-const openChest = (state, chest) => {
-  const common = {
-    ...state,
-    openedChests: [...state.openedChests, chest],
-  };
-
-  return common;
-};
-
 const updatePosition = (state, i, j) => {
   const belowItem = items[getIdFromPos([j, i - 1])];
-  const itemNotInInventory =
-    belowItem &&
-    !state.inventory.includes(belowItem.id) &&
-    !state.discardedInventory.includes(belowItem.id);
+  const collectedItems = [...state.inventory, ...state.discardedInventory];
+  const itemNotCollected = belowItem && !collectedItems.includes(belowItem.id);
   const depItems = belowItem?.deps && belowItem.deps.map(getItemByName);
-  const depsNotInInventory =
+  const depsAreNotCollected =
+    depItems && depItems.some((dep) => !collectedItems.includes(dep.id));
+  const depIdsInInventory =
     depItems &&
-    depItems.some(
-      (dep) =>
-        !state.inventory.includes(dep.id) &&
-        !state.discardedInventory.includes(dep.id)
-    );
+    state.inventory.filter((id) => depItems.map((dep) => dep.id).includes(id));
+  const depsToRemove =
+    depItems && depItems.every((dep) => depIdsInInventory.includes(dep.id))
+      ? depItems
+      : [];
+  const shouldAddItemIfRoom =
+    itemNotCollected &&
+    (!depItems || depItems.every((dep) => state.inventory.includes(dep.id)));
+
   const shouldAddItem =
-    itemNotInInventory &&
-    (!depItems ||
-      depItems
-        .map((dep) => dep.id)
-        .every((id) => state.inventory.includes(id)));
+    shouldAddItemIfRoom &&
+    state.inventory.length - depsToRemove.length < MAX_ITEMS;
+  const notEnoughRoom = shouldAddItemIfRoom && !shouldAddItem;
 
   const common = {
     ...state,
@@ -55,9 +48,16 @@ const updatePosition = (state, i, j) => {
     successMessage: "",
     generalMessage: "",
     activeChestId:
-      belowItem && itemNotInInventory ? getIdFromPos([j, i - 1]) : null,
+      belowItem && itemNotCollected ? getIdFromPos([j, i - 1]) : null,
     activeChestIdOpenable: !!shouldAddItem,
   };
+
+  if (notEnoughRoom) {
+    return {
+      ...common,
+      hintMessage: "You don't have enough room in your inventory.",
+    };
+  }
   if (shouldAddItem) {
     // Add item to inventory
     // Remove dependent items from inventory and add to discarded inventory
@@ -82,7 +82,7 @@ const updatePosition = (state, i, j) => {
         : `${belowItem.description}`,
     };
   }
-  if (depsNotInInventory) {
+  if (depsAreNotCollected) {
     return {
       ...common,
       hintMessage: `${belowItem.description} - ${belowItem.hint}`,
@@ -96,10 +96,6 @@ const updatePosition = (state, i, j) => {
 
 const gameReducer = (state, action) => {
   switch (action.type) {
-    case OPEN_CHEST: {
-      return openChest(state, action.payload.chest);
-    }
-
     case UPDATE_POSITION: {
       return updatePosition(state, action.payload.i, action.payload.j);
     }
