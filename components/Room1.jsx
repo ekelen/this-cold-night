@@ -1,8 +1,6 @@
-import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import {
   cellLen,
-  CONTAINERS,
   containers,
   grid,
   gridHeight,
@@ -13,34 +11,6 @@ import useGame from "../game/useGame";
 import useAnimation from "../hooks/useAnimation";
 import styles from "../styles/Room1.module.css";
 import Modal from "./Modal";
-
-export const useGridDecoration = (
-  gridRef,
-  inventory,
-  itemsRef,
-  activeChestId,
-  activeChestIdOpenable
-) => {
-  useEffect(() => {
-    if (activeChestId && itemsRef?.current[activeChestId]) {
-      itemsRef.current.forEach((item) => {
-        if (item) {
-          item.style.borderColor = "rgba(255,255,255, 0.1)";
-        }
-      });
-      itemsRef.current[activeChestId].style.borderColor = activeChestIdOpenable
-        ? "rgba(0,255,100, 0.75)"
-        : "rgba(255,0,50, 0.75)";
-    } else {
-      itemsRef?.current.forEach((item) => {
-        if (item) {
-          item.style.borderColor = item.style.borderColor =
-            "rgba(255,255,255, 0.1)";
-        }
-      });
-    }
-  }, [activeChestId, activeChestIdOpenable, itemsRef]);
-};
 
 export default function Room1() {
   const [gameState, { updatePosition, reset }] = useGame();
@@ -69,56 +39,45 @@ export default function Room1() {
   }, [setShowModal]);
 
   const requestRef = useRef();
-  const previousTimeRef = useRef();
   const charRef = useRef();
   const gridRef = useRef();
-
-  useGridDecoration(
-    gridRef,
-    inventory,
-    itemsRef,
-    activeChestId,
-    activeChestIdOpenable
-  );
 
   const { resetAnimation, startAnimation, nMoves } = useAnimation(
     charRef,
     gridRef,
     requestRef,
-    previousTimeRef,
     reset,
     updatePosition
   );
 
   return (
     <>
-      {showModal && (
-        <Modal onClose={onClose}>
-          You found {inventory[inventory.length - 1]}
-        </Modal>
-      )}
-      <div className={styles.statusWrapper}>
-        <div>Journey length: {nMoves}</div>
-        <button
-          style={{ marginLeft: "auto" }}
-          onClick={() => {
-            resetAnimation();
-          }}
-        >
-          reset
-        </button>
-        <button
-          onClick={() => {
-            setDebug((prevDebug) => !prevDebug);
-          }}
-        >
-          debug {!debug ? "on" : "off"}
-        </button>
-      </div>
+      {showModal && <Modal onClose={onClose}>An unused modal.</Modal>}
       <div className={styles.status}>
+        <div className={styles.statusWrapper}>
+          {debug && <div>Journey length: {nMoves}</div>}
+          <button
+            style={{ marginLeft: "auto" }}
+            onClick={() => {
+              resetAnimation();
+            }}
+          >
+            reset
+          </button>
+          <button
+            onClick={() => {
+              setDebug((prevDebug) => !prevDebug);
+            }}
+          >
+            debug {!debug ? "on" : "off"}
+          </button>
+        </div>
+
         <div className={styles.inventory}>
           <div>Inventory:</div>
-          {inventory.length > 0 && (
+          {inventory.length === 0 ? (
+            <div>Nothing here!</div>
+          ) : (
             <div className={styles.inventoryItemsContainer}>
               {inventory.map((id) => (
                 <div
@@ -195,7 +154,7 @@ export default function Room1() {
             width: `${cellLen}px`,
             left: "0px",
             top: "0px",
-            backgroundImage: "url('/player.png')",
+            backgroundImage: `url('/player.png')`,
             backgroundSize: "contain",
           }}
           className={styles.player}
@@ -211,8 +170,12 @@ export default function Room1() {
                 const containerStyle = !item
                   ? {}
                   : {
-                      // backgroundSize: `${cellLen}px ${cellLen}px`,
-                      backgroundSize: "contain",
+                      border:
+                        activeChestId !== id
+                          ? "none"
+                          : activeChestIdOpenable
+                          ? "1px solid #7ae2ae"
+                          : "1px solid #e27a7a",
                       backgroundImage: `url(${
                         containers[item.container][
                           inventory.includes(id) ||
@@ -224,7 +187,7 @@ export default function Room1() {
                       filter: `brightness(${
                         inventory.includes(id) ||
                         discardedInventory.includes(id)
-                          ? 0.5
+                          ? 0.6
                           : 1
                       })`,
                     };

@@ -55,8 +55,8 @@ export const chestCoordinates = [
   [1, 8],
   [2, 2],
   [2, 6],
-  [0, 3],
-  [0, 5],
+  [0, 7],
+  [1, 5],
   [5, 3],
   [5, 6],
   [0, 1],
@@ -70,7 +70,9 @@ export const chestCoordinates = [
   [8, 8],
 ];
 
-chestCoordinates.forEach(([x, y]) => grid.setWalkableAt(x, y, false));
+chestCoordinates.forEach(([x, y]) => {
+  grid.getNodeAt(x, y).walkable = false;
+});
 
 const _items = {
   [0]: {
@@ -80,7 +82,7 @@ const _items = {
     description: "The way out.",
     deps: ["large key", "scroll", "dog", "coat"],
     hint: "You need a key to open the door. You will also need some items to pass safely in the town outside.",
-    metMessage: "You open the door and leave the castle.",
+    metMessage: "You open the door and escape the castle!",
     container: CONTAINERS.DOOR,
   },
   [1]: {
@@ -227,17 +229,14 @@ const _items = {
   },
 };
 
-Object.keys(_items).forEach((i) => {
-  _items[i].id = getIdFromPos(chestCoordinates[i]);
-  _items[i].node = grid.getNodeAt(...chestCoordinates[i]);
-});
-
-const newItems = Object.values(_items).reduce((acc, item) => {
-  acc[item.id] = item;
+export const items = Object.values(_items).reduce((acc, item, i) => {
+  const [x, y] = chestCoordinates[i];
+  const id = getIdFromPos([x, y]);
+  acc[id] = item;
+  acc[id].id = id;
+  acc[id].node = grid.getNodeAt(x, y);
   return acc;
 }, {});
-
-export const items = newItems;
 
 export const getItemIdByName = (name) => {
   return (Object.values(items).find((item) => item.name === name) ?? {}).id;

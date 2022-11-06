@@ -3,10 +3,9 @@ body {
   color-scheme: dark;
   padding: 0;
   margin: 0;
-  font-family: Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans,
-    Helvetica Neue, sans-serif;
-  color: #f0f0f0;
-  background-color: #0c0d13;
+  font-family: monospace;
+  color: #d2d0d0;
+  background-color: #212435;
 }
 
 a {

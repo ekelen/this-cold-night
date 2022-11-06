@@ -8,14 +8,20 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Point Click Move</title>
+        <title>Game</title>
       </Head>
 
       <main className={styles.main}>
         <Room1 />
+        <footer className={styles.footer}>
+          <p>by</p>
+          <a href="https://github.com/ekelen" target="_blank" rel="noreferrer">
+            <Image src="/github.svg" height={10} width={10} alt="github" />
+            ekelen
+          </a>
+        </footer>
       </main>
 
-      {/* <footer className={styles.footer}>This is a game.</footer> */}
       {Object.values(items)
         .filter((item) => !!item.image)
         .map((item) => (

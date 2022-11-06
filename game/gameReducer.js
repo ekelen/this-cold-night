@@ -1,8 +1,8 @@
-import { getIdFromPos, getItemByName, gridHeight, items } from "./setup";
-import { UPDATE_POSITION, RESET } from "./gameActions";
 import { cloneDeep } from "lodash";
+import { RESET, UPDATE_POSITION } from "./gameActions";
+import { getIdFromPos, getItemByName, items } from "./setup";
 
-export const MAX_ITEMS = 5;
+export const MAX_ITEMS = 4;
 
 export const initialState = {
   inventory: [],
@@ -14,10 +14,12 @@ export const initialState = {
   discardedInventory: [],
   activeChestId: null,
   activeChestIdOpenable: false,
-  generalMessage: "You find yourself trapped in a castle...",
+  generalMessage:
+    "You find yourself trapped in a castle... Remember where things are, in case you need to retrace your steps. You can only carry 4 items at a time, and cannot return items once they have been moved...",
 };
 
 const updatePosition = (state, i, j) => {
+  // TODO: Clean this
   const belowItem = items[getIdFromPos([j, i - 1])];
   const collectedItems = [...state.inventory, ...state.discardedInventory];
   const itemNotCollected = belowItem && !collectedItems.includes(belowItem.id);
@@ -47,8 +49,7 @@ const updatePosition = (state, i, j) => {
     hintMessage: "",
     successMessage: "",
     generalMessage: "",
-    activeChestId:
-      belowItem && itemNotCollected ? getIdFromPos([j, i - 1]) : null,
+    activeChestId: belowItem && itemNotCollected ? belowItem.id : null,
     activeChestIdOpenable: !!shouldAddItem,
   };
 

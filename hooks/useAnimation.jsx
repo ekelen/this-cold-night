@@ -1,20 +1,12 @@
 import { useState } from "react";
 import { cellLen, getPath, pxPerFrame } from "../game/setup";
 
-const useAnimation = (
-  charRef,
-  gridRef,
-  requestRef,
-  previousTimeRef,
-  reset,
-  updatePosition
-) => {
+const useAnimation = (charRef, gridRef, requestRef, reset, updatePosition) => {
   const [nMoves, setNMoves] = useState(0);
 
   const cancelAnimation = () => {
     cancelAnimationFrame(requestRef.current);
     gridRef.current.style.pointerEvents = "auto";
-    previousTimeRef.current = undefined;
   };
 
   const resetAnimation = () => {
