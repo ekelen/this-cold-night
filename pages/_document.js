@@ -16,6 +16,16 @@ export default function Document() {
         <link rel="preload" href="/player.png" as="image" />
         <link rel="preload" href="/scroll-cyan.png" as="image" />
         <link rel="preload" href="/yellow.png" as="image" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="true"
+        />
+        <link
+          href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap"
+          rel="stylesheet"
+        />
       </Head>
       <body>
         <Main />

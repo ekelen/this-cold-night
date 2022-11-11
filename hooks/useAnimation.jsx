@@ -1,7 +1,15 @@
 import { useState } from "react";
-import { cellLen, getPath, pxPerFrame } from "../game/setup";
+import { cellLen, getIdFromPos, getPath, pxPerFrame } from "../game/setup";
+import styles from "../styles/Room1.module.css";
 
-const useAnimation = (charRef, gridRef, requestRef, reset, updatePosition) => {
+const useAnimation = (
+  charRef,
+  gridRef,
+  requestRef,
+  reset,
+  updatePosition,
+  cellRefs
+) => {
   const [nMoves, setNMoves] = useState(0);
 
   const cancelAnimation = () => {
@@ -21,6 +29,12 @@ const useAnimation = (charRef, gridRef, requestRef, reset, updatePosition) => {
     ({ path, dirX, dirY, count, startCharLeft, startCharTop }) =>
     (_time) => {
       const [endX, endY] = path[0];
+      const cellRef = cellRefs.current[getIdFromPos([endX, endY])];
+
+      if (cellRef) {
+        cellRef.classList.add(styles.clicked);
+        setTimeout(() => cellRef.classList.remove(styles.clicked), 300);
+      }
 
       const charLeft = parseInt(charRef.current.style.left);
       const charTop = parseInt(charRef.current.style.top);

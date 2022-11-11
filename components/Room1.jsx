@@ -17,9 +17,9 @@ export default function Room1() {
   const [debug, setDebug] = useState(false);
 
   const [showModal, setShowModal] = useState(false);
-  const itemsRef = useRef([]);
+  const cellRefs = useRef([]);
   useEffect(() => {
-    itemsRef.current = itemsRef.current.slice(0, gridWidth * gridHeight);
+    cellRefs.current = cellRefs.current.slice(0, gridWidth * gridHeight);
   }, []);
 
   const {
@@ -47,7 +47,8 @@ export default function Room1() {
     gridRef,
     requestRef,
     reset,
-    updatePosition
+    updatePosition,
+    cellRefs
   );
 
   return (
@@ -55,7 +56,11 @@ export default function Room1() {
       {showModal && <Modal onClose={onClose}>An unused modal.</Modal>}
       <div className={styles.status}>
         <div className={styles.statusWrapper}>
-          {debug && <div>Journey length: {nMoves}</div>}
+          {debug ? (
+            <div>Journey length: {nMoves}</div>
+          ) : (
+            <div className={styles.title}>this cold night</div>
+          )}
           <button
             style={{ marginLeft: "auto" }}
             onClick={() => {
@@ -172,7 +177,7 @@ export default function Room1() {
                   : {
                       border:
                         activeChestId !== id
-                          ? "none"
+                          ? "1px solid #2d3147"
                           : activeChestIdOpenable
                           ? "1px solid #7ae2ae"
                           : "1px solid #e27a7a",
@@ -198,7 +203,7 @@ export default function Room1() {
                       startAnimation(currentJ, currentI, j, i, node);
                     }}
                     className={styles.cell}
-                    ref={(el) => (itemsRef.current[id] = el)}
+                    ref={(el) => (cellRefs.current[id] = el)}
                     style={{
                       height: `${cellLen}px`,
                       width: `${cellLen}px`,

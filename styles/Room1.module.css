@@ -15,12 +15,19 @@
 
 .cell {
   background-repeat: no-repeat;
+  background-color: rgba(255, 255, 255, 0);
   font-size: xx-small;
   cursor: pointer;
   border: 1px solid #2d3147;
   background-position: center;
   position: relative;
   background-size: contain;
+  transition: filter 200ms ease-in;
+}
+
+.cell.clicked {
+  background-color: #1a1d2a;
+  filter: brightness(2);
 }
 
 /* player */
@@ -30,6 +37,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 10;
 }
 
 /* inventory */
@@ -82,6 +90,16 @@
   justify-content: space-between;
   font-size: smaller;
   gap: 2px;
+  position: relative;
+}
+
+.title {
+  font-family: "UnifrakturMaguntia", cursive;
+  font-size: xx-large;
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* filter: brightness(0.7); */
 }
 
 .status {
