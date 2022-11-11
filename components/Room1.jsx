@@ -5,7 +5,7 @@ import {
   grid,
   gridHeight,
   gridWidth,
-  items,
+  room1Items,
 } from "../game/setup";
 import useGame from "../game/useGame";
 import useAnimation from "../hooks/useAnimation";
@@ -13,7 +13,7 @@ import styles from "../styles/Room1.module.css";
 import Modal from "./Modal";
 
 export default function Room1() {
-  const [gameState, { updatePosition, reset }] = useGame();
+  const [gameState, { updatePosition, reset }] = useGame({ items: room1Items });
   const [debug, setDebug] = useState(false);
 
   const [showModal, setShowModal] = useState(false);
@@ -32,6 +32,7 @@ export default function Room1() {
     activeChestId,
     activeChestIdOpenable,
     generalMessage,
+    items,
   } = gameState;
 
   const onClose = useCallback(() => {

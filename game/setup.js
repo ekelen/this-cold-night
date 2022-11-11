@@ -50,7 +50,7 @@ export const containers = {
   },
 };
 
-export const chestCoordinates = [
+const chestCoordinates = [
   [9, 8],
   [1, 8],
   [2, 2],
@@ -81,7 +81,7 @@ const _items = {
     image: "/closed_door.png",
     description: "The way out.",
     deps: ["large key", "scroll", "dog", "cloak"],
-    hint: "You need a key to open the door. You will also need some items to pass safely in the town outside.",
+    hint: "You need a key to open the door. You will also need some room1Items to pass safely in the town outside.",
     metMessage: "You open the door and escape the castle!",
     container: CONTAINERS.DOOR,
   },
@@ -229,7 +229,7 @@ const _items = {
   },
 };
 
-export const items = Object.values(_items).reduce((acc, item, i) => {
+export const room1Items = Object.values(_items).reduce((acc, item, i) => {
   const [x, y] = chestCoordinates[i];
   const id = getIdFromPos([x, y]);
   acc[id] = item;
@@ -239,15 +239,16 @@ export const items = Object.values(_items).reduce((acc, item, i) => {
 }, {});
 
 export const getItemIdByName = (name) => {
-  return (Object.values(items).find((item) => item.name === name) ?? {}).id;
+  return (Object.values(room1Items).find((item) => item.name === name) ?? {})
+    .id;
 };
 
 export const getItemByName = (name) => {
-  return Object.values(items).find((item) => item.name === name);
+  return Object.values(room1Items).find((item) => item.name === name);
 };
 
 export const getItemEmoji = (x, y) => {
-  return items[getIdFromPos([x, y])].emoji;
+  return room1Items[getIdFromPos([x, y])].emoji;
 };
 
 export const getPath = (startX, startY, endX, endY) => {

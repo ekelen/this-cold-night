@@ -1,9 +1,9 @@
 import { useReducer } from "react";
 import * as gameActions from "./gameActions";
-import gameReducer, { initialState } from "./gameReducer";
+import gameReducer, { init, initialState } from "./gameReducer";
 
-const useGame = () => {
-  const [state, dispatch] = useReducer(gameReducer, initialState);
+const useGame = ({ items }) => {
+  const [state, dispatch] = useReducer(gameReducer, { items }, init);
 
   const updatePosition = ({ j, i }) => {
     dispatch(gameActions.updatePosition({ j, i }));

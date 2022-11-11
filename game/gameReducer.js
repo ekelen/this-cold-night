@@ -1,6 +1,7 @@
 import { cloneDeep } from "lodash";
 import { RESET, UPDATE_POSITION } from "./gameActions";
-import { getIdFromPos, getItemByName, items } from "./setup";
+import { room1 } from "./rooms/Room1";
+import { getIdFromPos, getItemByName, room1Items } from "./setup";
 
 export const MAX_ITEMS = 4;
 
@@ -8,19 +9,22 @@ export const initialState = {
   inventory: [],
   currentJ: 0,
   currentI: 0,
-  items,
+  items: room1Items,
   hintMessage: "",
   successMessage: "",
   discardedInventory: [],
   activeChestId: null,
   activeChestIdOpenable: false,
-  generalMessage:
-    "You find yourself trapped in a castle... Remember where things are, in case you need to retrace your steps. You can only carry 4 items at a time, and cannot return items once they have been moved...",
+  generalMessage: room1.startMessage,
+};
+
+export const init = ({ items }) => {
+  return { ...initialState, items };
 };
 
 const updatePosition = (state, i, j) => {
   // TODO: Clean this
-  const belowItem = items[getIdFromPos([j, i - 1])];
+  const belowItem = state.items[getIdFromPos([j, i - 1])];
   const collectedItems = [...state.inventory, ...state.discardedInventory];
   const itemNotCollected = belowItem && !collectedItems.includes(belowItem.id);
   const depItems = belowItem?.deps && belowItem.deps.map(getItemByName);
@@ -102,7 +106,7 @@ const gameReducer = (state, action) => {
     }
 
     case RESET: {
-      return cloneDeep(initialState);
+      return init({ items: state.items });
     }
 
     default: {
