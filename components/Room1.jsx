@@ -10,13 +10,11 @@ import {
 import useGame from "../game/useGame";
 import useAnimation from "../hooks/useAnimation";
 import styles from "../styles/Room1.module.css";
-import Modal from "./Modal";
 
 export default function Room1() {
   const [gameState, { updatePosition, reset }] = useGame({ items: room1Items });
   const [debug, setDebug] = useState(false);
 
-  const [showModal, setShowModal] = useState(false);
   const cellRefs = useRef([]);
   useEffect(() => {
     cellRefs.current = cellRefs.current.slice(0, gridWidth * gridHeight);
@@ -35,10 +33,6 @@ export default function Room1() {
     items,
   } = gameState;
 
-  const onClose = useCallback(() => {
-    setShowModal(false);
-  }, [setShowModal]);
-
   const requestRef = useRef();
   const charRef = useRef();
   const gridRef = useRef();
@@ -54,7 +48,6 @@ export default function Room1() {
 
   return (
     <>
-      {showModal && <Modal onClose={onClose}>An unused modal.</Modal>}
       <div className={styles.status}>
         <div className={styles.statusWrapper}>
           {debug ? (
