@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import Room1 from "../components/Room1";
-import { room1Items } from "../game/setup";
+import { room1 } from "../game/rooms/Room1";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
@@ -22,7 +22,7 @@ export default function Home() {
         </footer>
       </main>
 
-      {Object.values(room1Items)
+      {Object.values(room1.items)
         .filter((item) => !!item.image)
         .map((item) => (
           <div

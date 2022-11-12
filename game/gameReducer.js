@@ -1,25 +1,26 @@
-import { cloneDeep } from "lodash";
 import { RESET, UPDATE_POSITION } from "./gameActions";
-import { room1 } from "./rooms/Room1";
-import { getIdFromPos, getItemByName, room1Items } from "./setup";
+import { getIdFromPos, getItemByName } from "./setup";
 
 export const MAX_ITEMS = 4;
 
 export const initialState = {
-  inventory: [],
-  currentJ: 0,
-  currentI: 0,
-  items: room1Items,
-  hintMessage: "",
-  successMessage: "",
-  discardedInventory: [],
   activeChestId: null,
   activeChestIdOpenable: false,
-  generalMessage: room1.startMessage,
+  chestCoordinates: [],
+  currentI: 0,
+  currentJ: 0,
+  discardedInventory: [],
+  finder: null,
+  generalMessage: "",
+  grid: {},
+  hintMessage: "",
+  inventory: [],
+  items: [],
+  successMessage: "",
 };
 
-export const init = ({ items }) => {
-  return { ...initialState, items };
+export const init = ({ items, finder, grid, startMessage }) => {
+  return { ...initialState, items, finder, grid, generalMessage: startMessage };
 };
 
 const updatePosition = (state, i, j) => {
@@ -107,7 +108,7 @@ const gameReducer = (state, action) => {
     }
 
     case RESET: {
-      return init({ items: state.items });
+      return init(action.payload);
     }
 
     default: {

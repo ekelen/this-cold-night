@@ -1,18 +1,13 @@
-import { useEffect, useRef, useState } from "react";
-import {
-  cellLen,
-  containers,
-  grid,
-  gridHeight,
-  gridWidth,
-  room1Items,
-} from "../game/setup";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { containers } from "../game/constants";
+import { room1 } from "../game/rooms/Room1";
+import { cellLen, grid, gridHeight, gridWidth } from "../game/setup";
 import useGame from "../game/useGame";
 import useAnimation from "../hooks/useAnimation";
 import styles from "../styles/Room1.module.css";
 
 export default function Room1() {
-  const [gameState, { updatePosition, reset }] = useGame({ items: room1Items });
+  const [gameState, { updatePosition, reset }] = useGame(room1);
   const [debug, setDebug] = useState(false);
 
   const cellRefs = useRef([]);
@@ -21,30 +16,32 @@ export default function Room1() {
   }, []);
 
   const {
-    currentI,
-    currentJ,
-    inventory,
-    hintMessage,
-    successMessage,
-    discardedInventory,
     activeChestId,
     activeChestIdOpenable,
+    currentI,
+    currentJ,
+    discardedInventory,
+    finder,
     generalMessage,
+    grid,
+    hintMessage,
+    inventory,
     items,
+    successMessage,
   } = gameState;
 
   const requestRef = useRef();
   const charRef = useRef();
   const gridRef = useRef();
 
-  const { resetAnimation, startAnimation, nMoves } = useAnimation(
+  const { resetAnimation, startAnimation, nMoves } = useAnimation({
     charRef,
     gridRef,
     requestRef,
-    reset,
+    reset: () => reset(room1),
     updatePosition,
-    cellRefs
-  );
+    cellRefs,
+  });
 
   return (
     <>
@@ -194,7 +191,15 @@ export default function Room1() {
                   <div
                     key={`${i}-${j}`}
                     onClick={() => {
-                      startAnimation(currentJ, currentI, j, i, node);
+                      startAnimation(
+                        currentJ,
+                        currentI,
+                        j,
+                        i,
+                        node,
+                        grid,
+                        finder
+                      );
                     }}
                     className={styles.cell}
                     ref={(el) => (cellRefs.current[id] = el)}
