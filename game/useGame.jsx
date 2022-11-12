@@ -2,10 +2,10 @@ import { useReducer } from "react";
 import * as gameActions from "./gameActions";
 import gameReducer, { init } from "./gameReducer";
 
-const useGame = ({ items, grid, finder, startMessage }) => {
+const useGame = ({ items, grid, finder, startMessage, maxItems }) => {
   const [state, dispatch] = useReducer(
     gameReducer,
-    { items, grid, finder, startMessage },
+    { items, grid, finder, startMessage, maxItems },
     init
   );
 
@@ -13,8 +13,8 @@ const useGame = ({ items, grid, finder, startMessage }) => {
     dispatch(gameActions.updatePosition({ j, i }));
   };
 
-  const reset = ({ items, finder, grid, startMessage }) => {
-    dispatch(gameActions.reset({ items, finder, grid, startMessage }));
+  const reset = () => {
+    dispatch(gameActions.reset());
   };
 
   return [
