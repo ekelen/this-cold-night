@@ -27,7 +27,8 @@ const updatePosition = (state, i, j) => {
   const belowItem = state.items[getIdFromPos([j, i - 1])];
   const collectedItems = [...state.inventory, ...state.discardedInventory];
   const itemNotCollected = belowItem && !collectedItems.includes(belowItem.id);
-  const depItems = belowItem?.deps && belowItem.deps.map(getItemByName);
+  const depItems =
+    belowItem?.deps && belowItem.deps.map(getItemByName(state.items));
   const depsAreNotCollected =
     depItems && depItems.some((dep) => !collectedItems.includes(dep.id));
   const depIdsInInventory =

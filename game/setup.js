@@ -238,17 +238,8 @@ export const room1Items = Object.values(_items).reduce((acc, item, i) => {
   return acc;
 }, {});
 
-export const getItemIdByName = (name) => {
-  return (Object.values(room1Items).find((item) => item.name === name) ?? {})
-    .id;
-};
-
-export const getItemByName = (name) => {
-  return Object.values(room1Items).find((item) => item.name === name);
-};
-
-export const getItemEmoji = (x, y) => {
-  return room1Items[getIdFromPos([x, y])].emoji;
+export const getItemByName = (items) => (name) => {
+  return Object.values(items).find((item) => item.name === name);
 };
 
 export const getPath = (startX, startY, endX, endY) => {
