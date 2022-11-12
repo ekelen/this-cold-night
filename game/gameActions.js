@@ -8,9 +8,8 @@ export const updatePosition = ({ i, j }) => {
   };
 };
 
-export const reset = (room) => {
+export const reset = () => {
   return {
     type: RESET,
-    payload: room,
   };
 };

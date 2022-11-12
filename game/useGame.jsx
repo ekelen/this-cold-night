@@ -13,10 +13,8 @@ const useGame = ({ items, grid, finder, startMessage, maxItems }) => {
     dispatch(gameActions.updatePosition({ j, i }));
   };
 
-  const reset = ({ items, finder, grid, startMessage, maxItems }) => {
-    dispatch(
-      gameActions.reset({ items, finder, grid, startMessage, maxItems })
-    );
+  const reset = () => {
+    dispatch(gameActions.reset());
   };
 
   return [

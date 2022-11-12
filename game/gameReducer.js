@@ -19,7 +19,6 @@ export const initialState = {
 };
 
 export const init = ({ items, finder, grid, startMessage, maxItems }) => {
-  console.log(`[=] maxItems init:`, maxItems);
   return {
     ...initialState,
     items,
@@ -115,8 +114,7 @@ const gameReducer = (state, action) => {
     }
 
     case RESET: {
-      console.log(`[=] action.payload:`, action.payload);
-      return init(action.payload);
+      return init(state);
     }
 
     default: {

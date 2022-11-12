@@ -39,7 +39,7 @@ export default function Room1() {
     charRef,
     gridRef,
     requestRef,
-    reset: () => reset(room1),
+    reset,
     updatePosition,
     cellRefs,
   });
