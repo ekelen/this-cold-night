@@ -8,8 +8,9 @@ export const updatePosition = ({ i, j }) => {
   };
 };
 
-export const reset = () => {
+export const reset = ({ items, finder, grid, startMessage }) => {
   return {
     type: RESET,
+    payload: { items, finder, grid, startMessage },
   };
 };

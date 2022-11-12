@@ -1,59 +1,50 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  cellLen,
-  containers,
-  grid,
-  gridHeight,
-  gridWidth,
-  items,
-} from "../game/setup";
+import { useEffect, useRef, useState } from "react";
+import { containers } from "../game/constants";
+import { room1 } from "../game/rooms/room1Data";
+import { cellLen, gridHeight, gridWidth } from "../game/setup";
 import useGame from "../game/useGame";
 import useAnimation from "../hooks/useAnimation";
 import styles from "../styles/Room1.module.css";
-import Modal from "./Modal";
 
 export default function Room1() {
-  const [gameState, { updatePosition, reset }] = useGame();
+  const [gameState, { updatePosition, reset }] = useGame(room1);
   const [debug, setDebug] = useState(false);
 
-  const [showModal, setShowModal] = useState(false);
   const cellRefs = useRef([]);
   useEffect(() => {
     cellRefs.current = cellRefs.current.slice(0, gridWidth * gridHeight);
   }, []);
 
   const {
-    currentI,
-    currentJ,
-    inventory,
-    hintMessage,
-    successMessage,
-    discardedInventory,
     activeChestId,
     activeChestIdOpenable,
+    currentI,
+    currentJ,
+    discardedInventory,
+    finder,
     generalMessage,
+    grid,
+    hintMessage,
+    inventory,
+    items,
+    successMessage,
   } = gameState;
-
-  const onClose = useCallback(() => {
-    setShowModal(false);
-  }, [setShowModal]);
 
   const requestRef = useRef();
   const charRef = useRef();
   const gridRef = useRef();
 
-  const { resetAnimation, startAnimation, nMoves } = useAnimation(
+  const { resetAnimation, startAnimation, nMoves } = useAnimation({
     charRef,
     gridRef,
     requestRef,
-    reset,
+    reset: () => reset(room1),
     updatePosition,
-    cellRefs
-  );
+    cellRefs,
+  });
 
   return (
     <>
-      {showModal && <Modal onClose={onClose}>An unused modal.</Modal>}
       <div className={styles.status}>
         <div className={styles.statusWrapper}>
           {debug ? (
@@ -200,7 +191,15 @@ export default function Room1() {
                   <div
                     key={`${i}-${j}`}
                     onClick={() => {
-                      startAnimation(currentJ, currentI, j, i, node);
+                      startAnimation(
+                        currentJ,
+                        currentI,
+                        j,
+                        i,
+                        node,
+                        grid,
+                        finder
+                      );
                     }}
                     className={styles.cell}
                     ref={(el) => (cellRefs.current[id] = el)}
