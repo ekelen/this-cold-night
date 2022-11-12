@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { containers } from "../game/constants";
-import { room1 } from "../game/rooms/Room1";
-import { cellLen, grid, gridHeight, gridWidth } from "../game/setup";
+import { room1 } from "../game/rooms/room1Data";
+import { cellLen, gridHeight, gridWidth } from "../game/setup";
 import useGame from "../game/useGame";
 import useAnimation from "../hooks/useAnimation";
 import styles from "../styles/Room1.module.css";

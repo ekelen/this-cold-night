@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import Room1 from "../components/Room1";
-import { room1 } from "../game/rooms/Room1";
+import { room1 } from "../game/rooms/room1Data";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
