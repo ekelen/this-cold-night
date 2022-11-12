@@ -1,8 +1,6 @@
 import { RESET, UPDATE_POSITION } from "./gameActions";
 import { getIdFromPos, getItemByName } from "./setup";
 
-export const MAX_ITEMS = 4;
-
 export const initialState = {
   activeChestId: null,
   activeChestIdOpenable: false,
@@ -17,10 +15,19 @@ export const initialState = {
   inventory: [],
   items: [],
   successMessage: "",
+  maxItems: 0,
 };
 
-export const init = ({ items, finder, grid, startMessage }) => {
-  return { ...initialState, items, finder, grid, generalMessage: startMessage };
+export const init = ({ items, finder, grid, startMessage, maxItems }) => {
+  console.log(`[=] maxItems init:`, maxItems);
+  return {
+    ...initialState,
+    items,
+    finder,
+    grid,
+    generalMessage: startMessage,
+    maxItems,
+  };
 };
 
 const updatePosition = (state, i, j) => {
@@ -45,7 +52,7 @@ const updatePosition = (state, i, j) => {
 
   const shouldAddItem =
     shouldAddItemIfRoom &&
-    state.inventory.length - depsToRemove.length < MAX_ITEMS;
+    state.inventory.length - depsToRemove.length < state.maxItems;
   const notEnoughRoom = shouldAddItemIfRoom && !shouldAddItem;
 
   const common = {
@@ -108,6 +115,7 @@ const gameReducer = (state, action) => {
     }
 
     case RESET: {
+      console.log(`[=] action.payload:`, action.payload);
       return init(action.payload);
     }
 

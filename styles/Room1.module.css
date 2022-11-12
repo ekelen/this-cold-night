@@ -64,6 +64,17 @@
   font-size: 20px;
   margin-left: 10px;
   min-height: 100%;
+  gap: 5px;
+}
+
+.inventoryItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  position: relative;
+  border: 1px solid currentColor;
 }
 
 .messageContainer {

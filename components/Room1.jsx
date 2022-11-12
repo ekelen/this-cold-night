@@ -28,6 +28,7 @@ export default function Room1() {
     inventory,
     items,
     successMessage,
+    maxItems,
   } = gameState;
 
   const requestRef = useRef();
@@ -71,36 +72,26 @@ export default function Room1() {
 
         <div className={styles.inventory}>
           <div>Inventory:</div>
-          {inventory.length === 0 ? (
-            <div>Nothing here!</div>
-          ) : (
-            <div className={styles.inventoryItemsContainer}>
-              {inventory.map((id) => (
-                <div
-                  key={id}
-                  style={{
-                    width: "28px",
-                    height: "28px",
-                    position: "relative",
-                  }}
-                >
-                  {items[id].image ? (
-                    <div
-                      style={{
-                        backgroundImage: `url(${items[id].image})`,
-                        backgroundSize: "cover",
-                        backgroundPosition: "center",
-                        width: "100%",
-                        height: "100%",
-                      }}
-                    />
-                  ) : (
-                    <span>{items[id].emoji}</span>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
+
+          <div className={styles.inventoryItemsContainer}>
+            {[...Array(maxItems).keys()].map((i) => (
+              <div key={i} className={styles.inventoryItem}>
+                {!inventory[i] ? null : items[inventory[i]].image ? (
+                  <div
+                    style={{
+                      backgroundImage: `url(${items[inventory[i]].image})`,
+                      backgroundSize: "cover",
+                      backgroundPosition: "center",
+                      width: "100%",
+                      height: "100%",
+                    }}
+                  />
+                ) : (
+                  <span>{items[inventory[i]].emoji}</span>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
 
         <div className={styles.messageContainer}>
