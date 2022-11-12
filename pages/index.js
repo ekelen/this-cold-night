@@ -1,10 +1,17 @@
 import Head from "next/head";
 import Image from "next/image";
+import { useState } from "react";
 import Room1 from "../components/Room1";
+import Room2 from "../components/Room2";
 import { room1 } from "../game/rooms/room1Data";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
+  const [room, setRoom] = useState("room1");
+
+  const onChangeRoom = () => {
+    setRoom(room === "room1" ? "room2" : "room1");
+  };
   return (
     <div className={styles.container}>
       <Head>
@@ -12,7 +19,11 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <Room1 />
+        {room === "room1" ? (
+          <Room1 onUpdateRoom={onChangeRoom} />
+        ) : room === "room2" ? (
+          <Room2 />
+        ) : null}
         <footer className={styles.footer}>
           <p>by</p>
           <a href="https://github.com/ekelen" target="_blank" rel="noreferrer">

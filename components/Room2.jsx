@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from "react";
 import { containers } from "../game/constants";
 import { room1 } from "../game/rooms/room1Data";
+import { room2 } from "../game/rooms/room2Data";
 import { cellLen, gridHeight, gridWidth } from "../game/setup";
 import useGame from "../game/useGame";
 import useAnimation from "../hooks/useAnimation";
 import styles from "../styles/Room1.module.css";
 
-export default function Room1({ onUpdateRoom }) {
-  const [gameState, { updatePosition, reset }] = useGame(room1);
+export default function Room2() {
+  const [gameState, { updatePosition, reset }] = useGame(room2);
   const [debug, setDebug] = useState(false);
-  // const [showUpdateRoom, setShowUpdateRoom] = useState(false);
 
   const cellRefs = useRef([]);
   useEffect(() => {
@@ -30,7 +30,6 @@ export default function Room1({ onUpdateRoom }) {
     items,
     successMessage,
     maxItems,
-    levelComplete,
   } = gameState;
 
   const requestRef = useRef();
@@ -41,7 +40,7 @@ export default function Room1({ onUpdateRoom }) {
     charRef,
     gridRef,
     requestRef,
-    reset: () => reset(room1),
+    reset: () => reset(room2),
     updatePosition,
     cellRefs,
   });
@@ -132,9 +131,6 @@ export default function Room1({ onUpdateRoom }) {
             <span className={styles.successMessage}>{successMessage}</span>
           ) : (
             ""
-          )}
-          {!levelComplete && (
-            <button onClick={onUpdateRoom}>Next level...</button>
           )}
         </div>
       </div>

@@ -43,6 +43,7 @@ const _items = {
     hint: "You need a key to open the door. You will also need some items to pass safely in the town outside.",
     metMessage: "You open the door and escape the castle!",
     container: CONTAINERS.DOOR,
+    finalItemForLevel: true,
   },
   [1]: {
     emoji: "🪚",
@@ -196,4 +197,5 @@ export const room1 = {
   grid,
   finder,
   maxItems,
+  startInventory: [],
 };

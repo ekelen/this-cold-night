@@ -16,9 +16,11 @@ export const initialState = {
   items: [],
   successMessage: "",
   maxItems: 0,
+  levelComplete: false,
 };
 
-export const init = ({ items, finder, grid, startMessage, maxItems }) => {
+export const init = (room) => {
+  const { items, finder, grid, startMessage, maxItems, startInventory } = room;
   return {
     ...initialState,
     items,
@@ -26,12 +28,14 @@ export const init = ({ items, finder, grid, startMessage, maxItems }) => {
     grid,
     generalMessage: startMessage,
     maxItems,
+    inventory: startInventory,
   };
 };
 
 const updatePosition = (state, i, j) => {
   // TODO: Clean this
   const belowItem = state.items[getIdFromPos([j, i - 1])];
+  // const finalItemForLevel = belowItem
   const collectedItems = [...state.inventory, ...state.discardedInventory];
   const itemNotCollected = belowItem && !collectedItems.includes(belowItem.id);
   const depItems =
@@ -51,8 +55,16 @@ const updatePosition = (state, i, j) => {
 
   const shouldAddItem =
     shouldAddItemIfRoom &&
-    state.inventory.length - depsToRemove.length < state.maxItems;
+    state.inventory.length - depsToRemove.length <
+      (belowItem.newMaxItems ?? state.maxItems);
+
   const notEnoughRoom = shouldAddItemIfRoom && !shouldAddItem;
+  const maxItems =
+    shouldAddItem && belowItem.newMaxItems
+      ? belowItem.newMaxItems
+      : state.maxItems;
+
+  const levelComplete = shouldAddItem && belowItem.finalItemForLevel;
 
   const common = {
     ...state,
@@ -63,6 +75,8 @@ const updatePosition = (state, i, j) => {
     generalMessage: "",
     activeChestId: belowItem && itemNotCollected ? belowItem.id : null,
     activeChestIdOpenable: !!shouldAddItem,
+    maxItems,
+    levelComplete,
   };
 
   if (notEnoughRoom) {
@@ -114,7 +128,7 @@ const gameReducer = (state, action) => {
     }
 
     case RESET: {
-      return init(state);
+      return init(action.payload);
     }
 
     default: {
