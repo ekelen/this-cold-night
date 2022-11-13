@@ -17,10 +17,19 @@ export const initialState = {
   successMessage: "",
   maxItems: 0,
   levelComplete: false,
+  previousLevelItems: [],
 };
 
 export const init = (room) => {
-  const { items, finder, grid, startMessage, maxItems, startInventory } = room;
+  const {
+    items,
+    finder,
+    grid,
+    startMessage,
+    maxItems,
+    startInventory,
+    previousLevelItems,
+  } = room;
   return {
     ...initialState,
     items,
@@ -29,14 +38,18 @@ export const init = (room) => {
     generalMessage: startMessage,
     maxItems,
     inventory: startInventory,
+    previousLevelItems,
   };
 };
 
 const updatePosition = (state, i, j) => {
   // TODO: Clean this
   const belowItem = state.items[getIdFromPos([j, i - 1])];
-  // const finalItemForLevel = belowItem
-  const collectedItems = [...state.inventory, ...state.discardedInventory];
+  const collectedItems = [
+    ...state.inventory,
+    ...state.discardedInventory,
+    ...state.previousLevelItems.map((item) => item.id),
+  ];
   const itemNotCollected = belowItem && !collectedItems.includes(belowItem.id);
   const depItems =
     belowItem?.deps && belowItem.deps.map(getItemByName(state.items));
@@ -55,7 +68,9 @@ const updatePosition = (state, i, j) => {
 
   const shouldAddItem =
     shouldAddItemIfRoom &&
-    state.inventory.length - depsToRemove.length <
+    state.inventory.length +
+      state.previousLevelItems.length -
+      depsToRemove.length <
       (belowItem.newMaxItems ?? state.maxItems);
 
   const notEnoughRoom = shouldAddItemIfRoom && !shouldAddItem;

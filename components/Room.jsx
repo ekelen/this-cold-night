@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { containers } from "../game/constants";
 import { cellLen, gridHeight, gridWidth } from "../game/setup";
 import useGame from "../game/useGame";
@@ -26,6 +26,7 @@ export default function Room({ onLevelComplete, room }) {
     grid,
     hintMessage,
     inventory,
+    previousLevelItems,
     items,
     successMessage,
     maxItems,
@@ -45,6 +46,14 @@ export default function Room({ onLevelComplete, room }) {
     cellRefs,
   });
 
+  const displayInventory = useMemo(
+    () => [
+      ...previousLevelItems.filter((item) => item),
+      ...inventory.map((id) => items[id]),
+    ],
+    [inventory, previousLevelItems, items]
+  );
+
   return (
     <>
       <Status
@@ -61,6 +70,7 @@ export default function Room({ onLevelComplete, room }) {
         nMoves={nMoves}
         activeChestId={activeChestId}
         onLevelComplete={onLevelComplete}
+        displayInventory={displayInventory}
       />
 
       <div ref={gridRef} className={styles.grid}>
