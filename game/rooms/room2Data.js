@@ -51,12 +51,14 @@ const _items = {
   [3]: {
     emoji: "♤",
     name: "spade",
+    image: "/shovel.png",
     description: "A spade for digging.",
     container: CONTAINERS.SACK,
   },
   [4]: {
     emoji: "🎒",
     name: "backpack",
+    image: "/backpack.png",
     description: "A craftsman has a lopsided backpack on display.",
     deps: ["sewing things", "leather"],
     hint: "Although it's too ugly for sale, the craftsman will not give it to you unless you can find the materials for him to make another.",
@@ -93,6 +95,7 @@ const _items = {
   },
   [8]: {
     emoji: "🪺",
+    image: "/eggs.png",
     name: "eggs",
     deps: ["seeds"],
     description: "Unfertilized chicken eggs.",

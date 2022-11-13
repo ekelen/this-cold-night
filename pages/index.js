@@ -35,16 +35,16 @@ export default function Home() {
         </footer>
       </main>
 
-      {Object.values(room1.items)
+      {[...Object.values(room1.items), ...Object.values(room2.items)]
         .filter((item) => !!item.image)
-        .map((item) => (
+        .map((item, i) => (
           <div
             style={{
               backgroundImage: `url('${item.image}')`,
               height: 0,
               width: 0,
             }}
-            key={item.image}
+            key={item.image + `_${i}`}
           />
         ))}
       {[
