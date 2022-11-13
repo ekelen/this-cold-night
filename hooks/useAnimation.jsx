@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { cellLen, getIdFromPos, getPath, pxPerFrame } from "../game/setup";
-import styles from "../styles/Room1.module.css";
+import styles from "../styles/Room.module.css";
 
 const useAnimation = ({
   charRef,

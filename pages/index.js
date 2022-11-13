@@ -1,10 +1,17 @@
 import Head from "next/head";
 import Image from "next/image";
-import Room1 from "../components/Room1";
+import { useState } from "react";
+import Room from "../components/Room";
 import { room1 } from "../game/rooms/room1Data";
+import { room2 } from "../game/rooms/room2Data";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
+  const [room, setRoom] = useState("room1");
+
+  const onChangeRoom = () => {
+    setRoom(room === "room1" ? "room2" : "room1");
+  };
   return (
     <div className={styles.container}>
       <Head>
@@ -12,7 +19,13 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <Room1 />
+        {!room ? null : (
+          <Room
+            room={room === "room1" ? room1 : room2}
+            onLevelComplete={onChangeRoom}
+            key={room}
+          />
+        )}
         <footer className={styles.footer}>
           <p>by</p>
           <a href="https://github.com/ekelen" target="_blank" rel="noreferrer">
@@ -34,7 +47,15 @@ export default function Home() {
             key={item.image}
           />
         ))}
-      {["/chest-open.png", "/open_door.png"].map((image) => (
+      {[
+        "/chest-open.png",
+        "/open_door.png",
+        "/elder-f.png",
+        "chicken-walk.png",
+        "/player.png",
+        "/sack1.png",
+        "/house2.png",
+      ].map((image) => (
         <div
           style={{ backgroundImage: `url('${image}')`, height: 0, width: 0 }}
           key={image}

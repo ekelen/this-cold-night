@@ -2,19 +2,23 @@ import { useReducer } from "react";
 import * as gameActions from "./gameActions";
 import gameReducer, { init } from "./gameReducer";
 
-const useGame = ({ items, grid, finder, startMessage, maxItems }) => {
-  const [state, dispatch] = useReducer(
-    gameReducer,
-    { items, grid, finder, startMessage, maxItems },
-    init
-  );
-
+const useGame = (
+  room = {
+    items: [],
+    grid: null,
+    finder: () => ({}),
+    startMessage: "",
+    maxItems: 0,
+    startInventory: [],
+  }
+) => {
+  const [state, dispatch] = useReducer(gameReducer, room, init);
   const updatePosition = ({ j, i }) => {
     dispatch(gameActions.updatePosition({ j, i }));
   };
 
-  const reset = () => {
-    dispatch(gameActions.reset());
+  const reset = (room) => {
+    dispatch(gameActions.reset(room));
   };
 
   return [
