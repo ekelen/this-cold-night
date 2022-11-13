@@ -59,6 +59,7 @@ export default function Room({ onLevelComplete, room }) {
         debug={debug}
         onSetDebug={() => setDebug(!debug)}
         nMoves={nMoves}
+        activeChestId={activeChestId}
         onLevelComplete={onLevelComplete}
       />
 

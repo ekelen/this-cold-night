@@ -51,7 +51,7 @@ export default function Home() {
         "/chest-open.png",
         "/open_door.png",
         "/elder-f.png",
-        "chicken-walk.png",
+        "/chicken_walk.png",
         "/player.png",
         "/sack1.png",
         "/house2.png",
