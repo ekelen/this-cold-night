@@ -96,7 +96,7 @@ export default function Status({
           ) : (
             ""
           )}
-          {!levelComplete && (
+          {(levelComplete || debug) && (
             <button onClick={onLevelComplete}>Next level...</button>
           )}
         </div>

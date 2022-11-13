@@ -71,6 +71,8 @@ export default function Room({ onLevelComplete, room }) {
             top: "0px",
             backgroundImage: `url('/player.png')`,
             backgroundSize: "contain",
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
           }}
           className={styles.player}
           ref={charRef}

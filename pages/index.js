@@ -47,7 +47,15 @@ export default function Home() {
             key={item.image}
           />
         ))}
-      {["/chest-open.png", "/open_door.png"].map((image) => (
+      {[
+        "/chest-open.png",
+        "/open_door.png",
+        "/elder-f.png",
+        "chicken-walk.png",
+        "/player.png",
+        "/sack1.png",
+        "/house2.png",
+      ].map((image) => (
         <div
           style={{ backgroundImage: `url('${image}')`, height: 0, width: 0 }}
           key={image}

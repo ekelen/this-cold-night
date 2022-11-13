@@ -35,4 +35,5 @@ button {
   padding: 0.2rem;
   font-size: smaller;
   font-family: monospace;
+  white-space: pre;
 }

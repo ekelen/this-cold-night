@@ -5,24 +5,24 @@ const grid = gridMaker();
 const finder = finderMaker(grid);
 
 const startMessage =
-  "You are in the village outside the castle. You will need some items to prepare to enter the forest beyond...";
+  "You are in the village outside the castle. You will need some additional items to prepare to enter the forest beyond...";
 
 const chestCoordinates = [
   [9, 8],
   [1, 8],
-  [2, 2],
+  [6, 3],
   [2, 6],
   [0, 7],
   [1, 5],
   [5, 3],
   [5, 6],
   [0, 1],
-  [7, 2],
+  [4, 4],
   [7, 4],
   [8, 0],
   [8, 4],
   [8, 6],
-  [9, 0],
+  [9, 2],
 ];
 
 const _items = {
@@ -40,25 +40,24 @@ const _items = {
     emoji: "🪓",
     name: "axe",
     description: "A small axe.",
-    container: CONTAINERS.CHEST,
+    container: CONTAINERS.HOUSE,
   },
   [2]: {
     emoji: "🔎",
     name: "magnifying glass",
     description: "A magnifying glass.",
-    container: CONTAINERS.CHEST,
+    container: CONTAINERS.SACK,
   },
   [3]: {
     emoji: "♤",
     name: "spade",
     description: "A spade for digging.",
-    container: CONTAINERS.CHEST,
+    container: CONTAINERS.SACK,
   },
   [4]: {
     emoji: "🎒",
     name: "backpack",
-    description:
-      "A backpack, lopsided but serviceable, which might allow you to carry more things.",
+    description: "A craftsman has a lopsided backpack on display.",
     deps: ["sewing things", "leather"],
     hint: "Although it's too ugly for sale, the craftsman will not give it to you unless you can find the materials for him to make another.",
     metMessage:
@@ -99,8 +98,8 @@ const _items = {
     description: "Unfertilized chicken eggs.",
     hint: "They are guarded by an unusually fearsome chicken.",
     metMessage:
-      "You throw the seeds out into the yard. The fearsome chicken runs after them and you take her eggs.",
-    container: CONTAINERS.HOUSE,
+      "You throw the seeds out into the yard.\n\nThe fearsome chicken runs after them and you take her eggs.",
+    container: CONTAINERS.CHICKEN,
   },
   [9]: {
     emoji: "⊾",
@@ -118,17 +117,17 @@ const _items = {
     emoji: "🗺",
     name: "map",
     deps: ["drawing compass", "pen", "book", "magnifying glass"],
-    description: "A map.",
-    hint: "A scribe here is willing to fill in the missing details, if you can bring him the materials he needs. He has very poor vision.",
+    description: "A scribe is selling a vague map.",
+    hint: "She is willing to fill in the map's missing details, if you can bring her the materials she needs.\n\nShe has very poor vision.\n\nShe will need things to draw with, and reference material.",
     metMessage: "The scribe draws you a map.",
     keepForNextLevel: true,
-    container: CONTAINERS.HOUSE,
+    container: CONTAINERS.ELDER,
   },
   [12]: {
     emoji: "🥐",
     name: "bread",
     description: "Nonperishable sweetbread.",
-    hint: "The baker says you can have some if you can find some eggs for her next batch.",
+    hint: "The baker says you can have some if you can find some eggs for her recipe.",
     metMessage:
       "The baker takes the eggs, and within the hour, you have a highly portable snack.",
     keepForNextLevel: true,

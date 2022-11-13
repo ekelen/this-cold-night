@@ -7,7 +7,7 @@ const finder = finderMaker(grid);
 const maxItems = 4;
 
 const startMessage =
-  "You find yourself trapped in a castle... Remember where things are, in case you need to retrace your steps. You can only carry 4 items at a time, and cannot return items once they have been moved...";
+  "You find yourself trapped in a castle...\n\nRemember where things are, in case you need to retrace your steps. You can only carry a limited number of items at a time, and cannot return them once they have been moved...";
 
 const chestCoordinates = [
   [9, 8],
@@ -130,7 +130,7 @@ const _items = {
     emoji: "🧥",
     name: "cloak",
     image: "/cloak_2.png",
-    deps: ["friend"],
+    deps: ["huntsman"],
     description: "A cloak.",
     hint: "It looks very warm and is too bulky to steal.\n\nSomeone will have to gift it to you.",
     metMessage: "The young huntsman is happy to give you his cloak.",
@@ -157,18 +157,18 @@ const _items = {
   },
   [14]: {
     emoji: "👨",
-    name: "friend",
+    name: "huntsman",
     image: "/hunter.png",
-    deps: ["friend2"],
+    deps: ["baker"],
     description: "A friendly young huntsman.",
-    hint: "He is sad he cannot afford a ring for the pretty baker he is courting\n\nNor has the courage to give it to her himself...",
+    hint: "He is sad he cannot afford a ring for the pretty baker he is courting.\n\nNor has the courage to give it to her himself...",
     metMessage:
       "The baker is delighted with the huntsman's proposal!\n\n The huntsman says you can have whatever you want from his meager possessions...",
     container: CONTAINERS.HUNTER,
   },
   [15]: {
     emoji: "👩",
-    name: "friend2",
+    name: "baker",
     deps: ["ring"],
     image: "/baker.png",
     description: "A pretty young baker.",

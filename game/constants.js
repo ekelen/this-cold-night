@@ -7,12 +7,22 @@ export const CONTAINERS = {
   GUARD: "guard",
   HOUSE: "house",
   SACK: "sack",
+  CHICKEN: "chicken",
+  ELDER: "elder",
 };
 
 export const containers = {
   chest: {
     open: "/chest-open.png",
     closed: "/chest.png",
+  },
+  elder: {
+    open: "/elder-f.png",
+    closed: "/elder-f.png",
+  },
+  chicken: {
+    open: "/chicken_walk.png",
+    closed: "/chicken_walk.png",
   },
   door: {
     open: "/open_door.png",
