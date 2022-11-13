@@ -1,15 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { containers } from "../game/constants";
-import { room1 } from "../game/rooms/room1Data";
 import { cellLen, gridHeight, gridWidth } from "../game/setup";
 import useGame from "../game/useGame";
 import useAnimation from "../hooks/useAnimation";
-import styles from "../styles/Room1.module.css";
+import styles from "../styles/Room.module.css";
+import Status from "./Status";
 
-export default function Room1({ onUpdateRoom }) {
-  const [gameState, { updatePosition, reset }] = useGame(room1);
+export default function Room({ onLevelComplete, room }) {
+  const [gameState, { updatePosition, reset }] = useGame(room);
   const [debug, setDebug] = useState(false);
-  // const [showUpdateRoom, setShowUpdateRoom] = useState(false);
 
   const cellRefs = useRef([]);
   useEffect(() => {
@@ -41,103 +40,27 @@ export default function Room1({ onUpdateRoom }) {
     charRef,
     gridRef,
     requestRef,
-    reset: () => reset(room1),
+    reset: () => reset(room),
     updatePosition,
     cellRefs,
   });
 
   return (
     <>
-      <div className={styles.status}>
-        <div className={styles.statusWrapper}>
-          {debug ? (
-            <div>Journey length: {nMoves}</div>
-          ) : (
-            <div className={styles.title}>this cold night</div>
-          )}
-          <button
-            style={{ marginLeft: "auto" }}
-            onClick={() => {
-              resetAnimation();
-            }}
-          >
-            reset
-          </button>
-          <button
-            onClick={() => {
-              setDebug((prevDebug) => !prevDebug);
-            }}
-          >
-            debug {!debug ? "on" : "off"}
-          </button>
-        </div>
-
-        <div className={styles.inventory}>
-          <div>Inventory:</div>
-
-          <div className={styles.inventoryItemsContainer}>
-            {[...Array(maxItems).keys()].map((i) => (
-              <div key={i} className={styles.inventoryItem}>
-                {!inventory[i] ? null : items[inventory[i]].image ? (
-                  <div
-                    style={{
-                      backgroundImage: `url(${items[inventory[i]].image})`,
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                      width: "100%",
-                      height: "100%",
-                    }}
-                  />
-                ) : (
-                  <span>{items[inventory[i]].emoji}</span>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className={styles.messageContainer}>
-          <div>
-            {activeChestId && (
-              <div
-                style={{
-                  width: "28px",
-                  height: "28px",
-                  position: "relative",
-                }}
-              >
-                {items[activeChestId].image ? (
-                  <div
-                    style={{
-                      backgroundImage: `url(${items[activeChestId].image})`,
-                      backgroundSize: "cover",
-                      height: "100%",
-                      width: "100%",
-                    }}
-                    alt={`${items[activeChestId].description}`}
-                  />
-                ) : (
-                  <span style={{ fontSize: "20px" }}>
-                    {items[activeChestId].emoji}
-                  </span>
-                )}
-              </div>
-            )}
-          </div>
-          {generalMessage ? (
-            <span>{generalMessage}</span>
-          ) : hintMessage ? (
-            <span className={styles.hintMessage}>{hintMessage}</span>
-          ) : successMessage ? (
-            <span className={styles.successMessage}>{successMessage}</span>
-          ) : (
-            ""
-          )}
-          {!levelComplete && (
-            <button onClick={onUpdateRoom}>Next level...</button>
-          )}
-        </div>
-      </div>
+      <Status
+        generalMessage={generalMessage}
+        hintMessage={hintMessage}
+        items={items}
+        inventory={inventory}
+        successMessage={successMessage}
+        maxItems={maxItems}
+        levelComplete={levelComplete}
+        onReset={resetAnimation}
+        debug={debug}
+        onSetDebug={() => setDebug(!debug)}
+        nMoves={nMoves}
+        onLevelComplete={onLevelComplete}
+      />
 
       <div ref={gridRef} className={styles.grid}>
         <div

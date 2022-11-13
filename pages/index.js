@@ -1,9 +1,9 @@
 import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
-import Room1 from "../components/Room1";
-import Room2 from "../components/Room2";
+import Room from "../components/Room";
 import { room1 } from "../game/rooms/room1Data";
+import { room2 } from "../game/rooms/room2Data";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
@@ -19,11 +19,13 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        {room === "room1" ? (
-          <Room1 onUpdateRoom={onChangeRoom} />
-        ) : room === "room2" ? (
-          <Room2 />
-        ) : null}
+        {!room ? null : (
+          <Room
+            room={room === "room1" ? room1 : room2}
+            onLevelComplete={onChangeRoom}
+            key={room}
+          />
+        )}
         <footer className={styles.footer}>
           <p>by</p>
           <a href="https://github.com/ekelen" target="_blank" rel="noreferrer">

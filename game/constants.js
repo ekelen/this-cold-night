@@ -5,6 +5,8 @@ export const CONTAINERS = {
   HUNTER: "hunter",
   DOG: "dog",
   GUARD: "guard",
+  HOUSE: "house",
+  SACK: "sack",
 };
 
 export const containers = {
@@ -31,5 +33,13 @@ export const containers = {
   guard: {
     open: "/guard.png",
     closed: "/guard.png",
+  },
+  house: {
+    open: "/house2.png",
+    closed: "/house2.png",
+  },
+  sack: {
+    open: "/sack1.png",
+    closed: "/sack1.png",
   },
 };

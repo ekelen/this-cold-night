@@ -13,7 +13,6 @@ const useGame = (
   }
 ) => {
   const [state, dispatch] = useReducer(gameReducer, room, init);
-
   const updatePosition = ({ j, i }) => {
     dispatch(gameActions.updatePosition({ j, i }));
   };

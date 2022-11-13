@@ -71,7 +71,7 @@ const _items = {
     emoji: "🔑",
     name: "key",
     description: "A small key.",
-    container: CONTAINERS.CHEST,
+    container: CONTAINERS.SACK,
   },
   [6]: {
     emoji: "📕",
@@ -80,7 +80,7 @@ const _items = {
     deps: ["key"],
     hint: "It is in a locked case.",
     metMessage: "You unlock the bookcase and take the book.",
-    container: CONTAINERS.CHEST,
+    container: CONTAINERS.HOUSE,
   },
   [7]: {
     emoji: "🥜",
@@ -90,7 +90,7 @@ const _items = {
     hint: "Most of them are buried in the ground.",
     metMessage:
       "You churn up the earth and take as many seeds as you can find.",
-    container: CONTAINERS.CHEST,
+    container: CONTAINERS.HOUSE,
   },
   [8]: {
     emoji: "🪺",
@@ -100,29 +100,29 @@ const _items = {
     hint: "They are guarded by an unusually fearsome chicken.",
     metMessage:
       "You throw the seeds out into the yard. The fearsome chicken runs after them and you take her eggs.",
-    container: CONTAINERS.CHEST,
+    container: CONTAINERS.HOUSE,
   },
   [9]: {
     emoji: "⊾",
     name: "drawing compass",
     description: "A drawing compass, used to inscribe circles.",
-    container: CONTAINERS.CHEST,
+    container: CONTAINERS.HOUSE,
   },
   [10]: {
     emoji: "🪶",
     name: "pen",
     description: "A quill full of ink.",
-    container: CONTAINERS.CHEST,
+    container: CONTAINERS.HOUSE,
   },
   [11]: {
     emoji: "🗺",
     name: "map",
     deps: ["drawing compass", "pen", "book", "magnifying glass"],
     description: "A map.",
-    hint: "It is missing some important details. The scribe here is willing to help you, if you can bring him the materials he needs. He has very poor vision.",
+    hint: "A scribe here is willing to fill in the missing details, if you can bring him the materials he needs. He has very poor vision.",
     metMessage: "The scribe draws you a map.",
     keepForNextLevel: true,
-    container: CONTAINERS.CHEST,
+    container: CONTAINERS.HOUSE,
   },
   [12]: {
     emoji: "🥐",
@@ -142,14 +142,14 @@ const _items = {
     description: "Some leather scraps.",
     hint: "",
     metMessage: "",
-    container: CONTAINERS.CHEST,
+    container: CONTAINERS.HOUSE,
   },
   [14]: {
     emoji: "🪡",
     name: "sewing things",
     description: "A very sturdy needle and thick thread.",
 
-    container: CONTAINERS.CHEST,
+    container: CONTAINERS.HOUSE,
   },
 };
 
