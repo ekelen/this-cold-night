@@ -17,7 +17,7 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Game</title>
+        <title>This Cold Night 🌙</title>
       </Head>
 
       <main className={styles.main}>
