@@ -1,5 +1,6 @@
 import { CONTAINERS } from "../constants";
 import { createItems, finderMaker, gridMaker } from "../setup";
+import { room1 } from "./room1Data";
 
 const grid = gridMaker();
 const finder = finderMaker(grid);
@@ -21,7 +22,7 @@ const chestCoordinates = [
   [7, 4],
   [8, 0],
   [8, 4],
-  [8, 6],
+  // [8, 6],
   [9, 2],
 ];
 
@@ -60,11 +61,11 @@ const _items = {
     name: "backpack",
     image: "/backpack.png",
     description: "A craftsman has a lopsided backpack on display.",
-    deps: ["sewing things", "leather"],
-    hint: "Although it's too ugly for sale, the craftsman will not give it to you unless you can find the materials for him to make another.",
+    deps: ["sewing things"],
+    hint: "Although it's too ugly for sale, the craftsman will not give it to you unless you can find him something useful to his trade.",
     metMessage:
-      "You give the craftsman the required materials, and he gives you the irregular backpack.",
-    newMaxItems: 6,
+      "You give the craftsman the needle and thread, and he gives you the irregular backpack.",
+    newMaxItems: 9,
     keepForNextLevel: true,
     container: CONTAINERS.GUARD,
   },
@@ -137,16 +138,16 @@ const _items = {
     deps: ["eggs"],
     container: CONTAINERS.BAKER,
   },
+  // [13]: {
+  //   emoji: "📜",
+  //   name: "leather",
+  //   deps: [],
+  //   description: "Some leather scraps.",
+  //   hint: "",
+  //   metMessage: "",
+  //   container: CONTAINERS.HOUSE,
+  // },
   [13]: {
-    emoji: "📜",
-    name: "leather",
-    deps: [],
-    description: "Some leather scraps.",
-    hint: "",
-    metMessage: "",
-    container: CONTAINERS.HOUSE,
-  },
-  [14]: {
     emoji: "🪡",
     name: "sewing things",
     description: "A very sturdy needle and thick thread.",
@@ -154,6 +155,10 @@ const _items = {
     container: CONTAINERS.HOUSE,
   },
 };
+
+const previousLevelItems = Object.values(room1.items)
+  .filter((item) => item.keepForNextLevel)
+  .map((item) => ({ ...item, id: `prev-${item.id}` }));
 
 const items = createItems({ items: _items, chestCoordinates, grid });
 
@@ -164,4 +169,5 @@ export const room2 = {
   finder,
   maxItems: 4,
   startInventory: [],
+  previousLevelItems,
 };

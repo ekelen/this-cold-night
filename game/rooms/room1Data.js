@@ -198,4 +198,5 @@ export const room1 = {
   finder,
   maxItems,
   startInventory: [],
+  previousLevelItems: [],
 };

@@ -14,6 +14,7 @@ export default function Status({
   onReset,
   onSetDebug,
   successMessage,
+  displayInventory,
 }) {
   return (
     <>
@@ -41,10 +42,10 @@ export default function Status({
           <div className={styles.inventoryItemsContainer}>
             {[...Array(maxItems).keys()].map((i) => (
               <div key={i} className={styles.inventoryItem}>
-                {!inventory[i] ? null : items[inventory[i]].image ? (
+                {!displayInventory[i] ? null : displayInventory[i].image ? (
                   <div
                     style={{
-                      backgroundImage: `url(${items[inventory[i]].image})`,
+                      backgroundImage: `url(${displayInventory[i].image})`,
                       backgroundSize: "cover",
                       backgroundPosition: "center",
                       width: "100%",
@@ -52,7 +53,7 @@ export default function Status({
                     }}
                   />
                 ) : (
-                  <span>{items[inventory[i]].emoji}</span>
+                  <span>{displayInventory[i].emoji}</span>
                 )}
               </div>
             ))}
