@@ -10,11 +10,11 @@ const startMessage =
 
 const chestCoordinates = [
   [9, 8],
-  [1, 8],
+  [1, 3],
   [6, 3],
-  [2, 6],
+  [4, 6],
   [0, 7],
-  [1, 5],
+  [3, 3],
   [5, 3],
   [5, 6],
   [0, 1],
@@ -23,7 +23,7 @@ const chestCoordinates = [
   [8, 0],
   [8, 4],
   // [8, 6],
-  [9, 2],
+  [0, 5],
 ];
 
 const _items = {
@@ -41,7 +41,7 @@ const _items = {
     emoji: "🪓",
     name: "axe",
     description: "A small axe.",
-    container: CONTAINERS.HOUSE,
+    container: CONTAINERS.SACK,
   },
   [2]: {
     emoji: "🔎",
@@ -62,7 +62,7 @@ const _items = {
     image: "/backpack.png",
     description: "A craftsman has a lopsided backpack on display.",
     deps: ["sewing things"],
-    hint: "Although it's too ugly for sale, the craftsman will not give it to you unless you can find him something useful to his trade.",
+    hint: "Although it's too ugly for sale, the craftsman will not give it to you unless you can find him something useful to his trade.\n\nHe's pretty sure you might find something useful in a sack nearby.",
     metMessage:
       "You give the craftsman the needle and thread, and he gives you the irregular backpack.",
     newMaxItems: 9,
@@ -115,7 +115,7 @@ const _items = {
     emoji: "🪶",
     name: "pen",
     description: "A quill full of ink.",
-    container: CONTAINERS.HOUSE,
+    container: CONTAINERS.SACK,
   },
   [11]: {
     emoji: "🗺",
@@ -152,7 +152,7 @@ const _items = {
     name: "sewing things",
     description: "A very sturdy needle and thick thread.",
 
-    container: CONTAINERS.HOUSE,
+    container: CONTAINERS.SACK,
   },
 };
 
