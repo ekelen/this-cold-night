@@ -17,20 +17,20 @@ export const containers = {
     closed: "/chest.png",
   },
   elder: {
-    open: "/elder-f.png",
-    closed: "/elder-f.png",
+    open: "/scribe.png",
+    closed: "/scribe.png",
   },
   chicken: {
-    open: "/chicken_walk.png",
-    closed: "/chicken_walk.png",
+    open: "/chicken.png",
+    closed: "/chicken.png",
   },
   door: {
     open: "/open_door.png",
     closed: "/closed_door.png",
   },
   dog: {
-    open: "/dog_2.png",
-    closed: "/dog_2.png",
+    open: "/dog.png",
+    closed: "/dog.png",
   },
   baker: {
     open: "/baker.png",
@@ -45,11 +45,11 @@ export const containers = {
     closed: "/guard.png",
   },
   house: {
-    open: "/house2.png",
-    closed: "/house2.png",
+    open: "/house.png",
+    closed: "/house.png",
   },
   sack: {
-    open: "/sack1.png",
-    closed: "/sack1.png",
+    open: "/sack.png",
+    closed: "/sack.png",
   },
 };
