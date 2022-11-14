@@ -63,7 +63,7 @@ const _items = {
   [3]: {
     emoji: "🐶",
     name: "dog",
-    image: "/dog_2.png",
+    image: "/dog.png",
     deps: ["bone"],
     hint: "He looks like he needs something to chew on.",
     description: "A dog.",
@@ -87,7 +87,7 @@ const _items = {
   [6]: {
     emoji: "🧪",
     name: "poison",
-    image: "/yellow.png",
+    image: "/potion.png",
     deps: ["strawberry"],
     description: "A vial of poison.",
     hint: "It will need poison berries added to it to make it strong enough to knock someone out.",
@@ -129,7 +129,7 @@ const _items = {
   [11]: {
     emoji: "🧥",
     name: "cloak",
-    image: "/cloak_2.png",
+    image: "/cloak.png",
     deps: ["huntsman"],
     description: "A cloak.",
     hint: "It looks very warm and is too bulky to steal.\n\nSomeone will have to gift it to you.",
@@ -146,7 +146,7 @@ const _items = {
   [13]: {
     emoji: "📜",
     name: "scroll",
-    image: "/scroll-cyan.png",
+    image: "/scroll.png",
     deps: ["letter", "pen"],
     description: "A scroll.",
     hint: "You don't know what to write on it. Maybe you need to read some important information first.",

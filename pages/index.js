@@ -2,6 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
 import Room from "../components/Room";
+import { containers } from "../game/constants";
 import { room1 } from "../game/rooms/room1Data";
 import { room2 } from "../game/rooms/room2Data";
 import styles from "../styles/Home.module.css";
@@ -12,6 +13,7 @@ export default function Home() {
   const onChangeRoom = () => {
     setRoom(room === "room1" ? "room2" : "room1");
   };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -47,20 +49,14 @@ export default function Home() {
             key={item.image + `_${i}`}
           />
         ))}
-      {[
-        "/chest-open.png",
-        "/open_door.png",
-        "/elder-f.png",
-        "/chicken_walk.png",
-        "/player.png",
-        "/sack1.png",
-        "/house2.png",
-      ].map((image) => (
-        <div
-          style={{ backgroundImage: `url('${image}')`, height: 0, width: 0 }}
-          key={image}
-        />
-      ))}
+      {Object.values(containers)
+        .flatMap((obj) => Object.values(obj))
+        .map((image, i) => (
+          <div
+            style={{ backgroundImage: `url('${image}')`, height: 0, width: 0 }}
+            key={image + `_${i}`}
+          />
+        ))}
     </div>
   );
 }
