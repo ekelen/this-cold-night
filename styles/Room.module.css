@@ -14,20 +14,25 @@
 /* cell */
 
 .cell {
-  background-repeat: no-repeat;
   background-color: rgba(255, 255, 255, 0);
   font-size: xx-small;
   cursor: pointer;
-  border: 1px solid #2d3147;
-  background-position: center;
   position: relative;
-  background-size: contain;
   transition: filter 200ms ease-in;
 }
 
 .cell.clicked {
   background-color: #1a1d2a;
   filter: brightness(2);
+}
+
+.cellContents {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  border: 1px solid #2d3147;
+  height: 100%;
+  width: 100%;
 }
 
 /* player */
@@ -38,6 +43,7 @@
   align-items: center;
   justify-content: center;
   z-index: 10;
+  filter: brightness(1.4);
 }
 
 /* inventory */

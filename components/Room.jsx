@@ -95,7 +95,7 @@ export default function Room({ onLevelComplete, room }) {
                 const id = i * grid.width + j;
                 const item = items[id];
 
-                const containerStyle = !item
+                const cellContainerStyle = !item
                   ? {}
                   : {
                       border:
@@ -104,6 +104,11 @@ export default function Room({ onLevelComplete, room }) {
                           : activeChestIdOpenable
                           ? "1px solid #7ae2ae"
                           : "1px solid #e27a7a",
+                    };
+
+                const cellContentsStyle = !item
+                  ? {}
+                  : {
                       backgroundImage: `url(${
                         containers[item.container][
                           inventory.includes(id) ||
@@ -119,6 +124,7 @@ export default function Room({ onLevelComplete, room }) {
                           : 1
                       })`,
                     };
+
                 return (
                   <div
                     key={`${i}-${j}`}
@@ -138,14 +144,21 @@ export default function Room({ onLevelComplete, room }) {
                     style={{
                       height: `${cellLen}px`,
                       width: `${cellLen}px`,
-                      ...containerStyle,
+                      ...cellContainerStyle,
                     }}
                   >
-                    {debug && (
-                      <>
-                        {j},{i}
-                      </>
-                    )}
+                    <div
+                      className={styles.cellContents}
+                      style={{
+                        ...cellContentsStyle,
+                      }}
+                    >
+                      {debug && (
+                        <>
+                          {j},{i}
+                        </>
+                      )}
+                    </div>
                   </div>
                 );
               })}
