@@ -81,8 +81,8 @@ const _items = {
   },
   [5]: {
     emoji: "🔑",
-    name: "key",
-    image: "/key.png",
+    name: "small key",
+    image: "/smallkey.png",
     description: "A small key.",
     container: CONTAINERS.CHEST,
   },
@@ -109,7 +109,7 @@ const _items = {
   [8]: {
     emoji: "✉️",
     name: "letter",
-    deps: ["key", "candle"],
+    deps: ["small key", "candle"],
     description: "A letter.",
     hint: "It is locked in a drawer in a dark room.",
     metMessage:
@@ -183,6 +183,7 @@ const _items = {
   [16]: {
     emoji: "🗝",
     name: "large key",
+    image: "/key.png",
     description: "A large key.",
     deps: ["wine"],
     hint: "The key is in possession of a formidable castle guard who will need to be disabled.",

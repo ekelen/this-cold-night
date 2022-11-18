@@ -71,8 +71,8 @@ const _items = {
   },
   [5]: {
     emoji: "🔑",
-    name: "key",
-    image: "/key.png",
+    name: "small key",
+    image: "/smallkey.png",
     description: "A small key.",
     container: CONTAINERS.SACK,
   },
@@ -80,7 +80,7 @@ const _items = {
     emoji: "📕",
     name: "book",
     description: "A very dusty red book.",
-    deps: ["key"],
+    deps: ["small key"],
     hint: "It is in a locked case.",
     metMessage: "You unlock the bookcase and take the book.",
     container: CONTAINERS.HOUSE,
@@ -153,7 +153,7 @@ const _items = {
 
 const previousLevelItems = Object.values(room1.items)
   .filter((item) => item.keepForNextLevel)
-  .map((item) => ({ ...item, id: `prev-${item.id}` }));
+  .map((item) => ({ ...item, id: `room1-${item.id}` }));
 
 const items = createItems({ items: _items, chestCoordinates, grid });
 

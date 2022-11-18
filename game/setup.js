@@ -20,7 +20,7 @@ export const createItems = ({ items, chestCoordinates, grid }) => {
     const id = getIdFromPos([x, y]);
     acc[id] = item;
     acc[id].id = id;
-    acc[id].hintMessage = item.hintMessage || "";
+    acc[id].hint = item.hint || "";
     acc[id].successMessage = item.successMessage || "";
     acc[id].image = item.image || "";
     acc[id].deps = item.deps || [];

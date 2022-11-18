@@ -43,44 +43,6 @@ export const init = (room) => {
 };
 
 const updatePosition = (state, i, j) => {
-  // TODO: Clean this
-  const belowItem = state.items[getIdFromPos([j, i - 1])];
-  const collectedItems = [
-    ...state.inventory,
-    ...state.discardedInventory,
-    ...state.previousLevelItems.map((item) => item.id),
-  ];
-  const itemNotCollected = belowItem && !collectedItems.includes(belowItem.id);
-  const depItems =
-    belowItem?.deps && belowItem.deps.map(getItemByName(state.items));
-  const depsAreNotCollected =
-    depItems && depItems.some((dep) => !collectedItems.includes(dep.id));
-  const depIdsInInventory =
-    depItems &&
-    state.inventory.filter((id) => depItems.map((dep) => dep.id).includes(id));
-  const depsToRemove =
-    depItems && depItems.every((dep) => depIdsInInventory.includes(dep.id))
-      ? depItems
-      : [];
-  const shouldAddItemIfRoom =
-    itemNotCollected &&
-    (!depItems || depItems.every((dep) => state.inventory.includes(dep.id)));
-
-  const shouldAddItem =
-    shouldAddItemIfRoom &&
-    state.inventory.length +
-      state.previousLevelItems.length -
-      depsToRemove.length <
-      (belowItem.newMaxItems ?? state.maxItems);
-
-  const notEnoughRoom = shouldAddItemIfRoom && !shouldAddItem;
-  const maxItems =
-    shouldAddItem && belowItem.newMaxItems
-      ? belowItem.newMaxItems
-      : state.maxItems;
-
-  const levelComplete = shouldAddItem && belowItem.finalItemForLevel;
-
   const common = {
     ...state,
     currentI: i,
@@ -88,52 +50,91 @@ const updatePosition = (state, i, j) => {
     hintMessage: "",
     successMessage: "",
     generalMessage: "",
-    activeChestId: belowItem && itemNotCollected ? belowItem.id : null,
-    activeChestIdOpenable: !!shouldAddItem,
-    maxItems,
-    levelComplete,
+    activeChestId: null,
+    levelComplete: false,
+    activeChestIdOpenable: false,
   };
 
-  if (notEnoughRoom) {
-    return {
-      ...common,
-      hintMessage: "You don't have enough room in your inventory.",
-    };
-  }
-  if (shouldAddItem) {
-    // Add item to inventory
-    // Remove dependent items from inventory and add to discarded inventory
-    return {
-      ...common,
-      inventory: [...state.inventory, belowItem.id].filter((id) =>
-        depItems
-          ? !depItems
-              .filter((d) => !d.keepForNextLevel)
-              .map((d) => d.id)
-              .includes(id)
-          : true
-      ),
-      discardedInventory: depItems
-        ? [
-            ...state.discardedInventory,
-            ...depItems.filter((d) => !d.keepForNextLevel).map((d) => d.id),
-          ]
-        : state.discardedInventory,
-      successMessage: belowItem.metMessage
-        ? `${belowItem.metMessage}`
-        : `${belowItem.description}`,
-    };
-  }
-  if (depsAreNotCollected) {
-    return {
-      ...common,
-      hintMessage: `${belowItem.description} - ${belowItem.hint}`,
-    };
-  }
+  const shouldAddItemResults = (belowItem, depsToRemove) => {
+    const maxItems = belowItem.newMaxItems
+      ? belowItem.newMaxItems
+      : state.maxItems;
+    const levelComplete = belowItem.finalItemForLevel;
 
-  return {
-    ...common,
+    const inventory = [...state.inventory, belowItem.id].filter(
+      (id) => !depsToRemove.map((dep) => dep.id).includes(id)
+    );
+
+    const discardedInventory = [
+      ...state.discardedInventory,
+      ...depsToRemove.map((d) => d.id),
+    ];
+    const successMessage = belowItem.metMessage || `${belowItem.description}`;
+
+    return {
+      activeChestIdOpenable: true,
+      discardedInventory,
+      inventory,
+      levelComplete,
+      maxItems,
+      successMessage,
+    };
   };
+  const visitNewItemResults = (belowItem) => {
+    const depItems = belowItem.deps.map(getItemByName(state.items));
+    const depsAreNotCollected = depItems.some(
+      (dep) => !collectedItems.includes(dep.id)
+    );
+    const depIdsInInventory = state.inventory.filter((id) =>
+      depItems.map((dep) => dep.id).includes(id)
+    );
+    const depsToRemove = depItems.every((dep) =>
+      depIdsInInventory.includes(dep.id)
+    )
+      ? depItems.filter((d) => !d.keepForNextLevel)
+      : [];
+    const shouldAddItemIfRoom = depItems.every((dep) =>
+      state.inventory.includes(dep.id)
+    );
+
+    const isRoom =
+      state.inventory.length +
+        state.previousLevelItems.length -
+        depsToRemove.length <
+      (belowItem.newMaxItems ?? state.maxItems);
+
+    const shouldAddItem = shouldAddItemIfRoom && isRoom;
+
+    const notEnoughRoom = shouldAddItemIfRoom && !shouldAddItem;
+
+    const hintMessage = notEnoughRoom
+      ? "You don't have enough room in your inventory."
+      : depsAreNotCollected
+      ? belowItem.description + " - " + belowItem.hint
+      : "";
+
+    return shouldAddItem
+      ? shouldAddItemResults(belowItem, depsToRemove)
+      : {
+          hintMessage,
+        };
+  };
+
+  const belowItem = state.items[getIdFromPos([j, i - 1])];
+  const collectedItems = [
+    ...state.inventory,
+    ...state.discardedInventory,
+    ...state.previousLevelItems.map((item) => item.id),
+  ];
+  const itemNotCollected = belowItem && !collectedItems.includes(belowItem.id);
+
+  return itemNotCollected
+    ? {
+        ...common,
+        activeChestId: belowItem.id,
+        ...visitNewItemResults(belowItem),
+      }
+    : { ...common };
 };
 
 const gameReducer = (state, action) => {
