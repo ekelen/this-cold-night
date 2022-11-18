@@ -13,17 +13,16 @@ const chestCoordinates = [
   [1, 3],
   [6, 3],
   [4, 6],
-  [0, 7],
+  [1, 0],
   [3, 3],
   [5, 3],
   [5, 6],
-  [0, 1],
+  [3, 1],
   [4, 4],
   [7, 4],
   [8, 0],
   [8, 4],
-  // [8, 6],
-  [0, 5],
+  [2, 0],
 ];
 
 const _items = {
@@ -40,6 +39,7 @@ const _items = {
   [1]: {
     emoji: "🪓",
     name: "axe",
+    image: "/axe.png",
     description: "A small axe.",
     container: CONTAINERS.SACK,
   },
@@ -72,6 +72,7 @@ const _items = {
   [5]: {
     emoji: "🔑",
     name: "key",
+    image: "/key.png",
     description: "A small key.",
     container: CONTAINERS.SACK,
   },
@@ -88,6 +89,7 @@ const _items = {
     emoji: "🥜",
     name: "seeds",
     description: "A handful of seeds.",
+    image: "/seeds.png",
     deps: ["spade"],
     hint: "Most of them are buried in the ground.",
     metMessage:
@@ -114,6 +116,7 @@ const _items = {
   [10]: {
     emoji: "🪶",
     name: "pen",
+    image: "/pen.png",
     description: "A quill full of ink.",
     container: CONTAINERS.SACK,
   },
@@ -138,19 +141,11 @@ const _items = {
     deps: ["eggs"],
     container: CONTAINERS.BAKER,
   },
-  // [13]: {
-  //   emoji: "📜",
-  //   name: "leather",
-  //   deps: [],
-  //   description: "Some leather scraps.",
-  //   hint: "",
-  //   metMessage: "",
-  //   container: CONTAINERS.HOUSE,
-  // },
   [13]: {
     emoji: "🪡",
     name: "sewing things",
     description: "A very sturdy needle and thick thread.",
+    image: "/needle.png",
 
     container: CONTAINERS.SACK,
   },

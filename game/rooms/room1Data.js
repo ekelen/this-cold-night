@@ -49,6 +49,7 @@ const _items = {
     emoji: "🪚",
     name: "bonesaw",
     description: "A saw for cutting bone.",
+    image: "/saw.png",
     container: CONTAINERS.CHEST,
   },
   [2]: {
@@ -81,6 +82,7 @@ const _items = {
   [5]: {
     emoji: "🔑",
     name: "key",
+    image: "/key.png",
     description: "A small key.",
     container: CONTAINERS.CHEST,
   },
@@ -123,6 +125,7 @@ const _items = {
   [10]: {
     emoji: "🪶",
     name: "pen",
+    image: "/pen.png",
     description: "A quill full of ink.",
     container: CONTAINERS.CHEST,
   },
