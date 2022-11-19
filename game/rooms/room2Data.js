@@ -9,6 +9,7 @@ import {
 } from "../setup";
 import { room1 } from "./room1Data";
 
+const name = "village";
 const grid = gridMaker();
 const finder = finderMaker(grid);
 
@@ -22,64 +23,84 @@ const startMessage =
 
 const _containers = [
   {
+    coordinates: [0, 1],
+    itemName: "guard",
+    empty: true,
+    container: CONTAINER_IMAGE_TYPE.GUARD,
+    deps: [`${room1.name}-scroll`],
+    hint: "You need to show the guard your identity papers to pass.",
+    metMessage: "The guard takes your papers.",
+    description: "A guardsman.",
+    image: "/guard.png",
+  },
+  {
     coordinates: [9, 8],
     emoji: "🌲",
-    name: "door",
+    itemName: "door",
     image: "/closed_door.png",
     description: "The village exit.",
     deps: ["backpack", "axe", "bread", "map"],
     hint: "You will need some items to pass safely through the forest.",
     metMessage: "You enter the woods!",
     container: CONTAINER_IMAGE_TYPE.DOOR,
+    empty: true,
   },
   {
     coordinates: [1, 3],
     emoji: "🪓",
-    name: "axe",
+    itemName: "axe",
     image: "/axe.png",
     description: "A small axe.",
+    container: CONTAINER_IMAGE_TYPE.HOUSE,
+    keepForNextLevel: "forest",
+  },
+  {
+    emoji: "📜",
+    coordinates: [4, 0],
+    itemName: "canvas",
+    description: "Sturdy canvas cloth.",
     container: CONTAINER_IMAGE_TYPE.SACK,
   },
   {
-    emoji: "🔎",
-    coordinates: [6, 3],
-    name: "magnifying glass",
-    description: "A magnifying glass.",
+    emoji: "🏴‍☠️",
+    coordinates: [5, 0],
+    itemName: "patch",
+    description: "An iron-on pirate flag.",
     container: CONTAINER_IMAGE_TYPE.SACK,
   },
   {
     coordinates: [4, 6],
     emoji: "♤",
-    name: "spade",
+    itemName: "spade",
     image: "/shovel.png",
     description: "A spade for digging.",
-    container: CONTAINER_IMAGE_TYPE.SACK,
+    container: CONTAINER_IMAGE_TYPE.HOUSE,
   },
   {
     coordinates: [3, 0],
     emoji: "🎒",
-    name: "backpack",
+    itemName: "backpack",
     image: "/backpack.png",
     description: "A craftsman has a lopsided backpack on display.",
-    deps: ["sewing things"],
-    hint: "Although it's too ugly for sale, the craftsman will not give it to you unless you can find him something useful to his trade.\n\nHe's pretty sure you might find something useful in a sack nearby.",
+    deps: ["sewing things", "canvas", "patch"],
+    hint: "Although it's too ugly for sale, the craftsman will not give it to you unless you can find him something useful to his trade.\n\nHe's pretty sure you might find something useful in some sacks nearby.",
     metMessage:
-      "You give the craftsman the needle and thread, and he gives you the irregular backpack.",
-    newMaxItems: 9,
-    keepForNextLevel: true,
+      "You give the craftsman the materials, and he gives you the irregular backpack.",
+    newMaxItems: 7,
+    keepForNextLevel: "forest",
     container: CONTAINER_IMAGE_TYPE.CRAFTER,
   },
   {
     emoji: "🔑",
     coordinates: [5, 3],
-    name: "small key",
+    itemName: "small key",
     image: "/smallkey.png",
     description: "A small key.",
-    container: CONTAINER_IMAGE_TYPE.SACK,
+    container: CONTAINER_IMAGE_TYPE.HOUSE,
   },
   {
     emoji: "📕",
-    name: "book",
+    itemName: "book",
     coordinates: [5, 6],
     description: "A very dusty red book.",
     deps: ["small key"],
@@ -89,7 +110,7 @@ const _containers = [
   },
   {
     emoji: "🥜",
-    name: "seeds",
+    itemName: "seeds",
     coordinates: [2, 6],
     description: "A handful of seeds.",
     image: "/seeds.png",
@@ -102,7 +123,7 @@ const _containers = [
   {
     emoji: "🪺",
     image: "/eggs.png",
-    name: "eggs",
+    itemName: "eggs",
     deps: ["seeds"],
     coordinates: [1, 7],
     description: "Unfertilized chicken eggs.",
@@ -114,45 +135,45 @@ const _containers = [
   {
     emoji: "📐",
     coordinates: [8, 6],
-    name: "angle ruler",
+    itemName: "angle ruler",
     description: "A angle ruler, used for precision drawing.",
     container: CONTAINER_IMAGE_TYPE.HOUSE,
   },
   {
     emoji: "🪶",
-    coordinates: [6, 0],
-    name: "pen",
+    coordinates: [9, 2],
+    itemName: "pen",
     image: "/pen.png",
     description: "A quill full of ink.",
-    container: CONTAINER_IMAGE_TYPE.SACK,
+    container: CONTAINER_IMAGE_TYPE.HOUSE,
   },
   {
     emoji: "🗺",
-    name: "map",
+    itemName: "map",
     coordinates: [8, 0],
-    deps: ["angle ruler", "pen", "book", "magnifying glass"],
+    deps: ["angle ruler", "pen", "book"],
     description: "A scribe is selling a vague map.",
-    hint: "She is willing to fill in the map's missing details, if you can bring her the materials she needs.\n\nShe has very poor vision.\n\nShe will need things to draw with, and reference material.",
+    hint: "She is willing to fill in the map's missing details, if you can bring her the materials she needs.\n\nShe will need things to draw with, and reference material.",
     metMessage: "The scribe draws you a map.",
-    keepForNextLevel: true,
+    keepForNextLevel: "forest",
     container: CONTAINER_IMAGE_TYPE.ELDER,
   },
   {
     emoji: "🥐",
     coordinates: [8, 4],
-    name: "bread",
+    itemName: "bread",
     description: "Nonperishable sweetbread.",
     hint: "The baker says you can have some if you can find some eggs for her recipe.",
     metMessage:
       "The baker takes the eggs, and within the hour, you have a highly portable snack.",
-    keepForNextLevel: true,
+    keepForNextLevel: "forest",
     deps: ["eggs"],
     container: CONTAINER_IMAGE_TYPE.BAKER,
   },
   {
     emoji: "🪡",
     coordinates: [2, 0],
-    name: "sewing things",
+    itemName: "sewing things",
     description: "A very sturdy needle and thick thread.",
     image: "/needle.png",
     container: CONTAINER_IMAGE_TYPE.SACK,
@@ -161,9 +182,15 @@ const _containers = [
 
 const previousLevelItems = Object.values(room1.containers)
   .filter((item) => item.keepForNextLevel)
-  .map((item) => ({ ...item, id: `castle-${item.id}` }));
+  .map((item) => ({
+    ...item,
+    id: `castle-${item.itemName}`,
+    keepForNextLevel: item.keepForNextLevel !== name,
+    node: null,
+    deps: [],
+  }));
 
-const containers = createContainers({ containers: _containers, grid });
+const containers = createContainers({ containers: _containers, grid, name });
 
 const _obstacles = [
   {
@@ -227,12 +254,12 @@ console.assert(
     .map((i) => [i % gridWidth, Math.floor(i / gridWidth)])
     .map(([x, y]) => grid.getNodeAt(x, y))
     .filter((node) => !node.walkable).length ===
-    _obstacles.length + Object.values(containers).length,
-  "Village: All containers and obstacles should be placed on the grid."
+    _obstacles.length + _containers.length,
+  `${name}: All containers and obstacles should be placed on the grid.`
 );
 
 export const room2 = {
-  name: "village",
+  name,
   startMessage,
   containers,
   grid,

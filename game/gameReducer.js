@@ -1,5 +1,5 @@
 import { RESET, UPDATE_POSITION } from "./gameActions";
-import { getIdFromPos, getItemByName } from "./setup";
+import { getIdFromPos } from "./setup";
 
 export const initialState = {
   activeChestId: null,
@@ -92,20 +92,67 @@ const updatePosition = (state, i, j) => {
     };
   };
   const visitNewItemResults = (belowItem) => {
-    const depItems = belowItem.deps.map(getItemByName(state.containers));
-    const depsAreNotCollected = depItems.some(
-      (dep) => !collectedItems.includes(dep.id)
+    const { deps } = belowItem;
+    const depItems = deps.map(
+      (id) =>
+        state.containers[id] ??
+        state.previousLevelItems.find((i) => i.id === id)
     );
-    const depIdsInInventory = state.inventory.filter((id) =>
-      depItems.map((dep) => dep.id).includes(id)
+    const depsAreNotCollected = deps.some(
+      (dep) => !collectedItems.includes(dep)
     );
-    const depsToRemove = depItems.every((dep) =>
-      depIdsInInventory.includes(dep.id)
-    )
+    const previousLevelItemIds = state.previousLevelItems.map(
+      (item) => item.id
+    );
+    const depIdsInInventory = state.inventory.filter((id) => deps.includes(id));
+    const depIdsInPreviousInventory = previousLevelItemIds.filter((id) =>
+      deps.includes(id)
+    );
+    const hasAllDeps = deps.every(
+      (dep) =>
+        depIdsInPreviousInventory.includes(dep) ||
+        depIdsInInventory.includes(dep)
+    );
+    const depsToRemove = hasAllDeps
       ? depItems.filter((d) => !d.keepForNextLevel)
       : [];
-    const shouldAddItemIfRoom = depItems.every((dep) =>
-      state.inventory.includes(dep.id)
+    const depIdsToRemove = depsToRemove.map((d) => d.id);
+    const addable = !belowItem.empty;
+
+    if (!addable) {
+      const shouldGiveDepsToEmptyItem = deps.every((dep) =>
+        [...state.inventory, ...previousLevelItemIds].includes(dep)
+      );
+      if (shouldGiveDepsToEmptyItem) {
+        const discardedInventory = [
+          ...state.discardedInventory,
+          belowItem.id,
+          ...depIdsToRemove,
+        ];
+        const inventory = state.inventory.filter(
+          (id) => !depIdsToRemove.includes(id)
+        );
+        const previousLevelItems = state.previousLevelItems.filter(
+          (item) => !depIdsToRemove.includes(item.id)
+        );
+        const successMessage = belowItem.metMessage;
+        return {
+          activeChestIdOpenable: true,
+          discardedInventory,
+          inventory,
+          successMessage,
+          previousLevelItems,
+        };
+      } else {
+        const hintMessage = belowItem.description + " - " + belowItem.hint;
+        return {
+          hintMessage,
+        };
+      }
+    }
+
+    const shouldAddItemIfRoom = deps.every((dep) =>
+      state.inventory.includes(dep)
     );
 
     const isRoom =

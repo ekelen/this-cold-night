@@ -8,6 +8,7 @@ import {
   gridWidth,
 } from "../setup";
 
+const name = "castle";
 const grid = gridMaker();
 const finder = finderMaker(grid);
 
@@ -25,9 +26,29 @@ const startMessage =
 
 const _containers = [
   {
+    coordinates: [7, 8],
+    emoji: "🗑",
+    image: "/sack.png",
+    itemName: "garbage",
+    description: "An empty sack.",
+    container: CONTAINER_IMAGE_TYPE.SACK,
+    deps: ["green ball"],
+    empty: true,
+    hint: "You may place a useless item here.",
+    metMessage: "You place the useless ball in the bin.",
+  },
+  {
+    coordinates: [2, 8],
+    emoji: "🟢",
+    itemName: "green ball",
+    description: "A useless green ball.",
+    container: CONTAINER_IMAGE_TYPE.CHEST,
+    deps: [],
+  },
+  {
     coordinates: [9, 8],
     emoji: "🚪",
-    name: "door",
+    itemName: "door",
     image: "/closed_door.png",
     description: "The way out.",
     deps: ["large key", "scroll", "dog", "cloak"],
@@ -39,7 +60,7 @@ const _containers = [
   {
     coordinates: [1, 8],
     emoji: "🪚",
-    name: "bonesaw",
+    itemName: "bonesaw",
     description: "A saw for cutting bone.",
     image: "/saw.png",
     container: CONTAINER_IMAGE_TYPE.CHEST,
@@ -47,7 +68,7 @@ const _containers = [
   {
     coordinates: [2, 2],
     emoji: "🍷",
-    name: "wine",
+    itemName: "wine",
     description: "A quantity of wine.",
     deps: ["poison"],
     hint: "It would be effective in putting some guards to sleep, if it had something else in it...",
@@ -57,27 +78,27 @@ const _containers = [
   {
     coordinates: [2, 6],
     emoji: "🐶",
-    name: "dog",
+    itemName: "dog",
     image: "/dog.png",
     deps: ["bone"],
     hint: "He looks like he needs something to chew on.",
     description: "A dog.",
     metMessage:
       "You give the dog the ox bone. He drops it, wags his tail, and follows you.",
-    keepForNextLevel: true,
+    keepForNextLevel: "forest",
     container: CONTAINER_IMAGE_TYPE.DOG,
   },
   {
     coordinates: [0, 7],
     emoji: "🕯",
-    name: "candle",
+    itemName: "candle",
     description: "A lit taper candle.",
     container: CONTAINER_IMAGE_TYPE.CHEST,
   },
   {
     coordinates: [1, 5],
     emoji: "🔑",
-    name: "small key",
+    itemName: "small key",
     image: "/smallkey.png",
     description: "A small key.",
     container: CONTAINER_IMAGE_TYPE.CHEST,
@@ -85,7 +106,7 @@ const _containers = [
   {
     coordinates: [5, 3],
     emoji: "🧪",
-    name: "poison",
+    itemName: "poison",
     image: "/potion.png",
     deps: ["strawberry"],
     description: "A vial of poison.",
@@ -97,7 +118,7 @@ const _containers = [
   {
     coordinates: [5, 6],
     emoji: "🦴",
-    name: "bone",
+    itemName: "bone",
     deps: ["bonesaw"],
     description: "A large ox bone, full of fresh marrow.",
     metMessage: "You make a small crosscut of the bone using the saw.",
@@ -107,7 +128,7 @@ const _containers = [
   {
     coordinates: [0, 1],
     emoji: "✉️",
-    name: "letter",
+    itemName: "letter",
     deps: ["small key", "candle"],
     description: "A letter.",
     hint: "It is locked in a drawer in a dark room.",
@@ -118,14 +139,14 @@ const _containers = [
   {
     coordinates: [7, 2],
     emoji: "💍",
-    name: "ring",
+    itemName: "ring",
     description: "A sparkly ring from your grandmother.",
     container: CONTAINER_IMAGE_TYPE.CHEST,
   },
   {
     coordinates: [7, 4],
     emoji: "🪶",
-    name: "pen",
+    itemName: "pen",
     image: "/pen.png",
     description: "A quill full of ink.",
     container: CONTAINER_IMAGE_TYPE.CHEST,
@@ -133,7 +154,7 @@ const _containers = [
   {
     coordinates: [8, 0],
     emoji: "🧥",
-    name: "cloak",
+    itemName: "cloak",
     image: "/cloak.png",
     deps: ["huntsman"],
     description: "A cloak.",
@@ -144,27 +165,27 @@ const _containers = [
   {
     coordinates: [8, 4],
     emoji: "🍓",
-    name: "strawberry",
+    itemName: "strawberry",
     description: "A poisonous strawberry.",
     container: CONTAINER_IMAGE_TYPE.CHEST,
   },
   {
     coordinates: [8, 6],
     emoji: "📜",
-    name: "scroll",
+    itemName: "scroll",
     image: "/scroll.png",
     deps: ["letter", "pen"],
     description: "A scroll.",
     hint: "You don't know what to write on it. Maybe you need to read some important information first.",
     metMessage:
       "You draw a passable imitation of identity papers for yourself on the scroll with the quill.",
-    keepForNextLevel: true,
+    keepForNextLevel: "village",
     container: CONTAINER_IMAGE_TYPE.CHEST,
   },
   {
     coordinates: [9, 0],
     emoji: "👨",
-    name: "huntsman",
+    itemName: "huntsman",
     image: "/hunter.png",
     deps: ["baker"],
     description: "A friendly young huntsman.",
@@ -176,7 +197,7 @@ const _containers = [
   {
     coordinates: [3, 0],
     emoji: "👩",
-    name: "baker",
+    itemName: "baker",
     deps: ["ring"],
     image: "/baker.png",
     description: "A pretty young baker.",
@@ -188,7 +209,7 @@ const _containers = [
   {
     coordinates: [8, 8],
     emoji: "🗝",
-    name: "large key",
+    itemName: "large key",
     image: "/key.png",
     description: "A large key.",
     deps: ["wine"],
@@ -203,19 +224,19 @@ const _obstacles = [];
 
 const obstacles = createObstacles({ obstacles: _obstacles, grid });
 
-const containers = createContainers({ containers: _containers, grid });
+const containers = createContainers({ containers: _containers, grid, name });
 
 console.assert(
   [...Array(gridWidth * gridHeight).keys()]
     .map((i) => [i % gridWidth, Math.floor(i / gridWidth)])
     .map(([x, y]) => grid.getNodeAt(x, y))
     .filter((node) => !node.walkable).length ===
-    _obstacles.length + Object.values(containers).length,
-  "Castle: All containers and obstacles should be placed on the grid."
+    _obstacles.length + _containers.length,
+  `${name}: All containers and obstacles should be placed on the grid.`
 );
 
 export const room1 = {
-  name: "castle",
+  name,
   startMessage,
   containers,
   grid,

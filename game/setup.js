@@ -14,19 +14,24 @@ export const getPosFromId = (id) => [
 export const gridMaker = () => new PF.Grid(gridWidth, gridHeight);
 export const finderMaker = (grid) => new PF.AStarFinder(grid);
 
-export const createContainers = ({ containers, grid }) => {
+export const createContainers = ({ containers, grid, name }) => {
+  const _getIdFromName = (itemName) => {
+    const container = containers.find((c) => c.itemName === itemName);
+    const id = !container ? itemName : getIdFromPos(container.coordinates);
+    return id;
+  };
   const formattedContainers = containers.reduce((acc, container) => {
     const [x, y] = container.coordinates;
     const id = getIdFromPos([x, y]);
     acc[id] = container;
     acc[id].id = id;
     acc[id].hint = container.hint || "";
-    acc[id].successMessage = container.successMessage || "";
     acc[id].image = container.image || "";
-    acc[id].deps = container.deps || [];
+    acc[id].deps = (container.deps ?? []).map(_getIdFromName);
     acc[id].metMessage = container.metMessage || "";
     acc[id].container = container.container || "";
     acc[id].node = grid.getNodeAt(x, y);
+    acc[id].room = name;
     return acc;
   }, {});
   Object.values(formattedContainers).forEach((container) => {
@@ -49,10 +54,6 @@ export const createObstacles = ({ obstacles, grid }) => {
     return acc;
   }, {});
   return formattedObstacles;
-};
-
-export const getItemByName = (items) => (name) => {
-  return Object.values(items).find((item) => item.name === name);
 };
 
 export const getPath = (startX, startY, endX, endY, grid, finder) => {
