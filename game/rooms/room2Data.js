@@ -1,5 +1,5 @@
 import { CONTAINERS } from "../constants";
-import { createItems, finderMaker, gridMaker } from "../setup";
+import { createItems, createObstacles, finderMaker, gridMaker } from "../setup";
 import { room1 } from "./room1Data";
 
 const grid = gridMaker();
@@ -17,9 +17,9 @@ const chestCoordinates = [
   [3, 3],
   [5, 3],
   [5, 6],
-  [3, 1],
-  [4, 4],
-  [7, 4],
+  [2, 6],
+  [4, 3],
+  [6, 0],
   [8, 0],
   [8, 4],
   [2, 0],
@@ -157,6 +157,63 @@ const previousLevelItems = Object.values(room1.items)
 
 const items = createItems({ items: _items, chestCoordinates, grid });
 
+const _obstacles = [
+  {
+    coordinates: [0, 9],
+    image: "/tree.png",
+  },
+  {
+    coordinates: [9, 0],
+    image: "/tree2.png",
+  },
+  {
+    coordinates: [9, 1],
+    image: "/house.png",
+  },
+
+  {
+    coordinates: [6, 6],
+    image: "/house.png",
+  },
+  {
+    coordinates: [7, 6],
+    image: "/house.png",
+  },
+  {
+    coordinates: [7, 0],
+    image: "/house.png",
+  },
+  {
+    coordinates: [1, 9],
+    image: "/house.png",
+  },
+  {
+    coordinates: [2, 9],
+    image: "/house.png",
+  },
+  {
+    coordinates: [7, 8],
+    image: "/house.png",
+  },
+  {
+    coordinates: [8, 8],
+    image: "/house.png",
+  },
+  {
+    coordinates: [0, 5],
+    image: "/house.png",
+  },
+  {
+    coordinates: [0, 6],
+    image: "/tree2.png",
+  },
+  {
+    coordinates: [1, 6],
+    image: "/house.png",
+  },
+];
+const obstacles = createObstacles({ obstacles: _obstacles, grid });
+
 export const room2 = {
   startMessage,
   items,
@@ -165,4 +222,5 @@ export const room2 = {
   maxItems: 4,
   startInventory: [],
   previousLevelItems,
+  obstacles,
 };

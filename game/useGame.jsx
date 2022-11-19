@@ -11,6 +11,7 @@ const useGame = (
     maxItems: 0,
     startInventory: [],
     previousLevelItems: [],
+    obstacles: {},
   }
 ) => {
   const [state, dispatch] = useReducer(gameReducer, room, init);

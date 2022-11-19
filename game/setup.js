@@ -35,6 +35,22 @@ export const createItems = ({ items, chestCoordinates, grid }) => {
   return formattedItems;
 };
 
+export const createObstacles = ({ obstacles, grid }) => {
+  obstacles.forEach(({ coordinates }) => {
+    grid.getNodeAt(...coordinates).walkable = false;
+  });
+  const formattedObstacles = obstacles.reduce((acc, obstacle) => {
+    const { coordinates, image } = obstacle;
+    const id = getIdFromPos(coordinates);
+    acc[id] = obstacle;
+    acc[id].id = id;
+    acc[id].coordinates = coordinates;
+    acc[id].image = image;
+    return acc;
+  }, {});
+  return formattedObstacles;
+};
+
 export const getItemByName = (items) => (name) => {
   return Object.values(items).find((item) => item.name === name);
 };

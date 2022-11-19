@@ -1,5 +1,5 @@
 import { CONTAINERS } from "../constants";
-import { createItems, finderMaker, gridMaker } from "../setup";
+import { createItems, createObstacles, finderMaker, gridMaker } from "../setup";
 
 const grid = gridMaker();
 const finder = finderMaker(grid);
@@ -193,6 +193,10 @@ const _items = {
   },
 };
 
+const _obstacles = [];
+
+const obstacles = createObstacles({ obstacles: _obstacles, grid });
+
 const items = createItems({ items: _items, chestCoordinates, grid });
 
 export const room1 = {
@@ -203,4 +207,5 @@ export const room1 = {
   maxItems,
   startInventory: [],
   previousLevelItems: [],
+  obstacles,
 };

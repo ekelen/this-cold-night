@@ -18,6 +18,7 @@ export const initialState = {
   maxItems: 0,
   levelComplete: false,
   previousLevelItems: [],
+  obstacles: {},
 };
 
 export const init = (room) => {
@@ -29,6 +30,7 @@ export const init = (room) => {
     maxItems,
     startInventory,
     previousLevelItems,
+    obstacles,
   } = room;
   return {
     ...initialState,
@@ -39,6 +41,7 @@ export const init = (room) => {
     maxItems,
     inventory: startInventory,
     previousLevelItems,
+    obstacles,
   };
 };
 
