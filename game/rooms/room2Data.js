@@ -5,6 +5,11 @@ import { room1 } from "./room1Data";
 const grid = gridMaker();
 const finder = finderMaker(grid);
 
+const player = {
+  image: "/player_cloak2.png",
+  style: {},
+};
+
 const startMessage =
   "You are in the village outside the castle. You will need some additional items to prepare to enter the forest beyond...";
 
@@ -215,6 +220,7 @@ const _obstacles = [
 const obstacles = createObstacles({ obstacles: _obstacles, grid });
 
 export const room2 = {
+  name: "village",
   startMessage,
   items,
   grid,
@@ -223,4 +229,5 @@ export const room2 = {
   startInventory: [],
   previousLevelItems,
   obstacles,
+  player,
 };

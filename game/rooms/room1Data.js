@@ -4,6 +4,13 @@ import { createItems, createObstacles, finderMaker, gridMaker } from "../setup";
 const grid = gridMaker();
 const finder = finderMaker(grid);
 
+const player = {
+  image: "/player.png",
+  style: {
+    filter: `'brightness(${1.4})',`,
+  },
+};
+
 const maxItems = 4;
 
 const startMessage =
@@ -137,7 +144,6 @@ const _items = {
     description: "A cloak.",
     hint: "It looks very warm and is too bulky to steal.\n\nSomeone will have to gift it to you.",
     metMessage: "The young huntsman is happy to give you his cloak.",
-    keepForNextLevel: true,
     container: CONTAINERS.CHEST,
   },
   [12]: {
@@ -200,6 +206,7 @@ const obstacles = createObstacles({ obstacles: _obstacles, grid });
 const items = createItems({ items: _items, chestCoordinates, grid });
 
 export const room1 = {
+  name: "castle",
   startMessage,
   items,
   grid,
@@ -208,4 +215,5 @@ export const room1 = {
   startInventory: [],
   previousLevelItems: [],
   obstacles,
+  player,
 };

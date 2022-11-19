@@ -9,12 +9,17 @@ export const CONTAINERS = {
   SACK: "sack",
   CHICKEN: "chicken",
   ELDER: "elder",
+  CRAFTER: "crafter",
 };
 
 export const containers = {
   chest: {
     open: "/chest-open.png",
     closed: "/chest.png",
+  },
+  crafter: {
+    open: "/crafter.png",
+    closed: "/crafter.png",
   },
   elder: {
     open: "/scribe.png",

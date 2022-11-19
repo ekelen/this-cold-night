@@ -14,11 +14,16 @@ export const initialState = {
   hintMessage: "",
   inventory: [],
   items: [],
-  successMessage: "",
-  maxItems: 0,
   levelComplete: false,
-  previousLevelItems: [],
+  maxItems: 0,
+  name: "",
   obstacles: {},
+  previousLevelItems: [],
+  successMessage: "",
+  player: {
+    image: "/player.png",
+    style: {},
+  },
 };
 
 export const init = (room) => {
@@ -31,6 +36,8 @@ export const init = (room) => {
     startInventory,
     previousLevelItems,
     obstacles,
+    name,
+    player,
   } = room;
   return {
     ...initialState,
@@ -42,6 +49,8 @@ export const init = (room) => {
     inventory: startInventory,
     previousLevelItems,
     obstacles,
+    name,
+    player,
   };
 };
 

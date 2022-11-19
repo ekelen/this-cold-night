@@ -32,6 +32,8 @@ export default function Room({ onLevelComplete, room }) {
     maxItems,
     levelComplete,
     obstacles,
+    name,
+    player,
   } = gameState;
 
   const requestRef = useRef();
@@ -81,10 +83,11 @@ export default function Room({ onLevelComplete, room }) {
             width: `${cellLen}px`,
             left: "0px",
             top: "0px",
-            backgroundImage: `url('/player.png')`,
+            backgroundImage: `url(${player.image})`,
             backgroundSize: "contain",
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
+            ...player.style,
           }}
           className={styles.player}
           ref={charRef}

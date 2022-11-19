@@ -12,6 +12,10 @@ const useGame = (
     startInventory: [],
     previousLevelItems: [],
     obstacles: {},
+    player: {
+      image: "",
+      style: {},
+    },
   }
 ) => {
   const [state, dispatch] = useReducer(gameReducer, room, init);
