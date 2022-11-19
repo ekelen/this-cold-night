@@ -14,9 +14,9 @@ export const getPosFromId = (id) => [
 export const gridMaker = () => new PF.Grid(gridWidth, gridHeight);
 export const finderMaker = (grid) => new PF.AStarFinder(grid);
 
-export const createItems = ({ items, chestCoordinates, grid }) => {
+export const createItems = ({ items, grid }) => {
   const formattedItems = Object.values(items).reduce((acc, item, i) => {
-    const [x, y] = chestCoordinates[i];
+    const [x, y] = item.coordinates;
     const id = getIdFromPos([x, y]);
     acc[id] = item;
     acc[id].id = id;
@@ -29,8 +29,8 @@ export const createItems = ({ items, chestCoordinates, grid }) => {
     acc[id].node = grid.getNodeAt(x, y);
     return acc;
   }, {});
-  chestCoordinates.forEach(([x, y]) => {
-    grid.getNodeAt(x, y).walkable = false;
+  Object.values(formattedItems).forEach((item) => {
+    item.node.walkable = false;
   });
   return formattedItems;
 };

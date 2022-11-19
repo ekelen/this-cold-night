@@ -16,32 +16,9 @@ const maxItems = 4;
 const startMessage =
   "You find yourself trapped in a castle...\n\nRemember where things are, in case you need to retrace your steps. You can only carry a limited number of items at a time, and cannot return them once they have been moved...";
 
-const chestCoordinates = [
-  [9, 8],
-  [1, 8],
-  [2, 2],
-  [2, 6],
-  [0, 7],
-  [1, 5],
-  [5, 3],
-  [5, 6],
-  [0, 1],
-  [7, 2],
-  [7, 4],
-  [8, 0],
-  [8, 4],
-  [8, 6],
-  [9, 0],
-  [3, 0],
-  [8, 8],
-];
-
-// chestCoordinates.forEach(([x, y]) => {
-//   grid.getNodeAt(x, y).walkable = false;
-// });
-
 const _items = {
   [0]: {
+    coordinates: [9, 8],
     emoji: "🚪",
     name: "door",
     image: "/closed_door.png",
@@ -53,6 +30,7 @@ const _items = {
     finalItemForLevel: true,
   },
   [1]: {
+    coordinates: [1, 8],
     emoji: "🪚",
     name: "bonesaw",
     description: "A saw for cutting bone.",
@@ -60,6 +38,7 @@ const _items = {
     container: CONTAINERS.CHEST,
   },
   [2]: {
+    coordinates: [2, 2],
     emoji: "🍷",
     name: "wine",
     description: "A quantity of wine.",
@@ -69,6 +48,7 @@ const _items = {
     container: CONTAINERS.CHEST,
   },
   [3]: {
+    coordinates: [2, 6],
     emoji: "🐶",
     name: "dog",
     image: "/dog.png",
@@ -81,12 +61,14 @@ const _items = {
     container: CONTAINERS.DOG,
   },
   [4]: {
+    coordinates: [0, 7],
     emoji: "🕯",
     name: "candle",
     description: "A lit taper candle.",
     container: CONTAINERS.CHEST,
   },
   [5]: {
+    coordinates: [1, 5],
     emoji: "🔑",
     name: "small key",
     image: "/smallkey.png",
@@ -94,6 +76,7 @@ const _items = {
     container: CONTAINERS.CHEST,
   },
   [6]: {
+    coordinates: [5, 3],
     emoji: "🧪",
     name: "poison",
     image: "/potion.png",
@@ -105,6 +88,7 @@ const _items = {
     container: CONTAINERS.CHEST,
   },
   [7]: {
+    coordinates: [5, 6],
     emoji: "🦴",
     name: "bone",
     deps: ["bonesaw"],
@@ -114,6 +98,7 @@ const _items = {
     container: CONTAINERS.CHEST,
   },
   [8]: {
+    coordinates: [0, 1],
     emoji: "✉️",
     name: "letter",
     deps: ["small key", "candle"],
@@ -124,12 +109,14 @@ const _items = {
     container: CONTAINERS.CHEST,
   },
   [9]: {
+    coordinates: [7, 2],
     emoji: "💍",
     name: "ring",
     description: "A sparkly ring from your grandmother.",
     container: CONTAINERS.CHEST,
   },
   [10]: {
+    coordinates: [7, 4],
     emoji: "🪶",
     name: "pen",
     image: "/pen.png",
@@ -137,6 +124,7 @@ const _items = {
     container: CONTAINERS.CHEST,
   },
   [11]: {
+    coordinates: [8, 0],
     emoji: "🧥",
     name: "cloak",
     image: "/cloak.png",
@@ -147,12 +135,14 @@ const _items = {
     container: CONTAINERS.CHEST,
   },
   [12]: {
+    coordinates: [8, 4],
     emoji: "🍓",
     name: "strawberry",
     description: "A poisonous strawberry.",
     container: CONTAINERS.CHEST,
   },
   [13]: {
+    coordinates: [8, 6],
     emoji: "📜",
     name: "scroll",
     image: "/scroll.png",
@@ -165,6 +155,7 @@ const _items = {
     container: CONTAINERS.CHEST,
   },
   [14]: {
+    coordinates: [9, 0],
     emoji: "👨",
     name: "huntsman",
     image: "/hunter.png",
@@ -176,6 +167,7 @@ const _items = {
     container: CONTAINERS.HUNTER,
   },
   [15]: {
+    coordinates: [3, 0],
     emoji: "👩",
     name: "baker",
     deps: ["ring"],
@@ -187,6 +179,7 @@ const _items = {
     container: CONTAINERS.BAKER,
   },
   [16]: {
+    coordinates: [8, 8],
     emoji: "🗝",
     name: "large key",
     image: "/key.png",
@@ -203,7 +196,7 @@ const _obstacles = [];
 
 const obstacles = createObstacles({ obstacles: _obstacles, grid });
 
-const items = createItems({ items: _items, chestCoordinates, grid });
+const items = createItems({ items: _items, grid });
 
 export const room1 = {
   name: "castle",
