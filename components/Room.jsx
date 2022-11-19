@@ -31,6 +31,7 @@ export default function Room({ onLevelComplete, room }) {
     successMessage,
     maxItems,
     levelComplete,
+    obstacles,
   } = gameState;
 
   const requestRef = useRef();
@@ -94,6 +95,7 @@ export default function Room({ onLevelComplete, room }) {
               {row.map((node, j) => {
                 const id = i * grid.width + j;
                 const item = items[id];
+                const obstacle = obstacles[id];
 
                 const cellContainerStyle = !item
                   ? {}
@@ -106,9 +108,8 @@ export default function Room({ onLevelComplete, room }) {
                           : "1px solid #e27a7a",
                     };
 
-                const cellContentsStyle = !item
-                  ? {}
-                  : {
+                const cellContentsStyle = item
+                  ? {
                       backgroundImage: `url(${
                         containers[item.container][
                           inventory.includes(id) ||
@@ -120,10 +121,16 @@ export default function Room({ onLevelComplete, room }) {
                       filter: `brightness(${
                         inventory.includes(id) ||
                         discardedInventory.includes(id)
-                          ? 0.6
+                          ? 0.65
                           : 1
                       })`,
-                    };
+                    }
+                  : obstacle
+                  ? {
+                      backgroundImage: `url(${obstacle.image})`,
+                      filter: `opacity(${0.4})`,
+                    }
+                  : {};
 
                 return (
                   <div
