@@ -2,7 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import { useState } from "react";
 import Room from "../components/Room";
-import { containers } from "../game/constants";
+import { CONTAINER_IMAGES } from "../game/constants";
 import { room1 } from "../game/rooms/room1Data";
 import { room2 } from "../game/rooms/room2Data";
 import styles from "../styles/Home.module.css";
@@ -49,7 +49,7 @@ export default function Home() {
             key={item.image + `_${i}`}
           />
         ))}
-      {Object.values(containers)
+      {Object.values(CONTAINER_IMAGES)
         .flatMap((obj) => Object.values(obj))
         .map((image, i) => (
           <div

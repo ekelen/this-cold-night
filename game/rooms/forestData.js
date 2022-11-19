@@ -1,4 +1,4 @@
-const _items = [
+const _containers = [
   {
     coordinates: [1, 0],
     emoji: "🚪",
@@ -6,7 +6,7 @@ const _items = [
     image: "/closed_door.png",
     description: "The way out.",
     deps: [],
-    container: CONTAINERS.DOOR,
+    container: CONTAINER_IMAGE_TYPE.DOOR,
   },
   {
     coordinates: [2, 0],
@@ -15,6 +15,6 @@ const _items = [
     image: "/closed_door.png",
     description: "The way out.",
     deps: [],
-    container: CONTAINERS.DOOR,
+    container: CONTAINER_IMAGE_TYPE.DOOR,
   },
 ];

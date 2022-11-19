@@ -1,4 +1,4 @@
-export const CONTAINERS = {
+export const CONTAINER_IMAGE_TYPE = {
   CHEST: "chest",
   DOOR: "door",
   BAKER: "baker",
@@ -12,7 +12,7 @@ export const CONTAINERS = {
   CRAFTER: "crafter",
 };
 
-export const containers = {
+export const CONTAINER_IMAGES = {
   chest: {
     open: "/chest-open.png",
     closed: "/chest.png",

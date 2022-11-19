@@ -4,7 +4,6 @@ import { getIdFromPos, getItemByName } from "./setup";
 export const initialState = {
   activeChestId: null,
   activeChestIdOpenable: false,
-  chestCoordinates: [],
   currentI: 0,
   currentJ: 0,
   discardedInventory: [],

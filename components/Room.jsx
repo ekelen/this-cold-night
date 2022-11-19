@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { containers } from "../game/constants";
+import { CONTAINER_IMAGES } from "../game/constants";
 import { cellLen, gridHeight, gridWidth } from "../game/setup";
 import useGame from "../game/useGame";
 import useAnimation from "../hooks/useAnimation";
@@ -114,7 +114,7 @@ export default function Room({ onLevelComplete, room }) {
                 const cellContentsStyle = item
                   ? {
                       backgroundImage: `url(${
-                        containers[item.container][
+                        CONTAINER_IMAGES[item.container][
                           inventory.includes(id) ||
                           discardedInventory.includes(id)
                             ? "open"

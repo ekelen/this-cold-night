@@ -1,4 +1,4 @@
-import { CONTAINERS } from "../constants";
+import { CONTAINER_IMAGE_TYPE } from "../constants";
 import {
   createItems,
   createObstacles,
@@ -20,7 +20,7 @@ const player = {
 const startMessage =
   "You are in the village outside the castle. You will need some additional items to prepare to enter the forest beyond...";
 
-const _items = [
+const _containers = [
   {
     coordinates: [9, 8],
     emoji: "🌲",
@@ -30,7 +30,7 @@ const _items = [
     deps: ["backpack", "axe", "bread", "map"],
     hint: "You will need some items to pass safely through the forest.",
     metMessage: "You enter the woods!",
-    container: CONTAINERS.DOOR,
+    container: CONTAINER_IMAGE_TYPE.DOOR,
   },
   {
     coordinates: [1, 3],
@@ -38,14 +38,14 @@ const _items = [
     name: "axe",
     image: "/axe.png",
     description: "A small axe.",
-    container: CONTAINERS.SACK,
+    container: CONTAINER_IMAGE_TYPE.SACK,
   },
   {
     emoji: "🔎",
     coordinates: [6, 3],
     name: "magnifying glass",
     description: "A magnifying glass.",
-    container: CONTAINERS.SACK,
+    container: CONTAINER_IMAGE_TYPE.SACK,
   },
   {
     coordinates: [4, 6],
@@ -53,7 +53,7 @@ const _items = [
     name: "spade",
     image: "/shovel.png",
     description: "A spade for digging.",
-    container: CONTAINERS.SACK,
+    container: CONTAINER_IMAGE_TYPE.SACK,
   },
   {
     coordinates: [3, 0],
@@ -67,7 +67,7 @@ const _items = [
       "You give the craftsman the needle and thread, and he gives you the irregular backpack.",
     newMaxItems: 9,
     keepForNextLevel: true,
-    container: CONTAINERS.CRAFTER,
+    container: CONTAINER_IMAGE_TYPE.CRAFTER,
   },
   {
     emoji: "🔑",
@@ -75,7 +75,7 @@ const _items = [
     name: "small key",
     image: "/smallkey.png",
     description: "A small key.",
-    container: CONTAINERS.SACK,
+    container: CONTAINER_IMAGE_TYPE.SACK,
   },
   {
     emoji: "📕",
@@ -85,7 +85,7 @@ const _items = [
     deps: ["small key"],
     hint: "It is in a locked case.",
     metMessage: "You unlock the bookcase and take the book.",
-    container: CONTAINERS.HOUSE,
+    container: CONTAINER_IMAGE_TYPE.HOUSE,
   },
   {
     emoji: "🥜",
@@ -97,7 +97,7 @@ const _items = [
     hint: "Most of them are buried in the ground.",
     metMessage:
       "You churn up the earth and take as many seeds as you can find.",
-    container: CONTAINERS.HOUSE,
+    container: CONTAINER_IMAGE_TYPE.HOUSE,
   },
   {
     emoji: "🪺",
@@ -109,14 +109,14 @@ const _items = [
     hint: "They are guarded by an unusually fearsome chicken.",
     metMessage:
       "You throw the seeds out into the yard.\n\nThe fearsome chicken runs after them and you take her eggs.",
-    container: CONTAINERS.CHICKEN,
+    container: CONTAINER_IMAGE_TYPE.CHICKEN,
   },
   {
     emoji: "📐",
     coordinates: [8, 6],
     name: "angle ruler",
     description: "A angle ruler, used for precision drawing.",
-    container: CONTAINERS.HOUSE,
+    container: CONTAINER_IMAGE_TYPE.HOUSE,
   },
   {
     emoji: "🪶",
@@ -124,7 +124,7 @@ const _items = [
     name: "pen",
     image: "/pen.png",
     description: "A quill full of ink.",
-    container: CONTAINERS.SACK,
+    container: CONTAINER_IMAGE_TYPE.SACK,
   },
   {
     emoji: "🗺",
@@ -135,7 +135,7 @@ const _items = [
     hint: "She is willing to fill in the map's missing details, if you can bring her the materials she needs.\n\nShe has very poor vision.\n\nShe will need things to draw with, and reference material.",
     metMessage: "The scribe draws you a map.",
     keepForNextLevel: true,
-    container: CONTAINERS.ELDER,
+    container: CONTAINER_IMAGE_TYPE.ELDER,
   },
   {
     emoji: "🥐",
@@ -147,7 +147,7 @@ const _items = [
       "The baker takes the eggs, and within the hour, you have a highly portable snack.",
     keepForNextLevel: true,
     deps: ["eggs"],
-    container: CONTAINERS.BAKER,
+    container: CONTAINER_IMAGE_TYPE.BAKER,
   },
   {
     emoji: "🪡",
@@ -155,7 +155,7 @@ const _items = [
     name: "sewing things",
     description: "A very sturdy needle and thick thread.",
     image: "/needle.png",
-    container: CONTAINERS.SACK,
+    container: CONTAINER_IMAGE_TYPE.SACK,
   },
 ];
 
@@ -163,7 +163,7 @@ const previousLevelItems = Object.values(room1.items)
   .filter((item) => item.keepForNextLevel)
   .map((item) => ({ ...item, id: `castle-${item.id}` }));
 
-const items = createItems({ items: _items, grid });
+const items = createItems({ items: _containers, grid });
 
 const _obstacles = [
   {
