@@ -23,8 +23,8 @@ const maxItems = 4;
 const startMessage =
   "You find yourself trapped in a castle...\n\nRemember where things are, in case you need to retrace your steps. You can only carry a limited number of items at a time, and cannot return them once they have been moved...";
 
-const _items = {
-  [0]: {
+const _items = [
+  {
     coordinates: [9, 8],
     emoji: "🚪",
     name: "door",
@@ -36,7 +36,7 @@ const _items = {
     container: CONTAINERS.DOOR,
     finalItemForLevel: true,
   },
-  [1]: {
+  {
     coordinates: [1, 8],
     emoji: "🪚",
     name: "bonesaw",
@@ -44,7 +44,7 @@ const _items = {
     image: "/saw.png",
     container: CONTAINERS.CHEST,
   },
-  [2]: {
+  {
     coordinates: [2, 2],
     emoji: "🍷",
     name: "wine",
@@ -54,7 +54,7 @@ const _items = {
     metMessage: "You add the poison to the wine.",
     container: CONTAINERS.CHEST,
   },
-  [3]: {
+  {
     coordinates: [2, 6],
     emoji: "🐶",
     name: "dog",
@@ -67,14 +67,14 @@ const _items = {
     keepForNextLevel: true,
     container: CONTAINERS.DOG,
   },
-  [4]: {
+  {
     coordinates: [0, 7],
     emoji: "🕯",
     name: "candle",
     description: "A lit taper candle.",
     container: CONTAINERS.CHEST,
   },
-  [5]: {
+  {
     coordinates: [1, 5],
     emoji: "🔑",
     name: "small key",
@@ -82,7 +82,7 @@ const _items = {
     description: "A small key.",
     container: CONTAINERS.CHEST,
   },
-  [6]: {
+  {
     coordinates: [5, 3],
     emoji: "🧪",
     name: "poison",
@@ -94,7 +94,7 @@ const _items = {
       "You add the berries to the poison. It's strong enough to add to something palatable.",
     container: CONTAINERS.CHEST,
   },
-  [7]: {
+  {
     coordinates: [5, 6],
     emoji: "🦴",
     name: "bone",
@@ -104,7 +104,7 @@ const _items = {
     hint: "This bone is too large to carry around by yourself. You'll need something to cut it with.",
     container: CONTAINERS.CHEST,
   },
-  [8]: {
+  {
     coordinates: [0, 1],
     emoji: "✉️",
     name: "letter",
@@ -115,14 +115,14 @@ const _items = {
       "You open the drawer and find a letter. You can read it by candlelight. It says: 'All departures from the castle are blocked to those without identity papers.'",
     container: CONTAINERS.CHEST,
   },
-  [9]: {
+  {
     coordinates: [7, 2],
     emoji: "💍",
     name: "ring",
     description: "A sparkly ring from your grandmother.",
     container: CONTAINERS.CHEST,
   },
-  [10]: {
+  {
     coordinates: [7, 4],
     emoji: "🪶",
     name: "pen",
@@ -130,7 +130,7 @@ const _items = {
     description: "A quill full of ink.",
     container: CONTAINERS.CHEST,
   },
-  [11]: {
+  {
     coordinates: [8, 0],
     emoji: "🧥",
     name: "cloak",
@@ -141,14 +141,14 @@ const _items = {
     metMessage: "The young huntsman is happy to give you his cloak.",
     container: CONTAINERS.CHEST,
   },
-  [12]: {
+  {
     coordinates: [8, 4],
     emoji: "🍓",
     name: "strawberry",
     description: "A poisonous strawberry.",
     container: CONTAINERS.CHEST,
   },
-  [13]: {
+  {
     coordinates: [8, 6],
     emoji: "📜",
     name: "scroll",
@@ -161,7 +161,7 @@ const _items = {
     keepForNextLevel: true,
     container: CONTAINERS.CHEST,
   },
-  [14]: {
+  {
     coordinates: [9, 0],
     emoji: "👨",
     name: "huntsman",
@@ -173,7 +173,7 @@ const _items = {
       "The baker is delighted with the huntsman's proposal!\n\n The huntsman says you can have whatever you want from his meager possessions...",
     container: CONTAINERS.HUNTER,
   },
-  [15]: {
+  {
     coordinates: [3, 0],
     emoji: "👩",
     name: "baker",
@@ -185,7 +185,7 @@ const _items = {
       "You give the baker the ring on behalf of the friendly young huntsman. She blushes and asks you to help her find him.",
     container: CONTAINERS.BAKER,
   },
-  [16]: {
+  {
     coordinates: [8, 8],
     emoji: "🗝",
     name: "large key",
@@ -197,7 +197,7 @@ const _items = {
       "You give the wine to the guard. He falls asleep and you take the key.",
     container: CONTAINERS.GUARD,
   },
-};
+];
 
 const _obstacles = [];
 

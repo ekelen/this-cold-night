@@ -20,8 +20,8 @@ const player = {
 const startMessage =
   "You are in the village outside the castle. You will need some additional items to prepare to enter the forest beyond...";
 
-const _items = {
-  [0]: {
+const _items = [
+  {
     coordinates: [9, 8],
     emoji: "🌲",
     name: "door",
@@ -32,7 +32,7 @@ const _items = {
     metMessage: "You enter the woods!",
     container: CONTAINERS.DOOR,
   },
-  [1]: {
+  {
     coordinates: [1, 3],
     emoji: "🪓",
     name: "axe",
@@ -40,14 +40,14 @@ const _items = {
     description: "A small axe.",
     container: CONTAINERS.SACK,
   },
-  [2]: {
+  {
     emoji: "🔎",
     coordinates: [6, 3],
     name: "magnifying glass",
     description: "A magnifying glass.",
     container: CONTAINERS.SACK,
   },
-  [3]: {
+  {
     coordinates: [4, 6],
     emoji: "♤",
     name: "spade",
@@ -55,7 +55,7 @@ const _items = {
     description: "A spade for digging.",
     container: CONTAINERS.SACK,
   },
-  [4]: {
+  {
     coordinates: [3, 0],
     emoji: "🎒",
     name: "backpack",
@@ -69,7 +69,7 @@ const _items = {
     keepForNextLevel: true,
     container: CONTAINERS.CRAFTER,
   },
-  [5]: {
+  {
     emoji: "🔑",
     coordinates: [5, 3],
     name: "small key",
@@ -77,7 +77,7 @@ const _items = {
     description: "A small key.",
     container: CONTAINERS.SACK,
   },
-  [6]: {
+  {
     emoji: "📕",
     name: "book",
     coordinates: [5, 6],
@@ -87,7 +87,7 @@ const _items = {
     metMessage: "You unlock the bookcase and take the book.",
     container: CONTAINERS.HOUSE,
   },
-  [7]: {
+  {
     emoji: "🥜",
     name: "seeds",
     coordinates: [2, 6],
@@ -99,26 +99,26 @@ const _items = {
       "You churn up the earth and take as many seeds as you can find.",
     container: CONTAINERS.HOUSE,
   },
-  [8]: {
+  {
     emoji: "🪺",
     image: "/eggs.png",
     name: "eggs",
     deps: ["seeds"],
-    coordinates: [4, 3],
+    coordinates: [1, 7],
     description: "Unfertilized chicken eggs.",
     hint: "They are guarded by an unusually fearsome chicken.",
     metMessage:
       "You throw the seeds out into the yard.\n\nThe fearsome chicken runs after them and you take her eggs.",
     container: CONTAINERS.CHICKEN,
   },
-  [9]: {
+  {
     emoji: "📐",
     coordinates: [8, 6],
     name: "angle ruler",
     description: "A angle ruler, used for precision drawing.",
     container: CONTAINERS.HOUSE,
   },
-  [10]: {
+  {
     emoji: "🪶",
     coordinates: [6, 0],
     name: "pen",
@@ -126,7 +126,7 @@ const _items = {
     description: "A quill full of ink.",
     container: CONTAINERS.SACK,
   },
-  [11]: {
+  {
     emoji: "🗺",
     name: "map",
     coordinates: [8, 0],
@@ -137,7 +137,7 @@ const _items = {
     keepForNextLevel: true,
     container: CONTAINERS.ELDER,
   },
-  [12]: {
+  {
     emoji: "🥐",
     coordinates: [8, 4],
     name: "bread",
@@ -149,7 +149,7 @@ const _items = {
     deps: ["eggs"],
     container: CONTAINERS.BAKER,
   },
-  [13]: {
+  {
     emoji: "🪡",
     coordinates: [2, 0],
     name: "sewing things",
@@ -157,11 +157,11 @@ const _items = {
     image: "/needle.png",
     container: CONTAINERS.SACK,
   },
-};
+];
 
 const previousLevelItems = Object.values(room1.items)
   .filter((item) => item.keepForNextLevel)
-  .map((item) => ({ ...item, id: `room1-${item.id}` }));
+  .map((item) => ({ ...item, id: `castle-${item.id}` }));
 
 const items = createItems({ items: _items, grid });
 

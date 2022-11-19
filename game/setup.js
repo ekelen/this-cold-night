@@ -15,7 +15,7 @@ export const gridMaker = () => new PF.Grid(gridWidth, gridHeight);
 export const finderMaker = (grid) => new PF.AStarFinder(grid);
 
 export const createItems = ({ items, grid }) => {
-  const formattedItems = Object.values(items).reduce((acc, item, i) => {
+  const formattedItems = items.reduce((acc, item, i) => {
     const [x, y] = item.coordinates;
     const id = getIdFromPos([x, y]);
     acc[id] = item;
