@@ -37,7 +37,7 @@ export default function Home() {
         </footer>
       </main>
 
-      {[...Object.values(room1.items), ...Object.values(room2.items)]
+      {[...Object.values(room1.containers), ...Object.values(room2.containers)]
         .filter((item) => !!item.image)
         .map((item, i) => (
           <div

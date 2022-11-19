@@ -4,7 +4,7 @@ import gameReducer, { init } from "./gameReducer";
 
 const useGame = (
   room = {
-    items: [],
+    containers: [],
     grid: null,
     finder: () => ({}),
     startMessage: "",

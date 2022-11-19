@@ -12,7 +12,7 @@ export const initialState = {
   grid: {},
   hintMessage: "",
   inventory: [],
-  items: [],
+  containers: [],
   levelComplete: false,
   maxItems: 0,
   name: "",
@@ -27,7 +27,7 @@ export const initialState = {
 
 export const init = (room) => {
   const {
-    items,
+    containers,
     finder,
     grid,
     startMessage,
@@ -40,7 +40,7 @@ export const init = (room) => {
   } = room;
   return {
     ...initialState,
-    items,
+    containers,
     finder,
     grid,
     generalMessage: startMessage,
@@ -92,7 +92,7 @@ const updatePosition = (state, i, j) => {
     };
   };
   const visitNewItemResults = (belowItem) => {
-    const depItems = belowItem.deps.map(getItemByName(state.items));
+    const depItems = belowItem.deps.map(getItemByName(state.containers));
     const depsAreNotCollected = depItems.some(
       (dep) => !collectedItems.includes(dep.id)
     );
@@ -131,7 +131,7 @@ const updatePosition = (state, i, j) => {
         };
   };
 
-  const belowItem = state.items[getIdFromPos([j, i - 1])];
+  const belowItem = state.containers[getIdFromPos([j, i - 1])];
   const collectedItems = [
     ...state.inventory,
     ...state.discardedInventory,

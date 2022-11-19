@@ -1,6 +1,6 @@
 import { CONTAINER_IMAGE_TYPE } from "../constants";
 import {
-  createItems,
+  createContainers,
   createObstacles,
   finderMaker,
   gridHeight,
@@ -203,21 +203,21 @@ const _obstacles = [];
 
 const obstacles = createObstacles({ obstacles: _obstacles, grid });
 
-const items = createItems({ items: _containers, grid });
+const containers = createContainers({ containers: _containers, grid });
 
 console.assert(
   [...Array(gridWidth * gridHeight).keys()]
     .map((i) => [i % gridWidth, Math.floor(i / gridWidth)])
     .map(([x, y]) => grid.getNodeAt(x, y))
     .filter((node) => !node.walkable).length ===
-    _obstacles.length + Object.values(items).length,
-  "Castle: All items and obstacles should be placed on the grid."
+    _obstacles.length + Object.values(containers).length,
+  "Castle: All containers and obstacles should be placed on the grid."
 );
 
 export const room1 = {
   name: "castle",
   startMessage,
-  items,
+  containers,
   grid,
   finder,
   maxItems,

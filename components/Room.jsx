@@ -27,7 +27,7 @@ export default function Room({ onLevelComplete, room }) {
     hintMessage,
     inventory,
     previousLevelItems,
-    items,
+    containers,
     successMessage,
     maxItems,
     levelComplete,
@@ -52,9 +52,9 @@ export default function Room({ onLevelComplete, room }) {
   const displayInventory = useMemo(
     () => [
       ...previousLevelItems.filter((item) => item),
-      ...inventory.map((id) => items[id]),
+      ...inventory.map((id) => containers[id]),
     ],
-    [inventory, previousLevelItems, items]
+    [inventory, previousLevelItems, containers]
   );
 
   return (
@@ -62,7 +62,7 @@ export default function Room({ onLevelComplete, room }) {
       <Status
         generalMessage={generalMessage}
         hintMessage={hintMessage}
-        items={items}
+        containers={containers}
         inventory={inventory}
         successMessage={successMessage}
         maxItems={maxItems}
@@ -97,7 +97,7 @@ export default function Room({ onLevelComplete, room }) {
             <div key={`${i}-${i}`} className={styles.row}>
               {row.map((node, j) => {
                 const id = i * grid.width + j;
-                const item = items[id];
+                const item = containers[id];
                 const obstacle = obstacles[id];
 
                 const cellContainerStyle = !item

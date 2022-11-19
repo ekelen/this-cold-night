@@ -1,6 +1,6 @@
 import { CONTAINER_IMAGE_TYPE } from "../constants";
 import {
-  createItems,
+  createContainers,
   createObstacles,
   finderMaker,
   gridHeight,
@@ -159,11 +159,11 @@ const _containers = [
   },
 ];
 
-const previousLevelItems = Object.values(room1.items)
+const previousLevelItems = Object.values(room1.containers)
   .filter((item) => item.keepForNextLevel)
   .map((item) => ({ ...item, id: `castle-${item.id}` }));
 
-const items = createItems({ items: _containers, grid });
+const containers = createContainers({ containers: _containers, grid });
 
 const _obstacles = [
   {
@@ -227,14 +227,14 @@ console.assert(
     .map((i) => [i % gridWidth, Math.floor(i / gridWidth)])
     .map(([x, y]) => grid.getNodeAt(x, y))
     .filter((node) => !node.walkable).length ===
-    _obstacles.length + Object.values(items).length,
-  "Village: All items and obstacles should be placed on the grid."
+    _obstacles.length + Object.values(containers).length,
+  "Village: All containers and obstacles should be placed on the grid."
 );
 
 export const room2 = {
   name: "village",
   startMessage,
-  items,
+  containers,
   grid,
   finder,
   maxItems: 4,

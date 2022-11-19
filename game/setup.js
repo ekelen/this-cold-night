@@ -14,25 +14,25 @@ export const getPosFromId = (id) => [
 export const gridMaker = () => new PF.Grid(gridWidth, gridHeight);
 export const finderMaker = (grid) => new PF.AStarFinder(grid);
 
-export const createItems = ({ items, grid }) => {
-  const formattedItems = items.reduce((acc, item, i) => {
-    const [x, y] = item.coordinates;
+export const createContainers = ({ containers, grid }) => {
+  const formattedContainers = containers.reduce((acc, container) => {
+    const [x, y] = container.coordinates;
     const id = getIdFromPos([x, y]);
-    acc[id] = item;
+    acc[id] = container;
     acc[id].id = id;
-    acc[id].hint = item.hint || "";
-    acc[id].successMessage = item.successMessage || "";
-    acc[id].image = item.image || "";
-    acc[id].deps = item.deps || [];
-    acc[id].metMessage = item.metMessage || "";
-    acc[id].container = item.container || "";
+    acc[id].hint = container.hint || "";
+    acc[id].successMessage = container.successMessage || "";
+    acc[id].image = container.image || "";
+    acc[id].deps = container.deps || [];
+    acc[id].metMessage = container.metMessage || "";
+    acc[id].container = container.container || "";
     acc[id].node = grid.getNodeAt(x, y);
     return acc;
   }, {});
-  Object.values(formattedItems).forEach((item) => {
-    item.node.walkable = false;
+  Object.values(formattedContainers).forEach((container) => {
+    container.node.walkable = false;
   });
-  return formattedItems;
+  return formattedContainers;
 };
 
 export const createObstacles = ({ obstacles, grid }) => {
