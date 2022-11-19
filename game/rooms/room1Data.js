@@ -56,6 +56,7 @@ const _containers = [
     metMessage: "You open the door and escape the castle!",
     container: CONTAINER_IMAGE_TYPE.DOOR,
     finalItemForLevel: true,
+    empty: true,
   },
   {
     coordinates: [1, 8],
@@ -85,7 +86,7 @@ const _containers = [
     description: "A dog.",
     metMessage:
       "You give the dog the ox bone. He drops it, wags his tail, and follows you.",
-    keepForNextLevel: "forest",
+    keepForNextLevel: "FOREVER",
     container: CONTAINER_IMAGE_TYPE.DOG,
   },
   {
@@ -242,7 +243,6 @@ export const room1 = {
   grid,
   finder,
   maxItems,
-  startInventory: [],
   previousLevelItems: [],
   obstacles,
   player,

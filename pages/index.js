@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useState } from "react";
 import Room from "../components/Room";
 import { CONTAINER_IMAGES } from "../game/constants";
+import { forest } from "../game/rooms/forestData";
 import { room1 } from "../game/rooms/room1Data";
 import { room2 } from "../game/rooms/room2Data";
 import styles from "../styles/Home.module.css";
@@ -11,7 +12,9 @@ export default function Home() {
   const [room, setRoom] = useState("room1");
 
   const onChangeRoom = () => {
-    setRoom(room === "room1" ? "room2" : "room1");
+    setRoom((prev) =>
+      prev === "room1" ? "room2" : prev === "room2" ? "forest" : "room1"
+    );
   };
 
   return (
@@ -23,7 +26,7 @@ export default function Home() {
       <main className={styles.main}>
         {!room ? null : (
           <Room
-            room={room === "room1" ? room1 : room2}
+            room={room === "room1" ? room1 : room === "forest" ? forest : room2}
             onLevelComplete={onChangeRoom}
             key={room}
           />
@@ -37,7 +40,11 @@ export default function Home() {
         </footer>
       </main>
 
-      {[...Object.values(room1.containers), ...Object.values(room2.containers)]
+      {[
+        ...Object.values(room1.containers),
+        ...Object.values(room2.containers),
+        ...Object.values(forest.containers),
+      ]
         .filter((item) => !!item.image)
         .map((item, i) => (
           <div

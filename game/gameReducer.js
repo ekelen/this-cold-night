@@ -32,7 +32,6 @@ export const init = (room) => {
     grid,
     startMessage,
     maxItems,
-    startInventory,
     previousLevelItems,
     obstacles,
     name,
@@ -45,7 +44,6 @@ export const init = (room) => {
     grid,
     generalMessage: startMessage,
     maxItems,
-    inventory: startInventory,
     previousLevelItems,
     obstacles,
     name,
@@ -67,19 +65,20 @@ const updatePosition = (state, i, j) => {
   };
 
   const shouldAddItemResults = (belowItem, depsToRemove) => {
+    const depIdsToRemove = depsToRemove.map((d) => d.id);
     const maxItems = belowItem.newMaxItems
       ? belowItem.newMaxItems
       : state.maxItems;
     const levelComplete = belowItem.finalItemForLevel;
 
     const inventory = [...state.inventory, belowItem.id].filter(
-      (id) => !depsToRemove.map((dep) => dep.id).includes(id)
+      (id) => !depIdsToRemove.includes(id)
     );
 
-    const discardedInventory = [
-      ...state.discardedInventory,
-      ...depsToRemove.map((d) => d.id),
-    ];
+    const discardedInventory = [...state.discardedInventory, ...depIdsToRemove];
+    const previousLevelItems = state.previousLevelItems.filter(
+      (item) => !depIdsToRemove.includes(item.id)
+    );
     const successMessage = belowItem.metMessage || `${belowItem.description}`;
 
     return {
@@ -89,6 +88,7 @@ const updatePosition = (state, i, j) => {
       levelComplete,
       maxItems,
       successMessage,
+      previousLevelItems,
     };
   };
   const visitNewItemResults = (belowItem) => {
@@ -118,7 +118,7 @@ const updatePosition = (state, i, j) => {
       : [];
     const depIdsToRemove = depsToRemove.map((d) => d.id);
     const addable = !belowItem.empty;
-
+    // TODO: Clean/de-dupe code
     if (!addable) {
       const shouldGiveDepsToEmptyItem = deps.every((dep) =>
         [...state.inventory, ...previousLevelItemIds].includes(dep)
@@ -136,12 +136,20 @@ const updatePosition = (state, i, j) => {
           (item) => !depIdsToRemove.includes(item.id)
         );
         const successMessage = belowItem.metMessage;
+        const levelComplete = belowItem.finalItemForLevel;
+        const maxItems = belowItem.newMaxItems; // TODO: Careful
+        console.assert(
+          inventory.length + previousLevelItems.length <= maxItems,
+          "Too many items in inventory"
+        );
         return {
           activeChestIdOpenable: true,
           discardedInventory,
           inventory,
           successMessage,
           previousLevelItems,
+          levelComplete,
+          maxItems,
         };
       } else {
         const hintMessage = belowItem.description + " - " + belowItem.hint;
@@ -151,9 +159,7 @@ const updatePosition = (state, i, j) => {
       }
     }
 
-    const shouldAddItemIfRoom = deps.every((dep) =>
-      state.inventory.includes(dep)
-    );
+    const shouldAddItemIfRoom = hasAllDeps;
 
     const isRoom =
       state.inventory.length +

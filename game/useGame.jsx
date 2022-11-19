@@ -9,7 +9,6 @@ const useGame = (
     finder: () => ({}),
     startMessage: "",
     maxItems: 0,
-    startInventory: [],
     previousLevelItems: [],
     obstacles: {},
     player: {

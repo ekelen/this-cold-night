@@ -44,6 +44,7 @@ const _containers = [
     metMessage: "You enter the woods!",
     container: CONTAINER_IMAGE_TYPE.DOOR,
     empty: true,
+    finalItemForLevel: true,
   },
   {
     coordinates: [1, 3],
@@ -58,14 +59,14 @@ const _containers = [
     emoji: "📜",
     coordinates: [4, 0],
     itemName: "canvas",
-    description: "Sturdy canvas cloth.",
+    description: "Sturdy sackcloth.",
     container: CONTAINER_IMAGE_TYPE.SACK,
   },
   {
     emoji: "🏴‍☠️",
     coordinates: [5, 0],
     itemName: "patch",
-    description: "An iron-on pirate flag.",
+    description: "An iron-on pirate flag patch.",
     container: CONTAINER_IMAGE_TYPE.SACK,
   },
   {
@@ -184,8 +185,9 @@ const previousLevelItems = Object.values(room1.containers)
   .filter((item) => item.keepForNextLevel)
   .map((item) => ({
     ...item,
-    id: `castle-${item.itemName}`,
-    keepForNextLevel: item.keepForNextLevel !== name,
+    id: `${room1.name}-${item.itemName}`,
+    keepForNextLevel:
+      item.keepForNextLevel === name ? false : item.keepForNextLevel,
     node: null,
     deps: [],
   }));
@@ -259,14 +261,13 @@ console.assert(
 );
 
 export const room2 = {
-  name,
-  startMessage,
   containers,
-  grid,
   finder,
+  grid,
   maxItems: 4,
-  startInventory: [],
-  previousLevelItems,
+  name,
   obstacles,
   player,
+  previousLevelItems,
+  startMessage,
 };
