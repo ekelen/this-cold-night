@@ -1,5 +1,12 @@
 import { CONTAINERS } from "../constants";
-import { createItems, createObstacles, finderMaker, gridMaker } from "../setup";
+import {
+  createItems,
+  createObstacles,
+  finderMaker,
+  gridHeight,
+  gridMaker,
+  gridWidth,
+} from "../setup";
 
 const grid = gridMaker();
 const finder = finderMaker(grid);
@@ -197,6 +204,15 @@ const _obstacles = [];
 const obstacles = createObstacles({ obstacles: _obstacles, grid });
 
 const items = createItems({ items: _items, grid });
+
+console.assert(
+  [...Array(gridWidth * gridHeight).keys()]
+    .map((i) => [i % gridWidth, Math.floor(i / gridWidth)])
+    .map(([x, y]) => grid.getNodeAt(x, y))
+    .filter((node) => !node.walkable).length ===
+    _obstacles.length + Object.values(items).length,
+  "Castle: All items and obstacles should be placed on the grid."
+);
 
 export const room1 = {
   name: "castle",

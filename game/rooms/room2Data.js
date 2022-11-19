@@ -1,5 +1,12 @@
 import { CONTAINERS } from "../constants";
-import { createItems, createObstacles, finderMaker, gridMaker } from "../setup";
+import {
+  createItems,
+  createObstacles,
+  finderMaker,
+  gridHeight,
+  gridMaker,
+  gridWidth,
+} from "../setup";
 import { room1 } from "./room1Data";
 
 const grid = gridMaker();
@@ -148,7 +155,6 @@ const _items = {
     name: "sewing things",
     description: "A very sturdy needle and thick thread.",
     image: "/needle.png",
-
     container: CONTAINERS.SACK,
   },
 };
@@ -215,6 +221,15 @@ const _obstacles = [
   },
 ];
 const obstacles = createObstacles({ obstacles: _obstacles, grid });
+
+console.assert(
+  [...Array(gridWidth * gridHeight).keys()]
+    .map((i) => [i % gridWidth, Math.floor(i / gridWidth)])
+    .map(([x, y]) => grid.getNodeAt(x, y))
+    .filter((node) => !node.walkable).length ===
+    _obstacles.length + Object.values(items).length,
+  "Village: All items and obstacles should be placed on the grid."
+);
 
 export const room2 = {
   name: "village",
