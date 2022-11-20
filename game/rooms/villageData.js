@@ -181,7 +181,7 @@ const _containers = [
   },
 ];
 
-const previousLevelItems = Object.values(castle.containers)
+const previousRoomItems = Object.values(castle.containers)
   .filter((item) => item.keepForNextRoom)
   .map((item) => ({
     ...item,
@@ -272,6 +272,6 @@ export const village = {
   roomName,
   obstacles,
   player,
-  previousLevelItems,
+  previousRoomItems,
   startMessage,
 };

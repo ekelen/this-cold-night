@@ -207,7 +207,7 @@ const containers = createContainers({
   roomName,
 });
 
-const previousLevelItems = [
+const previousRoomItems = [
   ...Object.values(village.containers)
     .filter((item) => item.keepForNextRoom)
     .map((item) => ({
@@ -218,7 +218,7 @@ const previousLevelItems = [
       node: null,
       deps: [],
     })),
-  ...village.previousLevelItems.filter((item) => item.keepForNextRoom),
+  ...village.previousRoomItems.filter((item) => item.keepForNextRoom),
 ];
 
 const _obstacles = [
@@ -287,6 +287,6 @@ export const forest = {
   roomName,
   obstacles,
   player,
-  previousLevelItems,
+  previousRoomItems,
   startMessage,
 };

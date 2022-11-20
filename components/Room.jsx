@@ -26,7 +26,7 @@ export default function Room({ onLevelComplete, room }) {
     grid,
     hintMessage,
     inventory,
-    previousLevelItems,
+    previousRoomItems,
     containers,
     successMessage,
     maxItems,
@@ -51,10 +51,10 @@ export default function Room({ onLevelComplete, room }) {
 
   const displayInventory = useMemo(
     () => [
-      ...previousLevelItems.filter((item) => item),
+      ...previousRoomItems.filter((item) => item),
       ...inventory.map((id) => containers[id]),
     ],
-    [inventory, previousLevelItems, containers]
+    [inventory, previousRoomItems, containers]
   );
 
   return (

@@ -130,7 +130,7 @@ const containers = createContainers({
   roomName,
 });
 
-const previousLevelItems = [
+const previousRoomItems = [
   ...Object.values(forest.containers)
     .filter((item) => item.keepForNextRoom)
     .map((item) => ({
@@ -141,7 +141,7 @@ const previousLevelItems = [
       node: null,
       deps: [],
     })),
-  ...forest.previousLevelItems.filter((item) => item.keepForNextRoom),
+  ...forest.previousRoomItems.filter((item) => item.keepForNextRoom),
 ];
 
 console.assert(
@@ -160,7 +160,7 @@ export const castleReturn = {
   grid,
   finder,
   maxItems,
-  previousLevelItems,
+  previousRoomItems,
   obstacles,
   player,
 };

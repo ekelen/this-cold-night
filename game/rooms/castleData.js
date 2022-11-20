@@ -239,7 +239,7 @@ export const castle = {
   grid,
   finder,
   maxItems,
-  previousLevelItems: [],
+  previousRoomItems: [],
   obstacles,
   player,
 };

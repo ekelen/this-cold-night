@@ -10,7 +10,7 @@ import { village } from "../game/rooms/villageData";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
-  const [room, setRoom] = useState("room1");
+  const [room, setRoom] = useState("castle");
 
   const onChangeRoom = () => {
     setRoom((prev) =>
@@ -34,7 +34,7 @@ export default function Home() {
         {!room ? null : (
           <Room
             room={
-              room === "room1"
+              room === "castle"
                 ? castle
                 : room === "forest"
                 ? forest
