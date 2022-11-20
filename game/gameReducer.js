@@ -181,19 +181,20 @@ const updatePosition = (state, i, j) => {
         };
   };
 
-  const belowItem = state.containers[getIdFromPos([j, i - 1])];
+  const belowContainer = state.containers[getIdFromPos([j, i - 1])];
   const collectedItems = [
     ...state.inventory,
     ...state.discardedInventory,
     ...state.previousRoomItems.map((item) => item.id),
   ];
-  const itemNotCollected = belowItem && !collectedItems.includes(belowItem.id);
+  const itemNotCollected =
+    belowContainer && !collectedItems.includes(belowContainer.id);
 
   return itemNotCollected
     ? {
         ...common,
-        activeChestId: belowItem.id,
-        ...visitNewItemResults(belowItem),
+        activeChestId: belowContainer.id,
+        ...visitNewItemResults(belowContainer),
       }
     : { ...common };
 };
