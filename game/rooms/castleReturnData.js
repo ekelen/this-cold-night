@@ -35,7 +35,7 @@ const _containers = [
     description: "The huntsman thanks you for your heroic deed.",
     metMessage:
       "The HUNTSMAN, looking much healthier, thanks you for your heroic act, and gives you some gold to help you on your way.",
-    keepForNextLevel: true,
+    keepForNextRoom: true,
     container: CONTAINER_IMAGE_TYPE.HUNTER,
   },
   {
@@ -47,7 +47,7 @@ const _containers = [
     description: "The baker thanks you for your heroic act.",
     metMessage:
       "The BAKER, looking much healthier, thanks you for your heroic act, and gives you some gold to help you on your way.",
-    keepForNextLevel: true,
+    keepForNextRoom: true,
     container: CONTAINER_IMAGE_TYPE.BAKER,
   },
   {
@@ -59,7 +59,7 @@ const _containers = [
     description: "The scribe thanks you for your heroic act.",
     metMessage:
       "The SCRIBE, looking much healthier, thanks you for your heroic act, and gives you some gold to help you on your way.",
-    keepForNextLevel: true,
+    keepForNextRoom: true,
     container: CONTAINER_IMAGE_TYPE.ELDER,
   },
   {
@@ -71,7 +71,7 @@ const _containers = [
     description: "The craftsman thanks you for your heroic act.",
     metMessage:
       "The CRAFTSMAN, looking much healthier, thanks you for your heroic act, and gives you some gold to help you on your way.",
-    keepForNextLevel: true,
+    keepForNextRoom: true,
     container: CONTAINER_IMAGE_TYPE.CRAFTER,
   },
   {
@@ -96,7 +96,7 @@ const _containers = [
       "The KING, looking much healthier, thanks you for your heroic act.",
     metMessage:
       "The KING, looking much healthier, thanks you for your heroic act, and gives you some gold to help you on your way.",
-    keepForNextLevel: true,
+    keepForNextRoom: true,
     container: CONTAINER_IMAGE_TYPE.KING2,
   },
   {
@@ -132,16 +132,16 @@ const containers = createContainers({
 
 const previousLevelItems = [
   ...Object.values(forest.containers)
-    .filter((item) => item.keepForNextLevel)
+    .filter((item) => item.keepForNextRoom)
     .map((item) => ({
       ...item,
       id: `${item.room}-${item.itemName}`,
-      keepForNextLevel:
-        item.keepForNextLevel === roomName ? false : item.keepForNextLevel,
+      keepForNextRoom:
+        item.keepForNextRoom === roomName ? false : item.keepForNextRoom,
       node: null,
       deps: [],
     })),
-  ...forest.previousLevelItems.filter((item) => item.keepForNextLevel),
+  ...forest.previousLevelItems.filter((item) => item.keepForNextRoom),
 ];
 
 console.assert(

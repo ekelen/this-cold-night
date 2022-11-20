@@ -114,7 +114,7 @@ const updatePosition = (state, i, j) => {
         depIdsInInventory.includes(dep)
     );
     const depsToRemove = hasAllDeps
-      ? depItems.filter((d) => !d.keepForNextLevel)
+      ? depItems.filter((d) => !d.keepForNextRoom)
       : [];
     const depIdsToRemove = depsToRemove.map((d) => d.id);
     const addable = !belowItem.empty;

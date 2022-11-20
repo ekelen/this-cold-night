@@ -209,16 +209,16 @@ const containers = createContainers({
 
 const previousLevelItems = [
   ...Object.values(village.containers)
-    .filter((item) => item.keepForNextLevel)
+    .filter((item) => item.keepForNextRoom)
     .map((item) => ({
       ...item,
       id: `${item.room}-${item.itemName}`,
-      keepForNextLevel:
-        item.keepForNextLevel === roomName ? false : item.keepForNextLevel,
+      keepForNextRoom:
+        item.keepForNextRoom === roomName ? false : item.keepForNextRoom,
       node: null,
       deps: [],
     })),
-  ...village.previousLevelItems.filter((item) => item.keepForNextLevel),
+  ...village.previousLevelItems.filter((item) => item.keepForNextRoom),
 ];
 
 const _obstacles = [

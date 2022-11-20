@@ -53,7 +53,7 @@ const _containers = [
     image: "/axe.png",
     description: "A small AXE.",
     container: CONTAINER_IMAGE_TYPE.HOUSE,
-    keepForNextLevel: "forest",
+    keepForNextRoom: "forest",
   },
   {
     emoji: "📜",
@@ -88,7 +88,7 @@ const _containers = [
     metMessage:
       "You give the craftsman the materials, and he gives you the irregular BACKPACK with a plagueish wheeze.",
     newMaxItems: 7,
-    keepForNextLevel: "FOREVER",
+    keepForNextRoom: "FOREVER",
     container: CONTAINER_IMAGE_TYPE.CRAFTER,
   },
   {
@@ -156,7 +156,7 @@ const _containers = [
     description: "A plague-riddled SCRIBE is selling a vague MAP.",
     hint: "She is willing to fill in its missing details, if you can bring her the materials she needs.\n\nShe will need things to DRAW with, and REFERENCE material.",
     metMessage: "The SCRIBE draws you a map, coughing feebly throughout.",
-    keepForNextLevel: "forest",
+    keepForNextRoom: "forest",
     container: CONTAINER_IMAGE_TYPE.ELDER,
   },
   {
@@ -167,7 +167,7 @@ const _containers = [
     hint: "The BAKER says you can have some if you can find some eggs for her recipe. She is too weak to gather them herself.",
     metMessage:
       "The BAKER takes the EGGS, and within the hour, you have a highly portable snack.",
-    keepForNextLevel: "forest",
+    keepForNextRoom: "forest",
     deps: ["eggs"],
     container: CONTAINER_IMAGE_TYPE.BAKER,
   },
@@ -182,12 +182,12 @@ const _containers = [
 ];
 
 const previousLevelItems = Object.values(castle.containers)
-  .filter((item) => item.keepForNextLevel)
+  .filter((item) => item.keepForNextRoom)
   .map((item) => ({
     ...item,
     id: `${castle.roomName}-${item.itemName}`,
-    keepForNextLevel:
-      item.keepForNextLevel === roomName ? false : item.keepForNextLevel,
+    keepForNextRoom:
+      item.keepForNextRoom === roomName ? false : item.keepForNextRoom,
     node: null,
     deps: [],
   }));

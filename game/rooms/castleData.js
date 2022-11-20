@@ -66,7 +66,7 @@ const _containers = [
     description: "A DOG.",
     metMessage:
       "You give the dog the OX BONE. He drops it, wags his tail, and follows you.",
-    keepForNextLevel: "FOREVER",
+    keepForNextRoom: "FOREVER",
     container: CONTAINER_IMAGE_TYPE.DOG,
   },
   {
@@ -160,7 +160,7 @@ const _containers = [
     hint: "You don't know what to write on it. Maybe you need to read some important information first, and find something to write with.",
     metMessage:
       "You draw a passable imitation of IDENTITY PAPERS for yourself on the SCROLL with the QUILL.",
-    keepForNextLevel: "village",
+    keepForNextRoom: "village",
     container: CONTAINER_IMAGE_TYPE.CHEST,
   },
   {
