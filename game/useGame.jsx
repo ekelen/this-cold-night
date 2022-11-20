@@ -4,14 +4,17 @@ import gameReducer, { init } from "./gameReducer";
 
 const useGame = (
   room = {
-    items: [],
+    containers: [],
     grid: null,
     finder: () => ({}),
     startMessage: "",
     maxItems: 0,
-    startInventory: [],
     previousLevelItems: [],
     obstacles: {},
+    player: {
+      image: "",
+      style: {},
+    },
   }
 ) => {
   const [state, dispatch] = useReducer(gameReducer, room, init);

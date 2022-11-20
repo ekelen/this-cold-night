@@ -5,7 +5,8 @@ body {
   margin: 0;
   font-family: monospace;
   color: #d2d0d0;
-  background-color: #212435;
+  /* background-color: #212435; */
+  background-color: #25293c;
 }
 
 a {

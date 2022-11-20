@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { containers } from "../game/constants";
+import { CONTAINER_IMAGES } from "../game/constants";
 import { cellLen, gridHeight, gridWidth } from "../game/setup";
 import useGame from "../game/useGame";
 import useAnimation from "../hooks/useAnimation";
@@ -27,11 +27,13 @@ export default function Room({ onLevelComplete, room }) {
     hintMessage,
     inventory,
     previousLevelItems,
-    items,
+    containers,
     successMessage,
     maxItems,
     levelComplete,
     obstacles,
+    name,
+    player,
   } = gameState;
 
   const requestRef = useRef();
@@ -50,9 +52,9 @@ export default function Room({ onLevelComplete, room }) {
   const displayInventory = useMemo(
     () => [
       ...previousLevelItems.filter((item) => item),
-      ...inventory.map((id) => items[id]),
+      ...inventory.map((id) => containers[id]),
     ],
-    [inventory, previousLevelItems, items]
+    [inventory, previousLevelItems, containers]
   );
 
   return (
@@ -60,7 +62,7 @@ export default function Room({ onLevelComplete, room }) {
       <Status
         generalMessage={generalMessage}
         hintMessage={hintMessage}
-        items={items}
+        containers={containers}
         inventory={inventory}
         successMessage={successMessage}
         maxItems={maxItems}
@@ -72,6 +74,7 @@ export default function Room({ onLevelComplete, room }) {
         activeChestId={activeChestId}
         onLevelComplete={onLevelComplete}
         displayInventory={displayInventory}
+        name={name}
       />
 
       <div ref={gridRef} className={styles.grid}>
@@ -81,10 +84,11 @@ export default function Room({ onLevelComplete, room }) {
             width: `${cellLen}px`,
             left: "0px",
             top: "0px",
-            backgroundImage: `url('/player.png')`,
+            backgroundImage: `url(${player.image})`,
             backgroundSize: "contain",
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
+            ...player.style,
           }}
           className={styles.player}
           ref={charRef}
@@ -94,7 +98,7 @@ export default function Room({ onLevelComplete, room }) {
             <div key={`${i}-${i}`} className={styles.row}>
               {row.map((node, j) => {
                 const id = i * grid.width + j;
-                const item = items[id];
+                const item = containers[id];
                 const obstacle = obstacles[id];
 
                 const cellContainerStyle = !item
@@ -111,7 +115,7 @@ export default function Room({ onLevelComplete, room }) {
                 const cellContentsStyle = item
                   ? {
                       backgroundImage: `url(${
-                        containers[item.container][
+                        CONTAINER_IMAGES[item.container][
                           inventory.includes(id) ||
                           discardedInventory.includes(id)
                             ? "open"
@@ -161,9 +165,9 @@ export default function Room({ onLevelComplete, room }) {
                       }}
                     >
                       {debug && (
-                        <>
-                          {j},{i}
-                        </>
+                        <span style={{ backgroundColor: "black" }}>
+                          {j},{i} - {item && item.itemName}
+                        </span>
                       )}
                     </div>
                   </div>

@@ -14,25 +14,30 @@ export const getPosFromId = (id) => [
 export const gridMaker = () => new PF.Grid(gridWidth, gridHeight);
 export const finderMaker = (grid) => new PF.AStarFinder(grid);
 
-export const createItems = ({ items, chestCoordinates, grid }) => {
-  const formattedItems = Object.values(items).reduce((acc, item, i) => {
-    const [x, y] = chestCoordinates[i];
+export const createContainers = ({ containers, grid, name }) => {
+  const _getIdFromName = (itemName) => {
+    const container = containers.find((c) => c.itemName === itemName);
+    const id = !container ? itemName : getIdFromPos(container.coordinates);
+    return id;
+  };
+  const formattedContainers = containers.reduce((acc, container) => {
+    const [x, y] = container.coordinates;
     const id = getIdFromPos([x, y]);
-    acc[id] = item;
+    acc[id] = container;
     acc[id].id = id;
-    acc[id].hint = item.hint || "";
-    acc[id].successMessage = item.successMessage || "";
-    acc[id].image = item.image || "";
-    acc[id].deps = item.deps || [];
-    acc[id].metMessage = item.metMessage || "";
-    acc[id].container = item.container || "";
+    acc[id].hint = container.hint || "";
+    acc[id].image = container.image || "";
+    acc[id].deps = (container.deps ?? []).map(_getIdFromName);
+    acc[id].metMessage = container.metMessage || "";
+    acc[id].container = container.container || "";
     acc[id].node = grid.getNodeAt(x, y);
+    acc[id].room = name;
     return acc;
   }, {});
-  chestCoordinates.forEach(([x, y]) => {
-    grid.getNodeAt(x, y).walkable = false;
+  Object.values(formattedContainers).forEach((container) => {
+    container.node.walkable = false;
   });
-  return formattedItems;
+  return formattedContainers;
 };
 
 export const createObstacles = ({ obstacles, grid }) => {
@@ -49,10 +54,6 @@ export const createObstacles = ({ obstacles, grid }) => {
     return acc;
   }, {});
   return formattedObstacles;
-};
-
-export const getItemByName = (items) => (name) => {
-  return Object.values(items).find((item) => item.name === name);
 };
 
 export const getPath = (startX, startY, endX, endY, grid, finder) => {

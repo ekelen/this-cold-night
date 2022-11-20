@@ -1,3 +1,4 @@
+import { castleReturn } from "../game/rooms/castleReturnData";
 import styles from "../styles/Status.module.css";
 
 export default function Status({
@@ -5,8 +6,7 @@ export default function Status({
   debug,
   generalMessage,
   hintMessage,
-  inventory,
-  items,
+  containers,
   levelComplete,
   maxItems,
   nMoves,
@@ -15,6 +15,7 @@ export default function Status({
   onSetDebug,
   successMessage,
   displayInventory,
+  name,
 }) {
   return (
     <>
@@ -70,19 +71,19 @@ export default function Status({
                   position: "relative",
                 }}
               >
-                {items[activeChestId].image ? (
+                {containers[activeChestId].image ? (
                   <div
                     style={{
-                      backgroundImage: `url(${items[activeChestId].image})`,
+                      backgroundImage: `url(${containers[activeChestId].image})`,
                       backgroundSize: "cover",
                       height: "100%",
                       width: "100%",
                     }}
-                    alt={`${items[activeChestId].description}`}
+                    alt={`${containers[activeChestId].description}`}
                   />
                 ) : (
                   <span style={{ fontSize: "20px" }}>
-                    {items[activeChestId].emoji}
+                    {containers[activeChestId].emoji}
                   </span>
                 )}
               </div>
@@ -98,7 +99,9 @@ export default function Status({
             ""
           )}
           {(levelComplete || debug) && (
-            <button onClick={onLevelComplete}>Next level...</button>
+            <button onClick={onLevelComplete}>
+              {name === castleReturn.name ? "restart" : "next level..."}
+            </button>
           )}
         </div>
       </div>

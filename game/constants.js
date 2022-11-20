@@ -1,4 +1,4 @@
-export const CONTAINERS = {
+export const CONTAINER_IMAGE_TYPE = {
   CHEST: "chest",
   DOOR: "door",
   BAKER: "baker",
@@ -7,18 +7,34 @@ export const CONTAINERS = {
   GUARD: "guard",
   HOUSE: "house",
   SACK: "sack",
+  SACK_ALT: "sack_alt",
   CHICKEN: "chicken",
   ELDER: "elder",
+  CRAFTER: "crafter",
+  TREE: "tree",
+  PORTAL: "portal",
+  CAVE: "cave",
+  HERMIT: "hermit",
+  KING: "king",
+  KING2: "king2",
 };
 
-export const containers = {
+export const CONTAINER_IMAGES = {
   chest: {
     open: "/chest-open.png",
     closed: "/chest.png",
   },
+  crafter: {
+    open: "/crafter.png",
+    closed: "/crafter.png",
+  },
   elder: {
     open: "/scribe.png",
     closed: "/scribe.png",
+  },
+  hermit: {
+    open: "/hermit.png",
+    closed: "/hermit.png",
   },
   chicken: {
     open: "/chicken.png",
@@ -36,9 +52,21 @@ export const containers = {
     open: "/baker.png",
     closed: "/baker.png",
   },
+  cave: {
+    open: "/cave.png",
+    closed: "/cave.png",
+  },
   hunter: {
     open: "/hunter.png",
     closed: "/hunter.png",
+  },
+  king: {
+    open: "/king1.png",
+    closed: "/king1.png",
+  },
+  king2: {
+    open: "/king2.png",
+    closed: "/king2.png",
   },
   guard: {
     open: "/guard.png",
@@ -51,5 +79,17 @@ export const containers = {
   sack: {
     open: "/sack.png",
     closed: "/sack.png",
+  },
+  sack_alt: {
+    open: "/sack2.png",
+    closed: "/sack2.png",
+  },
+  tree: {
+    open: "/tree.png",
+    closed: "/tree.png",
+  },
+  portal: {
+    open: "/portal_closed2.png",
+    closed: "/portal_closed.png",
   },
 };
