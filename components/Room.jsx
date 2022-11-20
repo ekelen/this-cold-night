@@ -165,9 +165,9 @@ export default function Room({ onLevelComplete, room }) {
                       }}
                     >
                       {debug && (
-                        <>
-                          {j},{i}
-                        </>
+                        <span style={{ backgroundColor: "black" }}>
+                          {j},{i} - {item && item.itemName}
+                        </span>
                       )}
                     </div>
                   </div>

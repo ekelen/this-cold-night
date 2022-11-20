@@ -15,6 +15,8 @@ export const CONTAINER_IMAGE_TYPE = {
   PORTAL: "portal",
   CAVE: "cave",
   HERMIT: "hermit",
+  KING: "king",
+  KING2: "king2",
 };
 
 export const CONTAINER_IMAGES = {
@@ -58,6 +60,14 @@ export const CONTAINER_IMAGES = {
     open: "/hunter.png",
     closed: "/hunter.png",
   },
+  king: {
+    open: "/king1.png",
+    closed: "/king1.png",
+  },
+  king2: {
+    open: "/king2.png",
+    closed: "/king2.png",
+  },
   guard: {
     open: "/guard.png",
     closed: "/guard.png",
@@ -79,7 +89,7 @@ export const CONTAINER_IMAGES = {
     closed: "/tree.png",
   },
   portal: {
-    open: "/portal_open.png",
+    open: "/portal_closed2.png",
     closed: "/portal_closed.png",
   },
 };

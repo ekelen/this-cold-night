@@ -34,7 +34,7 @@ const _containers = [
     image: "/gold.png",
     description: "The huntsman thanks you for your heroic deed.",
     metMessage:
-      "The huntsman thanks you for your heroic act, and gives you some money to help you on your way.",
+      "The HUNTSMAN, looking much healthier, thanks you for your heroic act, and gives you some gold to help you on your way.",
     keepForNextLevel: true,
     container: CONTAINER_IMAGE_TYPE.HUNTER,
   },
@@ -46,7 +46,7 @@ const _containers = [
     deps: [],
     description: "The baker thanks you for your heroic act.",
     metMessage:
-      "The baker thanks you for your heroic act, and gives you some money to help you on your way.",
+      "The BAKER, looking much healthier, thanks you for your heroic act, and gives you some gold to help you on your way.",
     keepForNextLevel: true,
     container: CONTAINER_IMAGE_TYPE.BAKER,
   },
@@ -58,7 +58,7 @@ const _containers = [
     deps: [],
     description: "The scribe thanks you for your heroic act.",
     metMessage:
-      "The scribe thanks you for your heroic act, and gives you some money to help you on your way.",
+      "The SCRIBE, looking much healthier, thanks you for your heroic act, and gives you some gold to help you on your way.",
     keepForNextLevel: true,
     container: CONTAINER_IMAGE_TYPE.ELDER,
   },
@@ -70,21 +70,34 @@ const _containers = [
     deps: [],
     description: "The craftsman thanks you for your heroic act.",
     metMessage:
-      "The craftsman thanks you for your heroic act, and gives you some money to help you on your way.",
+      "The CRAFTSMAN, looking much healthier, thanks you for your heroic act, and gives you some gold to help you on your way.",
     keepForNextLevel: true,
     container: CONTAINER_IMAGE_TYPE.CRAFTER,
   },
   {
     coordinates: [8, 8],
-    emoji: "💰",
-    itemName: "money5",
-    image: "/gold.png",
+    emoji: "?",
+    itemName: "guard",
+    image: "/guard.png",
     deps: [],
     description: "The guard thanks you for your heroic act.",
+    empty: true,
     metMessage:
-      "The guard thanks you for your heroic act, and gives you some money to help you on your way.",
-    keepForNextLevel: true,
+      "The GUARD, looking much healthier, thanks you for your heroic act, and allows you to pass unfettered.",
     container: CONTAINER_IMAGE_TYPE.GUARD,
+  },
+  {
+    coordinates: [5, 4],
+    emoji: "👑",
+    itemName: "money5",
+    image: "/gold3.png",
+    deps: [],
+    description:
+      "The KING, looking much healthier, thanks you for your heroic act.",
+    metMessage:
+      "The KING, looking much healthier, thanks you for your heroic act, and gives you some gold to help you on your way.",
+    keepForNextLevel: true,
+    container: CONTAINER_IMAGE_TYPE.KING2,
   },
   {
     coordinates: [9, 8],
@@ -93,7 +106,7 @@ const _containers = [
     image: "/closed_door.png",
     description: "The way out.",
     deps: ["money1", "money2", "money3", "money4", "money5"],
-    hint: "You have a lot of reward money to collect.",
+    hint: "You have a lot of GOLD to collect.",
     metMessage:
       "You open the door and leave the castle, with enough gold to make of yourself what you will...\n\nThe End",
     container: CONTAINER_IMAGE_TYPE.DOOR,

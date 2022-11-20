@@ -100,7 +100,7 @@ export default function Status({
           )}
           {(levelComplete || debug) && (
             <button onClick={onLevelComplete}>
-              {name === castleReturn.name ? "Restart" : "Next level..."}
+              {name === castleReturn.name ? "restart" : "next level..."}
             </button>
           )}
         </div>
