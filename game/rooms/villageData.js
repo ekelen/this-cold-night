@@ -7,7 +7,7 @@ import {
   gridMaker,
   gridWidth,
 } from "../setup";
-import { room1 } from "./castleData";
+import { castle } from "./castleData";
 
 const name = "village";
 const grid = gridMaker();
@@ -27,7 +27,7 @@ const _containers = [
     itemName: "guard",
     empty: true,
     container: CONTAINER_IMAGE_TYPE.GUARD,
-    deps: [`${room1.name}-scroll`],
+    deps: [`${castle.name}-scroll`],
     hint: "You need to show him your identity papers to pass.",
     metMessage: "The GUARDSMAN takes your IDENTITY PAPERS.",
     description: "A guardsman.",
@@ -181,11 +181,11 @@ const _containers = [
   },
 ];
 
-const previousLevelItems = Object.values(room1.containers)
+const previousLevelItems = Object.values(castle.containers)
   .filter((item) => item.keepForNextLevel)
   .map((item) => ({
     ...item,
-    id: `${room1.name}-${item.itemName}`,
+    id: `${castle.name}-${item.itemName}`,
     keepForNextLevel:
       item.keepForNextLevel === name ? false : item.keepForNextLevel,
     node: null,
@@ -260,7 +260,7 @@ console.assert(
   `${name}: All containers and obstacles should be placed on the grid.`
 );
 
-export const room2 = {
+export const village = {
   containers,
   finder,
   grid,

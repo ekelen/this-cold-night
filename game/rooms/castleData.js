@@ -228,7 +228,7 @@ console.assert(
   `${name}: All containers and obstacles should be placed on the grid.`
 );
 
-export const room1 = {
+export const castle = {
   name,
   startMessage,
   containers,

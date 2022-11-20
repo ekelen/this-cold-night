@@ -7,7 +7,7 @@ import {
   gridMaker,
   gridWidth,
 } from "../setup";
-import { room2 } from "./villageData";
+import { village } from "./villageData";
 
 const name = "forest";
 const grid = gridMaker();
@@ -204,7 +204,7 @@ const _containers = [
 const containers = createContainers({ containers: _containers, grid, name });
 
 const previousLevelItems = [
-  ...Object.values(room2.containers)
+  ...Object.values(village.containers)
     .filter((item) => item.keepForNextLevel)
     .map((item) => ({
       ...item,
@@ -214,7 +214,7 @@ const previousLevelItems = [
       node: null,
       deps: [],
     })),
-  ...room2.previousLevelItems.filter((item) => item.keepForNextLevel),
+  ...village.previousLevelItems.filter((item) => item.keepForNextLevel),
 ];
 
 const _obstacles = [

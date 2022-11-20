@@ -8,7 +8,7 @@ import {
   gridWidth,
 } from "../setup";
 import { forest } from "./forestData";
-import { room1 } from "./castleData";
+import { castle } from "./castleData";
 
 const name = "castleReturn";
 const grid = gridMaker();
@@ -115,7 +115,7 @@ const _containers = [
   },
 ];
 
-const _obstacles = Object.values(room1.containers)
+const _obstacles = Object.values(castle.containers)
   .filter((container) => container.container === CONTAINER_IMAGE_TYPE.CHEST)
   .map((container) => ({
     coordinates: container.coordinates,
