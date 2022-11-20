@@ -22,7 +22,7 @@ const player = {
 const maxItems = 4;
 
 const startMessage =
-  "You are trapped in a plague-ravaged CASTLE...\n\nRemember where things are, in case you need to retrace your steps. You can only carry a limited number of items at a time, and cannot return them once they have been moved...";
+  "You are trapped in a plague-ravaged CASTLE...\n\nRemember where things are, in case you need to retrace your steps.\n\nNOTE:\n\n- You can only carry a limited number of items at a time\n\n- You cannot return them once they have been moved...";
 
 const _containers = [
   {
