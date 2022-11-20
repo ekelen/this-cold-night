@@ -8,7 +8,7 @@ import {
   gridWidth,
 } from "../setup";
 
-const name = "castle";
+const roomName = "castle";
 const grid = gridMaker();
 const finder = finderMaker(grid);
 
@@ -217,7 +217,11 @@ const _obstacles = [];
 
 const obstacles = createObstacles({ obstacles: _obstacles, grid });
 
-const containers = createContainers({ containers: _containers, grid, name });
+const containers = createContainers({
+  containers: _containers,
+  grid,
+  roomName,
+});
 
 console.assert(
   [...Array(gridWidth * gridHeight).keys()]
@@ -225,11 +229,11 @@ console.assert(
     .map(([x, y]) => grid.getNodeAt(x, y))
     .filter((node) => !node.walkable).length ===
     _obstacles.length + _containers.length,
-  `${name}: All containers and obstacles should be placed on the grid.`
+  `${roomName}: All containers and obstacles should be placed on the grid.`
 );
 
 export const castle = {
-  name,
+  roomName,
   startMessage,
   containers,
   grid,

@@ -15,7 +15,7 @@ export const initialState = {
   containers: [],
   levelComplete: false,
   maxItems: 0,
-  name: "",
+  roomName: "",
   obstacles: {},
   previousLevelItems: [],
   successMessage: "",
@@ -34,7 +34,7 @@ export const init = (room) => {
     maxItems,
     previousLevelItems,
     obstacles,
-    name,
+    roomName,
     player,
   } = room;
   return {
@@ -46,7 +46,7 @@ export const init = (room) => {
     maxItems,
     previousLevelItems,
     obstacles,
-    name,
+    roomName,
     player,
   };
 };

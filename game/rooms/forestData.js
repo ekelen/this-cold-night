@@ -9,7 +9,7 @@ import {
 } from "../setup";
 import { village } from "./villageData";
 
-const name = "forest";
+const roomName = "forest";
 const grid = gridMaker();
 const finder = finderMaker(grid);
 
@@ -201,7 +201,11 @@ const _containers = [
   },
 ];
 
-const containers = createContainers({ containers: _containers, grid, name });
+const containers = createContainers({
+  containers: _containers,
+  grid,
+  roomName,
+});
 
 const previousLevelItems = [
   ...Object.values(village.containers)
@@ -210,7 +214,7 @@ const previousLevelItems = [
       ...item,
       id: `${item.room}-${item.itemName}`,
       keepForNextLevel:
-        item.keepForNextLevel === name ? false : item.keepForNextLevel,
+        item.keepForNextLevel === roomName ? false : item.keepForNextLevel,
       node: null,
       deps: [],
     })),
@@ -272,7 +276,7 @@ console.assert(
     .map(([x, y]) => grid.getNodeAt(x, y))
     .filter((node) => !node.walkable).length ===
     _obstacles.length + _containers.length,
-  `${name}: All containers and obstacles should be placed on the grid.`
+  `${roomName}: All containers and obstacles should be placed on the grid.`
 );
 
 export const forest = {
@@ -280,7 +284,7 @@ export const forest = {
   finder,
   grid,
   maxItems,
-  name,
+  roomName,
   obstacles,
   player,
   previousLevelItems,

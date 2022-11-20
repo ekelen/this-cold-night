@@ -9,7 +9,7 @@ import {
 } from "../setup";
 import { castle } from "./castleData";
 
-const name = "village";
+const roomName = "village";
 const grid = gridMaker();
 const finder = finderMaker(grid);
 
@@ -27,7 +27,7 @@ const _containers = [
     itemName: "guard",
     empty: true,
     container: CONTAINER_IMAGE_TYPE.GUARD,
-    deps: [`${castle.name}-scroll`],
+    deps: [`${castle.roomName}-scroll`],
     hint: "You need to show him your identity papers to pass.",
     metMessage: "The GUARDSMAN takes your IDENTITY PAPERS.",
     description: "A guardsman.",
@@ -185,14 +185,18 @@ const previousLevelItems = Object.values(castle.containers)
   .filter((item) => item.keepForNextLevel)
   .map((item) => ({
     ...item,
-    id: `${castle.name}-${item.itemName}`,
+    id: `${castle.roomName}-${item.itemName}`,
     keepForNextLevel:
-      item.keepForNextLevel === name ? false : item.keepForNextLevel,
+      item.keepForNextLevel === roomName ? false : item.keepForNextLevel,
     node: null,
     deps: [],
   }));
 
-const containers = createContainers({ containers: _containers, grid, name });
+const containers = createContainers({
+  containers: _containers,
+  grid,
+  roomName,
+});
 
 const _obstacles = [
   {
@@ -257,7 +261,7 @@ console.assert(
     .map(([x, y]) => grid.getNodeAt(x, y))
     .filter((node) => !node.walkable).length ===
     _obstacles.length + _containers.length,
-  `${name}: All containers and obstacles should be placed on the grid.`
+  `${roomName}: All containers and obstacles should be placed on the grid.`
 );
 
 export const village = {
@@ -265,7 +269,7 @@ export const village = {
   finder,
   grid,
   maxItems: 4,
-  name,
+  roomName,
   obstacles,
   player,
   previousLevelItems,

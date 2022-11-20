@@ -32,7 +32,7 @@ export default function Room({ onLevelComplete, room }) {
     maxItems,
     levelComplete,
     obstacles,
-    name,
+    roomName,
     player,
   } = gameState;
 
@@ -74,7 +74,7 @@ export default function Room({ onLevelComplete, room }) {
         activeChestId={activeChestId}
         onLevelComplete={onLevelComplete}
         displayInventory={displayInventory}
-        name={name}
+        roomName={roomName}
       />
 
       <div ref={gridRef} className={styles.grid}>

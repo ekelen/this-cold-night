@@ -10,7 +10,7 @@ import {
 import { forest } from "./forestData";
 import { castle } from "./castleData";
 
-const name = "castleReturn";
+const roomName = "castleReturn";
 const grid = gridMaker();
 const finder = finderMaker(grid);
 
@@ -124,7 +124,11 @@ const _obstacles = Object.values(castle.containers)
 
 const obstacles = createObstacles({ obstacles: _obstacles, grid });
 
-const containers = createContainers({ containers: _containers, grid, name });
+const containers = createContainers({
+  containers: _containers,
+  grid,
+  roomName,
+});
 
 const previousLevelItems = [
   ...Object.values(forest.containers)
@@ -133,7 +137,7 @@ const previousLevelItems = [
       ...item,
       id: `${item.room}-${item.itemName}`,
       keepForNextLevel:
-        item.keepForNextLevel === name ? false : item.keepForNextLevel,
+        item.keepForNextLevel === roomName ? false : item.keepForNextLevel,
       node: null,
       deps: [],
     })),
@@ -146,11 +150,11 @@ console.assert(
     .map(([x, y]) => grid.getNodeAt(x, y))
     .filter((node) => !node.walkable).length ===
     _obstacles.length + _containers.length,
-  `${name}: All containers and obstacles should be placed on the grid.`
+  `${roomName}: All containers and obstacles should be placed on the grid.`
 );
 
 export const castleReturn = {
-  name,
+  roomName,
   startMessage,
   containers,
   grid,
