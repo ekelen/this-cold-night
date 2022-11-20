@@ -7,7 +7,7 @@ import {
   gridMaker,
   gridWidth,
 } from "../setup";
-import { room1 } from "./room1Data";
+import { room1 } from "./castleData";
 
 const name = "village";
 const grid = gridMaker();

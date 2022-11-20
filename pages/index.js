@@ -5,8 +5,8 @@ import Room from "../components/Room";
 import { CONTAINER_IMAGES } from "../game/constants";
 import { castleReturn } from "../game/rooms/castleReturnData";
 import { forest } from "../game/rooms/forestData";
-import { room1 } from "../game/rooms/room1Data";
-import { room2 } from "../game/rooms/room2Data";
+import { room1 } from "../game/rooms/castleData";
+import { room2 } from "../game/rooms/villageData";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {

@@ -8,7 +8,7 @@ import {
   gridWidth,
 } from "../setup";
 import { forest } from "./forestData";
-import { room1 } from "./room1Data";
+import { room1 } from "./castleData";
 
 const name = "castleReturn";
 const grid = gridMaker();
