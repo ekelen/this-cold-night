@@ -23,6 +23,8 @@ export default function Document() {
         <link rel="preload" href="/scribe.png" as="image" />
         <link rel="preload" href="/scroll.png" as="image" />
         <link rel="preload" href="/shovel.png" as="image" />
+        <link rel="preload" href="/tree.png" as="image" />
+        <link rel="preload" href="/tree2.png" as="image" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
@@ -30,7 +32,7 @@ export default function Document() {
           crossOrigin="true"
         />
         <link
-          href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap"
+          href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&display=swap&family=Fira+Mono"
           rel="stylesheet"
         />
       </Head>

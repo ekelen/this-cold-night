@@ -3,7 +3,7 @@ body {
   color-scheme: dark;
   padding: 0;
   margin: 0;
-  font-family: monospace;
+  font-family: "Fira Mono", monospace;
   color: #d2d0d0;
   /* background-color: #212435; */
   background-color: #25293c;
@@ -34,7 +34,7 @@ button {
   border: 1px solid #9d9d9d;
   border-radius: 0px;
   padding: 0.2rem;
-  font-size: smaller;
-  font-family: monospace;
+  font-size: 0.6rem;
+  font-family: "Fira Mono", monospace;
   white-space: pre;
 }

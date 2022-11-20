@@ -58,6 +58,19 @@ const _containers = [
     container: CONTAINER_IMAGE_TYPE.TREE,
   },
   {
+    coordinates: [0, 2],
+    emoji: "?",
+    itemName: "garbage",
+    image: "/sack.png",
+    description: "A sack.",
+    deps: ["village-map"],
+    container: CONTAINER_IMAGE_TYPE.SACK,
+    hint: "A sack.",
+    empty: true,
+    metMessage:
+      "A not-bear-proof GARBAGE SACK. You toss your MAP in. You no longer need it.",
+  },
+  {
     coordinates: [3, 7],
     emoji: "🪵",
     itemName: "wood",
@@ -155,7 +168,7 @@ const _containers = [
     itemName: "elder2",
     image: "/hermit.png",
     description: "A HERMIT who says he has some vital information.",
-    deps: ["acorns", "castle-dog", "village-map", "village-backpack"],
+    deps: ["acorns", "castle-dog", "village-backpack"],
     newMaxItems: 2,
     container: CONTAINER_IMAGE_TYPE.HERMIT,
     empty: true,

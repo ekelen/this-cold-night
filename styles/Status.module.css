@@ -7,13 +7,13 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  font-size: 0.65rem;
 }
 
 .statusWrapper {
   display: flex;
   width: 100%;
   justify-content: space-between;
-  font-size: smaller;
   gap: 2px;
   position: relative;
 }
@@ -28,7 +28,7 @@
 }
 
 .messageContainer {
-  font-size: smaller;
+  /* font-size: smaller; */
   display: flex;
   gap: 5px;
   align-items: center;

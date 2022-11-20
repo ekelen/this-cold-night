@@ -93,7 +93,7 @@ const _containers = [
     description: "A vial of POISON.",
     hint: "It will need poison BERRIES added to it to make it strong enough to knock someone out.",
     metMessage:
-      "You add the BERRIES to the poison. It's strong enough to add to SOMETHING PALATABLE.",
+      "You add the STRAWBERRY to the POISON. It's strong enough to add to SOMETHING PALATABLE.",
     container: CONTAINER_IMAGE_TYPE.CHEST,
   },
   {
@@ -102,8 +102,8 @@ const _containers = [
     itemName: "bone",
     deps: ["bonesaw"],
     description: "A large ox BONE, full of fresh marrow.",
-    metMessage: "You make a small crosscut of the bone using the SAW.",
-    hint: "It's too large to carry around by yourself. You'll need something to CUT it with.",
+    metMessage: "You make a small crosscut of the BONE using the SAW.",
+    hint: "It's too large to carry around by yourself. You'll need something to cut it with.",
     container: CONTAINER_IMAGE_TYPE.CHEST,
   },
   {
@@ -157,9 +157,9 @@ const _containers = [
     image: "/scroll.png",
     deps: ["letter", "pen"],
     description: "A SCROLL.",
-    hint: "You don't know what to write on it. Maybe you need to read some important INFORMATION first, and find SOMETHING TO WRITE WITH.",
+    hint: "You don't know what to write on it. Maybe you need to read some important information first, and find something to write with.",
     metMessage:
-      "You draw a passable imitation of IDENTITY PAPERS for yourself on the scroll with the QUILL.",
+      "You draw a passable imitation of IDENTITY PAPERS for yourself on the SCROLL with the QUILL.",
     keepForNextLevel: "village",
     container: CONTAINER_IMAGE_TYPE.CHEST,
   },
@@ -170,9 +170,9 @@ const _containers = [
     image: "/hunter.png",
     deps: ["baker"],
     description: "A friendly young HUNTSMAN, coughing painfully.",
-    hint: "He is sad he cannot afford a RING for the pretty BAKER he is courting.\n\nNor has the courage to give it to her himself...",
+    hint: "He is sad he cannot afford a RING for the pretty BAKER he is courting.\n\nNor has he the courage to give it to her himself...",
     metMessage:
-      "The baker is delighted with the huntsman's proposal!\n\n The huntsman says you can have whatever you want from his meager possessions...",
+      "The BAKER is delighted with the HUNTSMAN'S proposal!\n\n The huntsman says you can have whatever you want from his meager possessions...",
     container: CONTAINER_IMAGE_TYPE.HUNTER,
   },
   {
@@ -192,11 +192,11 @@ const _containers = [
     emoji: "🗝",
     itemName: "large key",
     image: "/key.png",
-    description: "A large key.",
+    description: "A large KEY.",
     deps: ["wine"],
-    hint: "The KEY is in possession of a formidable castle GUARD who will need to be disabled.",
+    hint: "It is in possession of a formidable castle GUARD who will need to be disabled.",
     metMessage:
-      "You give the wine to the guard. He falls asleep and you take the KEY.",
+      "You give the WINE to the GUARD. He falls asleep and you take the KEY.",
     container: CONTAINER_IMAGE_TYPE.GUARD,
   },
   {
