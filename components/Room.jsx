@@ -74,6 +74,7 @@ export default function Room({ onLevelComplete, room }) {
         activeChestId={activeChestId}
         onLevelComplete={onLevelComplete}
         displayInventory={displayInventory}
+        name={name}
       />
 
       <div ref={gridRef} className={styles.grid}>

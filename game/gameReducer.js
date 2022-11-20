@@ -137,7 +137,7 @@ const updatePosition = (state, i, j) => {
         );
         const successMessage = belowItem.metMessage;
         const levelComplete = belowItem.finalItemForLevel;
-        const maxItems = belowItem.newMaxItems; // TODO: Careful
+        const maxItems = belowItem.newMaxItems ?? state.maxItems; // TODO: Careful
         console.assert(
           inventory.length + previousLevelItems.length <= maxItems,
           "Too many items in inventory"

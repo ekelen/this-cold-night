@@ -25,7 +25,7 @@ const maxItems = 7;
 
 const _containers = [
   {
-    coordinates: [4, 0],
+    coordinates: [4, 8],
     emoji: "🔑",
     itemName: "small key",
     image: "/smallkey.png",
@@ -37,7 +37,7 @@ const _containers = [
     hint: "The huntsman is hoping you have brought something for him.",
   },
   {
-    coordinates: [5, 0],
+    coordinates: [5, 8],
     emoji: "📦",
     itemName: "tinderbox",
     image: "/tinderbox.png",
@@ -49,7 +49,7 @@ const _containers = [
       "You use the huntsman's key to open the chest and remove a tinderbox.",
   },
   {
-    coordinates: [6, 0],
+    coordinates: [5, 1],
     emoji: "🌲",
     image: "/nuts.png",
     itemName: "nuts",
@@ -58,14 +58,13 @@ const _containers = [
     container: CONTAINER_IMAGE_TYPE.TREE,
   },
   {
-    coordinates: [7, 0],
+    coordinates: [3, 7],
     emoji: "🪵",
     itemName: "wood",
+    image: "/wood.png",
     description: "A stand of trees.",
     deps: ["village-axe"],
     container: CONTAINER_IMAGE_TYPE.TREE,
-    // empty: true,
-    // hint: "There are several tinderboxes in this chest, but it belongs to someone...",
     metMessage: "You use the axe to chop some wood.",
   },
   {
@@ -75,8 +74,7 @@ const _containers = [
     image: "/torch.png",
     description: "There are some rags here soaked in oil.",
     deps: ["wood", "tinderbox"],
-    container: CONTAINER_IMAGE_TYPE.CHEST,
-    // empty: true,
+    container: CONTAINER_IMAGE_TYPE.SACK_ALT,
     hint: "You could make a torch, if you had the materials...",
     metMessage:
       "You create a torch from the wood and oily cloth and set it aflame.",
@@ -89,36 +87,29 @@ const _containers = [
       "A very dark shaft-like cave with something shimmering at the bottom.",
     deps: ["torch"],
     container: CONTAINER_IMAGE_TYPE.CAVE,
-    // empty: true,
     hint: "It's too dark to enter...",
     metMessage: "You retrieve sparkly crystals from the cave shaft.",
   },
   {
-    coordinates: [8, 3],
+    coordinates: [5, 5],
     emoji: "?",
     image: "/scroll.png",
     itemName: "ice scroll",
     description: "An ancient scroll, frozen in ice.",
     deps: [],
     container: CONTAINER_IMAGE_TYPE.CHEST,
-    // empty: true,
-    // hint: "It's too dark to see anything in this cave...",
-    // metMessage: "You enter the dark cave and remove some sparkly crystals.",
   },
   {
-    coordinates: [7, 3],
+    coordinates: [9, 5],
     emoji: "?",
     itemName: "fire scroll",
     image: "/scroll.png",
     description: "An ancient scroll, glowing like embers.",
     deps: [],
     container: CONTAINER_IMAGE_TYPE.CHEST,
-    // empty: true,
-    // hint: "It's too dark to see anything in this cave...",
-    // metMessage: "You enter the dark cave and remove some sparkly crystals.",
   },
   {
-    coordinates: [6, 3],
+    coordinates: [8, 6],
     emoji: "?",
     itemName: "wind scroll",
     image: "/scroll.png",
@@ -127,7 +118,7 @@ const _containers = [
     container: CONTAINER_IMAGE_TYPE.CHEST,
   },
   {
-    coordinates: [5, 3],
+    coordinates: [6, 6],
     emoji: "?",
     itemName: "sea scroll",
     image: "/scroll.png",
@@ -141,24 +132,24 @@ const _containers = [
     itemName: "elder1",
     image: "/hermit.png",
     description: "A hermit who says he has something important to tell you.",
-    deps: ["village-map", "acorns", "nuts"],
-    container: CONTAINER_IMAGE_TYPE.ELDER,
+    deps: ["acorns", "nuts", "mushrooms"],
+    container: CONTAINER_IMAGE_TYPE.HERMIT,
     empty: true,
     hint: "He demands you bring him all the fruits of the forest. Whatever that means.",
     metMessage:
-      "The hermit is delighted with your gifts. He tells you that all you'll need to open the portal is something shiny to appease the greedy Otherworld lords.\n\nHe also apologizes for littering the forest with scrolls.\n\nThey don't do anything.",
+      "The hermit is delighted with your gifts.\n\nHe tells you that all you'll need to open the portal is something shiny to appease the greedy Otherworld lords.\n\nHe also apologizes for littering the forest with scrolls.\n\nThey don't do anything.",
   },
   {
-    coordinates: [3, 3],
+    coordinates: [6, 2],
     emoji: "?",
     image: "/seeds.png",
     itemName: "acorns",
     description: "A cache of acorns.",
     deps: [],
-    container: CONTAINER_IMAGE_TYPE.SACK_ALT,
+    container: CONTAINER_IMAGE_TYPE.TREE,
   },
   {
-    coordinates: [2, 3],
+    coordinates: [0, 7],
     emoji: "?",
     itemName: "elder2",
     image: "/hermit.png",
@@ -171,14 +162,14 @@ const _containers = [
       "village-backpack",
     ],
     newMaxItems: 1,
-    container: CONTAINER_IMAGE_TYPE.ELDER,
+    container: CONTAINER_IMAGE_TYPE.HERMIT,
     empty: true,
     metMessage:
-      "The elder is very pleased with his acorns. He laughs at you, takes your stuff, and slams the door in your face.\n\nYou might have messed up.",
-    hint: "The elder requests you bring him some acorns for his acorn mash. He advises you that the other hermit is not to be trusted.",
+      "The hermit is very pleased with his acorns. He laughs at you, takes your stuff, and slams the door in your face.\n\nYou might not have judged him very well.",
+    hint: "He requests you bring him some acorns for his acorn mash. He advises you that the other hermit is not to be trusted.",
   },
   {
-    coordinates: [1, 3],
+    coordinates: [7, 3],
     emoji: "?",
     itemName: "mushrooms",
     image: "/mushrooms.png",
@@ -187,7 +178,7 @@ const _containers = [
     container: CONTAINER_IMAGE_TYPE.TREE,
   },
   {
-    coordinates: [8, 5],
+    coordinates: [7, 5],
     emoji: "?",
     itemName: "portal",
     image: "/portal_closed.png",
@@ -195,9 +186,10 @@ const _containers = [
     deps: ["crystals"],
     container: CONTAINER_IMAGE_TYPE.PORTAL,
     metMessage:
-      "You open the portal and hear the sound of predictably evil laughter beyond.",
+      "You open the portal and hear the sound of predictably evil laughter beyond.\n\nThere's a sudden SHLURRRRP noise, and you watch the false king get sucked into the portal.",
     empty: true,
     finalItemForLevel: true,
+    hint: "You have no idea what you need to open it.",
   },
 ];
 
@@ -224,28 +216,36 @@ const _obstacles = [
   },
 
   {
-    coordinates: [6, 6],
-    image: "/tree.png",
+    coordinates: [6, 5],
+    image: "/tree2.png",
   },
   {
-    coordinates: [7, 6],
+    coordinates: [8, 5],
     image: "/tree.png",
   },
   {
     coordinates: [1, 9],
-    image: "/tree.png",
+    image: "/tree2.png",
   },
   {
     coordinates: [2, 9],
-    image: "/tree.png",
+    image: "/tree2.png",
   },
   {
     coordinates: [7, 8],
     image: "/tree.png",
   },
   {
-    coordinates: [8, 8],
+    coordinates: [9, 9],
     image: "/tree.png",
+  },
+  {
+    coordinates: [9, 8],
+    image: "/tree.png",
+  },
+  {
+    coordinates: [8, 9],
+    image: "/tree2.png",
   },
   {
     coordinates: [0, 5],
@@ -254,10 +254,6 @@ const _obstacles = [
   {
     coordinates: [0, 6],
     image: "/tree2.png",
-  },
-  {
-    coordinates: [1, 6],
-    image: "/house.png",
   },
 ];
 const obstacles = createObstacles({ obstacles: _obstacles, grid });

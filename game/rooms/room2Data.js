@@ -88,7 +88,7 @@ const _containers = [
     metMessage:
       "You give the craftsman the materials, and he gives you the irregular backpack.",
     newMaxItems: 7,
-    keepForNextLevel: "forest",
+    keepForNextLevel: "FOREVER",
     container: CONTAINER_IMAGE_TYPE.CRAFTER,
   },
   {

@@ -1,3 +1,4 @@
+import { castleReturn } from "../game/rooms/castleReturnData";
 import styles from "../styles/Status.module.css";
 
 export default function Status({
@@ -5,7 +6,6 @@ export default function Status({
   debug,
   generalMessage,
   hintMessage,
-  inventory,
   containers,
   levelComplete,
   maxItems,
@@ -15,6 +15,7 @@ export default function Status({
   onSetDebug,
   successMessage,
   displayInventory,
+  name,
 }) {
   return (
     <>
@@ -98,7 +99,9 @@ export default function Status({
             ""
           )}
           {(levelComplete || debug) && (
-            <button onClick={onLevelComplete}>Next level...</button>
+            <button onClick={onLevelComplete}>
+              {name === castleReturn.name ? "Restart" : "Next level..."}
+            </button>
           )}
         </div>
       </div>
