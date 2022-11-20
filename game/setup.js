@@ -14,7 +14,7 @@ export const getPosFromId = (id) => [
 export const gridMaker = () => new PF.Grid(gridWidth, gridHeight);
 export const finderMaker = (grid) => new PF.AStarFinder(grid);
 
-export const createContainers = ({ containers, grid, name }) => {
+export const createContainers = ({ containers, grid, roomName }) => {
   const _getIdFromName = (itemName) => {
     const container = containers.find((c) => c.itemName === itemName);
     const id = !container ? itemName : getIdFromPos(container.coordinates);
@@ -31,7 +31,7 @@ export const createContainers = ({ containers, grid, name }) => {
     acc[id].metMessage = container.metMessage || "";
     acc[id].container = container.container || "";
     acc[id].node = grid.getNodeAt(x, y);
-    acc[id].room = name;
+    acc[id].room = roomName;
     return acc;
   }, {});
   Object.values(formattedContainers).forEach((container) => {

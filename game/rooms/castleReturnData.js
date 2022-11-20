@@ -8,9 +8,9 @@ import {
   gridWidth,
 } from "../setup";
 import { forest } from "./forestData";
-import { room1 } from "./room1Data";
+import { castle } from "./castleData";
 
-const name = "castleReturn";
+const roomName = "castleReturn";
 const grid = gridMaker();
 const finder = finderMaker(grid);
 
@@ -35,7 +35,7 @@ const _containers = [
     description: "The huntsman thanks you for your heroic deed.",
     metMessage:
       "The HUNTSMAN, looking much healthier, thanks you for your heroic act, and gives you some gold to help you on your way.",
-    keepForNextLevel: true,
+    keepForNextRoom: true,
     container: CONTAINER_IMAGE_TYPE.HUNTER,
   },
   {
@@ -47,7 +47,7 @@ const _containers = [
     description: "The baker thanks you for your heroic act.",
     metMessage:
       "The BAKER, looking much healthier, thanks you for your heroic act, and gives you some gold to help you on your way.",
-    keepForNextLevel: true,
+    keepForNextRoom: true,
     container: CONTAINER_IMAGE_TYPE.BAKER,
   },
   {
@@ -59,7 +59,7 @@ const _containers = [
     description: "The scribe thanks you for your heroic act.",
     metMessage:
       "The SCRIBE, looking much healthier, thanks you for your heroic act, and gives you some gold to help you on your way.",
-    keepForNextLevel: true,
+    keepForNextRoom: true,
     container: CONTAINER_IMAGE_TYPE.ELDER,
   },
   {
@@ -71,7 +71,7 @@ const _containers = [
     description: "The craftsman thanks you for your heroic act.",
     metMessage:
       "The CRAFTSMAN, looking much healthier, thanks you for your heroic act, and gives you some gold to help you on your way.",
-    keepForNextLevel: true,
+    keepForNextRoom: true,
     container: CONTAINER_IMAGE_TYPE.CRAFTER,
   },
   {
@@ -96,7 +96,7 @@ const _containers = [
       "The KING, looking much healthier, thanks you for your heroic act.",
     metMessage:
       "The KING, looking much healthier, thanks you for your heroic act, and gives you some gold to help you on your way.",
-    keepForNextLevel: true,
+    keepForNextRoom: true,
     container: CONTAINER_IMAGE_TYPE.KING2,
   },
   {
@@ -115,7 +115,7 @@ const _containers = [
   },
 ];
 
-const _obstacles = Object.values(room1.containers)
+const _obstacles = Object.values(castle.containers)
   .filter((container) => container.container === CONTAINER_IMAGE_TYPE.CHEST)
   .map((container) => ({
     coordinates: container.coordinates,
@@ -124,20 +124,24 @@ const _obstacles = Object.values(room1.containers)
 
 const obstacles = createObstacles({ obstacles: _obstacles, grid });
 
-const containers = createContainers({ containers: _containers, grid, name });
+const containers = createContainers({
+  containers: _containers,
+  grid,
+  roomName,
+});
 
-const previousLevelItems = [
+const previousRoomItems = [
   ...Object.values(forest.containers)
-    .filter((item) => item.keepForNextLevel)
+    .filter((item) => item.keepForNextRoom)
     .map((item) => ({
       ...item,
       id: `${item.room}-${item.itemName}`,
-      keepForNextLevel:
-        item.keepForNextLevel === name ? false : item.keepForNextLevel,
+      keepForNextRoom:
+        item.keepForNextRoom === roomName ? false : item.keepForNextRoom,
       node: null,
       deps: [],
     })),
-  ...forest.previousLevelItems.filter((item) => item.keepForNextLevel),
+  ...forest.previousRoomItems.filter((item) => item.keepForNextRoom),
 ];
 
 console.assert(
@@ -146,17 +150,17 @@ console.assert(
     .map(([x, y]) => grid.getNodeAt(x, y))
     .filter((node) => !node.walkable).length ===
     _obstacles.length + _containers.length,
-  `${name}: All containers and obstacles should be placed on the grid.`
+  `${roomName}: All containers and obstacles should be placed on the grid.`
 );
 
 export const castleReturn = {
-  name,
+  roomName,
   startMessage,
   containers,
   grid,
   finder,
   maxItems,
-  previousLevelItems,
+  previousRoomItems,
   obstacles,
   player,
 };

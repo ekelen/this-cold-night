@@ -7,9 +7,9 @@ import {
   gridMaker,
   gridWidth,
 } from "../setup";
-import { room1 } from "./room1Data";
+import { castle } from "./castleData";
 
-const name = "village";
+const roomName = "village";
 const grid = gridMaker();
 const finder = finderMaker(grid);
 
@@ -27,7 +27,7 @@ const _containers = [
     itemName: "guard",
     empty: true,
     container: CONTAINER_IMAGE_TYPE.GUARD,
-    deps: [`${room1.name}-scroll`],
+    deps: [`${castle.roomName}-scroll`],
     hint: "You need to show him your identity papers to pass.",
     metMessage: "The GUARDSMAN takes your IDENTITY PAPERS.",
     description: "A guardsman.",
@@ -47,35 +47,35 @@ const _containers = [
     finalItemForLevel: true,
   },
   {
-    coordinates: [1, 3],
+    coordinates: [6, 8],
     emoji: "🪓",
     itemName: "axe",
     image: "/axe.png",
     description: "A small AXE.",
-    container: CONTAINER_IMAGE_TYPE.HOUSE,
-    keepForNextLevel: "forest",
+    container: CONTAINER_IMAGE_TYPE.SACK_ALT,
+    keepForNextRoom: "forest",
   },
   {
     emoji: "📜",
     coordinates: [4, 0],
     itemName: "canvas",
     description: "Sturdy SACKCLOTH.",
-    container: CONTAINER_IMAGE_TYPE.SACK,
+    container: CONTAINER_IMAGE_TYPE.SACK_ALT,
   },
   {
     emoji: "🏴‍☠️",
-    coordinates: [5, 0],
+    coordinates: [5, 1],
     itemName: "patch",
     description: "An iron-on pirate flag PATCH.",
-    container: CONTAINER_IMAGE_TYPE.SACK,
+    container: CONTAINER_IMAGE_TYPE.SACK_ALT,
   },
   {
-    coordinates: [4, 6],
+    coordinates: [0, 3],
     emoji: "♤",
     itemName: "spade",
     image: "/shovel.png",
     description: "A SHOVEL for digging.",
-    container: CONTAINER_IMAGE_TYPE.HOUSE,
+    container: CONTAINER_IMAGE_TYPE.SACK,
   },
   {
     coordinates: [3, 0],
@@ -88,16 +88,16 @@ const _containers = [
     metMessage:
       "You give the craftsman the materials, and he gives you the irregular BACKPACK with a plagueish wheeze.",
     newMaxItems: 7,
-    keepForNextLevel: "FOREVER",
+    keepForNextRoom: "FOREVER",
     container: CONTAINER_IMAGE_TYPE.CRAFTER,
   },
   {
     emoji: "🔑",
-    coordinates: [5, 3],
+    coordinates: [5, 4],
     itemName: "small key",
     image: "/smallkey.png",
     description: "A small KEY.",
-    container: CONTAINER_IMAGE_TYPE.HOUSE,
+    container: CONTAINER_IMAGE_TYPE.SACK,
   },
   {
     emoji: "📕",
@@ -156,18 +156,18 @@ const _containers = [
     description: "A plague-riddled SCRIBE is selling a vague MAP.",
     hint: "She is willing to fill in its missing details, if you can bring her the materials she needs.\n\nShe will need things to DRAW with, and REFERENCE material.",
     metMessage: "The SCRIBE draws you a map, coughing feebly throughout.",
-    keepForNextLevel: "forest",
+    keepForNextRoom: "forest",
     container: CONTAINER_IMAGE_TYPE.ELDER,
   },
   {
     emoji: "🥐",
-    coordinates: [8, 4],
+    coordinates: [1, 3],
     itemName: "bread",
     description: "Nonperishable SWEETBREAD.",
     hint: "The BAKER says you can have some if you can find some eggs for her recipe. She is too weak to gather them herself.",
     metMessage:
       "The BAKER takes the EGGS, and within the hour, you have a highly portable snack.",
-    keepForNextLevel: "forest",
+    keepForNextRoom: "forest",
     deps: ["eggs"],
     container: CONTAINER_IMAGE_TYPE.BAKER,
   },
@@ -181,18 +181,22 @@ const _containers = [
   },
 ];
 
-const previousLevelItems = Object.values(room1.containers)
-  .filter((item) => item.keepForNextLevel)
+const previousRoomItems = Object.values(castle.containers)
+  .filter((item) => item.keepForNextRoom)
   .map((item) => ({
     ...item,
-    id: `${room1.name}-${item.itemName}`,
-    keepForNextLevel:
-      item.keepForNextLevel === name ? false : item.keepForNextLevel,
+    id: `${castle.roomName}-${item.itemName}`,
+    keepForNextRoom:
+      item.keepForNextRoom === roomName ? false : item.keepForNextRoom,
     node: null,
     deps: [],
   }));
 
-const containers = createContainers({ containers: _containers, grid, name });
+const containers = createContainers({
+  containers: _containers,
+  grid,
+  roomName,
+});
 
 const _obstacles = [
   {
@@ -257,17 +261,17 @@ console.assert(
     .map(([x, y]) => grid.getNodeAt(x, y))
     .filter((node) => !node.walkable).length ===
     _obstacles.length + _containers.length,
-  `${name}: All containers and obstacles should be placed on the grid.`
+  `${roomName}: All containers and obstacles should be placed on the grid.`
 );
 
-export const room2 = {
+export const village = {
   containers,
   finder,
   grid,
   maxItems: 4,
-  name,
+  roomName,
   obstacles,
   player,
-  previousLevelItems,
+  previousRoomItems,
   startMessage,
 };

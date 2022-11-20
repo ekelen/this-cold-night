@@ -15,9 +15,9 @@ export const initialState = {
   containers: [],
   levelComplete: false,
   maxItems: 0,
-  name: "",
+  roomName: "",
   obstacles: {},
-  previousLevelItems: [],
+  previousRoomItems: [],
   successMessage: "",
   player: {
     image: "/player.png",
@@ -32,9 +32,9 @@ export const init = (room) => {
     grid,
     startMessage,
     maxItems,
-    previousLevelItems,
+    previousRoomItems,
     obstacles,
-    name,
+    roomName,
     player,
   } = room;
   return {
@@ -44,9 +44,9 @@ export const init = (room) => {
     grid,
     generalMessage: startMessage,
     maxItems,
-    previousLevelItems,
+    previousRoomItems,
     obstacles,
-    name,
+    roomName,
     player,
   };
 };
@@ -76,7 +76,7 @@ const updatePosition = (state, i, j) => {
     );
 
     const discardedInventory = [...state.discardedInventory, ...depIdsToRemove];
-    const previousLevelItems = state.previousLevelItems.filter(
+    const previousRoomItems = state.previousRoomItems.filter(
       (item) => !depIdsToRemove.includes(item.id)
     );
     const successMessage = belowItem.metMessage || `${belowItem.description}`;
@@ -88,24 +88,21 @@ const updatePosition = (state, i, j) => {
       levelComplete,
       maxItems,
       successMessage,
-      previousLevelItems,
+      previousRoomItems,
     };
   };
   const visitNewItemResults = (belowItem) => {
     const { deps } = belowItem;
     const depItems = deps.map(
       (id) =>
-        state.containers[id] ??
-        state.previousLevelItems.find((i) => i.id === id)
+        state.containers[id] ?? state.previousRoomItems.find((i) => i.id === id)
     );
     const depsAreNotCollected = deps.some(
       (dep) => !collectedItems.includes(dep)
     );
-    const previousLevelItemIds = state.previousLevelItems.map(
-      (item) => item.id
-    );
+    const previousRoomItemIds = state.previousRoomItems.map((item) => item.id);
     const depIdsInInventory = state.inventory.filter((id) => deps.includes(id));
-    const depIdsInPreviousInventory = previousLevelItemIds.filter((id) =>
+    const depIdsInPreviousInventory = previousRoomItemIds.filter((id) =>
       deps.includes(id)
     );
     const hasAllDeps = deps.every(
@@ -114,14 +111,14 @@ const updatePosition = (state, i, j) => {
         depIdsInInventory.includes(dep)
     );
     const depsToRemove = hasAllDeps
-      ? depItems.filter((d) => !d.keepForNextLevel)
+      ? depItems.filter((d) => !d.keepForNextRoom)
       : [];
     const depIdsToRemove = depsToRemove.map((d) => d.id);
     const addable = !belowItem.empty;
     // TODO: Clean/de-dupe code
     if (!addable) {
       const shouldGiveDepsToEmptyItem = deps.every((dep) =>
-        [...state.inventory, ...previousLevelItemIds].includes(dep)
+        [...state.inventory, ...previousRoomItemIds].includes(dep)
       );
       if (shouldGiveDepsToEmptyItem) {
         const discardedInventory = [
@@ -132,14 +129,14 @@ const updatePosition = (state, i, j) => {
         const inventory = state.inventory.filter(
           (id) => !depIdsToRemove.includes(id)
         );
-        const previousLevelItems = state.previousLevelItems.filter(
+        const previousRoomItems = state.previousRoomItems.filter(
           (item) => !depIdsToRemove.includes(item.id)
         );
         const successMessage = belowItem.metMessage;
         const levelComplete = belowItem.finalItemForLevel;
         const maxItems = belowItem.newMaxItems ?? state.maxItems; // TODO: Careful
         console.assert(
-          inventory.length + previousLevelItems.length <= maxItems,
+          inventory.length + previousRoomItems.length <= maxItems,
           "Too many items in inventory"
         );
         return {
@@ -147,7 +144,7 @@ const updatePosition = (state, i, j) => {
           discardedInventory,
           inventory,
           successMessage,
-          previousLevelItems,
+          previousRoomItems,
           levelComplete,
           maxItems,
         };
@@ -163,7 +160,7 @@ const updatePosition = (state, i, j) => {
 
     const isRoom =
       state.inventory.length +
-        state.previousLevelItems.length -
+        state.previousRoomItems.length -
         depsToRemove.length <
       (belowItem.newMaxItems ?? state.maxItems);
 
@@ -184,19 +181,20 @@ const updatePosition = (state, i, j) => {
         };
   };
 
-  const belowItem = state.containers[getIdFromPos([j, i - 1])];
+  const belowContainer = state.containers[getIdFromPos([j, i - 1])];
   const collectedItems = [
     ...state.inventory,
     ...state.discardedInventory,
-    ...state.previousLevelItems.map((item) => item.id),
+    ...state.previousRoomItems.map((item) => item.id),
   ];
-  const itemNotCollected = belowItem && !collectedItems.includes(belowItem.id);
+  const itemNotCollected =
+    belowContainer && !collectedItems.includes(belowContainer.id);
 
   return itemNotCollected
     ? {
         ...common,
-        activeChestId: belowItem.id,
-        ...visitNewItemResults(belowItem),
+        activeChestId: belowContainer.id,
+        ...visitNewItemResults(belowContainer),
       }
     : { ...common };
 };

@@ -7,9 +7,9 @@ import {
   gridMaker,
   gridWidth,
 } from "../setup";
-import { room2 } from "./room2Data";
+import { village } from "./villageData";
 
-const name = "forest";
+const roomName = "forest";
 const grid = gridMaker();
 const finder = finderMaker(grid);
 
@@ -201,20 +201,24 @@ const _containers = [
   },
 ];
 
-const containers = createContainers({ containers: _containers, grid, name });
+const containers = createContainers({
+  containers: _containers,
+  grid,
+  roomName,
+});
 
-const previousLevelItems = [
-  ...Object.values(room2.containers)
-    .filter((item) => item.keepForNextLevel)
+const previousRoomItems = [
+  ...Object.values(village.containers)
+    .filter((item) => item.keepForNextRoom)
     .map((item) => ({
       ...item,
       id: `${item.room}-${item.itemName}`,
-      keepForNextLevel:
-        item.keepForNextLevel === name ? false : item.keepForNextLevel,
+      keepForNextRoom:
+        item.keepForNextRoom === roomName ? false : item.keepForNextRoom,
       node: null,
       deps: [],
     })),
-  ...room2.previousLevelItems.filter((item) => item.keepForNextLevel),
+  ...village.previousRoomItems.filter((item) => item.keepForNextRoom),
 ];
 
 const _obstacles = [
@@ -272,7 +276,7 @@ console.assert(
     .map(([x, y]) => grid.getNodeAt(x, y))
     .filter((node) => !node.walkable).length ===
     _obstacles.length + _containers.length,
-  `${name}: All containers and obstacles should be placed on the grid.`
+  `${roomName}: All containers and obstacles should be placed on the grid.`
 );
 
 export const forest = {
@@ -280,9 +284,9 @@ export const forest = {
   finder,
   grid,
   maxItems,
-  name,
+  roomName,
   obstacles,
   player,
-  previousLevelItems,
+  previousRoomItems,
   startMessage,
 };

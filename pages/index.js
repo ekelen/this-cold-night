@@ -5,22 +5,22 @@ import Room from "../components/Room";
 import { CONTAINER_IMAGES } from "../game/constants";
 import { castleReturn } from "../game/rooms/castleReturnData";
 import { forest } from "../game/rooms/forestData";
-import { room1 } from "../game/rooms/room1Data";
-import { room2 } from "../game/rooms/room2Data";
+import { castle } from "../game/rooms/castleData";
+import { village } from "../game/rooms/villageData";
 import styles from "../styles/Home.module.css";
 
 export default function Home() {
-  const [room, setRoom] = useState("room1");
+  const [room, setRoom] = useState("castle");
 
   const onChangeRoom = () => {
     setRoom((prev) =>
-      prev === "room1"
-        ? "room2"
-        : prev === "room2"
+      prev === "castle"
+        ? "village"
+        : prev === "village"
         ? "forest"
         : prev === "forest"
         ? "castleReturn"
-        : "room1"
+        : "castle"
     );
   };
 
@@ -34,13 +34,13 @@ export default function Home() {
         {!room ? null : (
           <Room
             room={
-              room === "room1"
-                ? room1
+              room === "castle"
+                ? castle
                 : room === "forest"
                 ? forest
                 : room === "castleReturn"
                 ? castleReturn
-                : room2
+                : village
             }
             onLevelComplete={onChangeRoom}
             key={room}
@@ -56,8 +56,8 @@ export default function Home() {
       </main>
 
       {[
-        ...Object.values(room1.containers),
-        ...Object.values(room2.containers),
+        ...Object.values(castle.containers),
+        ...Object.values(village.containers),
         ...Object.values(forest.containers),
         ...Object.values(castleReturn.containers),
       ]
