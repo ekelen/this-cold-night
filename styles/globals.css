@@ -37,4 +37,12 @@ button {
   font-size: 0.6rem;
   font-family: "Fira Mono", monospace;
   white-space: pre;
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: #1a1d2a;
+  color: #9d9d9d;
+  border: 1px solid #9d9d9d;
+  cursor: auto;
 }

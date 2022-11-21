@@ -16,6 +16,7 @@ export default function Status({
   successMessage,
   displayInventory,
   roomName,
+  retries,
 }) {
   return (
     <>
@@ -28,13 +29,12 @@ export default function Status({
           )}
           <button
             style={{ marginLeft: "auto" }}
-            onClick={() => {
-              onReset();
-            }}
+            onClick={onReset}
+            disabled={nMoves === 0}
           >
-            reset
+            retry level (x{retries + 1})
           </button>
-          <button onClick={onSetDebug}>debug {!debug ? "on" : "off"}</button>
+          <button onClick={onSetDebug}>🔎 {!debug ? "on" : "off"}</button>
         </div>
 
         <div className={styles.inventory}>

@@ -9,6 +9,12 @@ import Status from "./Status";
 export default function Room({ onLevelComplete, room }) {
   const [gameState, { updatePosition, reset }] = useGame(room);
   const [debug, setDebug] = useState(false);
+  const [retries, setRetries] = useState(0);
+
+  const onReset = () => {
+    reset(room);
+    setRetries(retries + 1);
+  };
 
   const cellRefs = useRef([]);
   useEffect(() => {
@@ -44,7 +50,7 @@ export default function Room({ onLevelComplete, room }) {
     charRef,
     gridRef,
     requestRef,
-    reset: () => reset(room),
+    reset: onReset,
     updatePosition,
     cellRefs,
   });
@@ -75,6 +81,7 @@ export default function Room({ onLevelComplete, room }) {
         onLevelComplete={onLevelComplete}
         displayInventory={displayInventory}
         roomName={roomName}
+        retries={retries}
       />
 
       <div ref={gridRef} className={styles.grid}>
@@ -128,13 +135,17 @@ export default function Room({ onLevelComplete, room }) {
                           ? 0.65
                           : 1
                       })`,
+                      cursor: "auto",
                     }
                   : obstacle
                   ? {
                       backgroundImage: `url(${obstacle.image})`,
                       filter: `opacity(${0.4})`,
+                      cursor: "auto",
                     }
-                  : {};
+                  : {
+                      cursor: "pointer",
+                    };
 
                 return (
                   <div
